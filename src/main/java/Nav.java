@@ -9,18 +9,44 @@ import retrofit2.Callback;
 
 public class Nav {
 
-
     private DirectionsRoute currentRoute;
     private MapboxDirections client;
 
-    public void getRoute(Point origin, Point destination) {
+    public String switchProfile(String profile) {
+        String finalprofile=null;
+        switch (profile) {
+            case "car":
+            case "Auto":
+                finalprofile = "DirectionsCriteria.PROFILE_DRIVING";
+                break;
+            case "traffic":
+            case "Stau":
+                finalprofile = "DirectionsCriteria.PROFILE_DRIVING-TRAFFIC";
+                break;
+            case "Laufen":
+            case "Gehen":
+            case "walking":
+                finalprofile = "DirectionsCriteria.PROFILE_WALKING";
+                break;
+            case "cycling":
+            case "Fahrrad fahren":
+            case "Fahrrad":
+                finalprofile = "DirectionsCriteria.PROFILE_CYCLING";
+                break;
+        }
+        return finalprofile;
+
+        }
+
+
+    public void getRoute(Point origin, Point destination, String profile) {
 
 
     MapboxDirections client = MapboxDirections.builder()
             .origin(origin)
             .destination(destination)
             .overview(DirectionsCriteria.OVERVIEW_FULL)
-            .profile(DirectionsCriteria.PROFILE_DRIVING)
+            .profile(switchProfile(profile))
             .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
             .build();
 
