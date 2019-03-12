@@ -94,7 +94,6 @@ System.out.println("Fehler");
 
 
     client.enqueueCall(new Callback<DirectionsResponse>()
-
     {
         @Override
         public void onResponse (retrofit2.Call< DirectionsResponse > call, retrofit2.Response< DirectionsResponse > response){
