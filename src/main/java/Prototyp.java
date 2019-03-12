@@ -11,7 +11,7 @@ public class Prototyp {
 
         Point point2 = Point
                 .fromLngLat(41.362023, 2.168638);
-    navigation.getRoute("hamburg","köln");
+    navigation.getRoute("Schloss Münster","Hafen Münster");
     }
 
 }
