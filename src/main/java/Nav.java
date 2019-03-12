@@ -1,13 +1,10 @@
-import com.mapbox.api.directions.v5.*;
+import com.mapbox.api.directions.v5.DirectionsCriteria;
+import com.mapbox.api.directions.v5.MapboxDirections;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
-import com.mapbox.services.commons.models.Positions;
-
-
-
+import com.mapbox.geojson.Point;
 import retrofit2.Call;
 import retrofit2.Callback;
-
 
 
 public class Nav {
@@ -16,7 +13,7 @@ public class Nav {
     private DirectionsRoute currentRoute;
     private MapboxDirections client;
 
-    private void getRoute(Position origin, Position destination) {
+    private void getRoute(Point origin, Point destination) {
 
 
     MapboxDirections client = MapboxDirections.builder()
@@ -31,7 +28,7 @@ public class Nav {
     client.enqueueCall(new Callback<DirectionsResponse>()
 
     {
-        @Override public void onResponse (retrofit2.Call< DirectionsResponse > call, retrofit2.Response< DirectionsResponse > response){
+        public void onResponse (retrofit2.Call< DirectionsResponse > call, retrofit2.Response< DirectionsResponse > response){
 
         if (response.body() == null) {
             System.out.println("No routes found, make sure you set the right user and access token.");
@@ -50,7 +47,7 @@ public class Nav {
 
     }
 
-        @Override public void onFailure (Call < DirectionsResponse > call, Throwable throwable){
+        public void onFailure (Call < DirectionsResponse > call, Throwable throwable){
 
         System.out.println("Error: " + throwable.getMessage());
 
