@@ -13,7 +13,7 @@ public class Nav {
     private DirectionsRoute currentRoute;
     private MapboxDirections client;
 
-    private void getRoute(Point origin, Point destination) {
+    public void getRoute(Point origin, Point destination) {
 
 
     MapboxDirections client = MapboxDirections.builder()
@@ -28,6 +28,7 @@ public class Nav {
     client.enqueueCall(new Callback<DirectionsResponse>()
 
     {
+        @Override
         public void onResponse (retrofit2.Call< DirectionsResponse > call, retrofit2.Response< DirectionsResponse > response){
 
         if (response.body() == null) {
@@ -43,10 +44,12 @@ public class Nav {
 
             // Print some info about the route
 
-            System.out.println("Distance =" + currentRoute.distance());
+            System.out.println("Distance =" + currentRoute.legs());
 
     }
-        public void onFailure (Call < DirectionsResponse > call, Throwable throwable){
+
+      @Override
+      public void onFailure (Call < DirectionsResponse > call, Throwable throwable){
 
         System.out.println("Error: " + throwable.getMessage());
 
