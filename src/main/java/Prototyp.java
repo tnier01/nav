@@ -11,7 +11,8 @@ public class Prototyp {
 
         Point point2 = Point
                 .fromLngLat(41.362023, 2.168638);
-    navigation.getRoute(point1, point2, null);
+
+    navigation.getRoute(point1, point2, "car");
     };
 
 }
