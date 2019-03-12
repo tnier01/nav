@@ -46,7 +46,6 @@ public class Nav {
             System.out.println("Distance =" + currentRoute.distance());
 
     }
-
         public void onFailure (Call < DirectionsResponse > call, Throwable throwable){
 
         System.out.println("Error: " + throwable.getMessage());
