@@ -18,6 +18,11 @@ public class Nav {
     private DirectionsRoute currentRoute;
     private Point result;
 
+    /**
+     * Method to transform street names into geojson Points
+     * @param insert the streetname
+     * @return Point to return
+     */
     public Point geocoder(String insert)
     {
 
