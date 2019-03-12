@@ -61,6 +61,10 @@ public class Nav {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+if (result==null)
+{
+
+}
 
                 return result;
             }
@@ -140,6 +144,13 @@ public class Nav {
 
     }
     });
+    try {
+
+        //sleep 5 seconds
+        Thread.sleep(2000);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
     return currentRoute;
     }
 }
