@@ -63,7 +63,7 @@ public class Nav {
         }
 if (result==null)
 {
-
+System.out.println("Fehler");
 }
 
     return result;
@@ -117,8 +117,6 @@ if (result==null)
     }
     });
     try {
-
-        //sleep 5 seconds
         Thread.sleep(2000);
     } catch (InterruptedException e) {
         e.printStackTrace();

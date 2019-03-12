@@ -1,3 +1,4 @@
+import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
 
 public class Prototyp {
@@ -11,7 +12,7 @@ public class Prototyp {
 
         Point point2 = Point
                 .fromLngLat(41.362023, 2.168638);
-    navigation.getRoute("Schloss Münster","Hafen Münster");
+    DirectionsRoute route = navigation.getRoute("Hamburg","Heisenbergstraße 2, Münster");
     }
 
 }
