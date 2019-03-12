@@ -21,14 +21,13 @@ public class Nav {
 
     public Point geocoder(String insert)
     {
-
+ //build gecoder
         MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
                 .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
                 .query(insert)
                 .build();
 
-        final boolean[] ergebniss = {false};
-
+//recive the callback
         mapboxGeocoding.enqueueCall(new Callback<GeocodingResponse>() {
             @Override
             public void onResponse(Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
@@ -44,7 +43,7 @@ public class Nav {
 
                 } else {
 
-                    // No result for your request were found.
+                    // No result for your request were found
                     System.out.println("onResponse: No result found");
 
                 }
@@ -61,11 +60,7 @@ public class Nav {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-if (result==null)
-{
-System.out.println("Fehler");
-}
-
+// return result
                 return result;
             }
 
@@ -101,11 +96,28 @@ System.out.println("Fehler");
 
         }
 
+    /**
+     *Calculates the route from the origin to the destination
+     * @param origin where to start
+     * @param destination where to end
+     * @param profile which transport is used
+     * @return the final route
+     */
     public DirectionsRoute getRoute(String origin, String destination, String profile) {
 
-        Point originLatLng = geocoder(origin);
-        System.out.println(originLatLng);
+
+        Point originLatLng = geocoder(origin); //Adresses were geocoded to GeoJson point
+        if(originLatLng== null)
+        {
+            throw new IllegalArgumentException("Origin not Found");
+        }
         Point destinationLatLng =geocoder(destination);
+        if(originLatLng== null)
+        {
+            throw new IllegalArgumentException("Destination not not Found");
+        }
+
+        // client with thr routing criteria is build
 
         MapboxDirections client = MapboxDirections.builder()
             .origin(originLatLng)
@@ -115,19 +127,18 @@ System.out.println("Fehler");
             .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
             .build();
 
-
+//if the client gets the call he transform the answer
     client.enqueueCall(new Callback<DirectionsResponse>()
 
     {
         @Override
         public void onResponse (retrofit2.Call< DirectionsResponse > call, retrofit2.Response< DirectionsResponse > response){
 
+            //if there is no reslut an Expection is thrown
         if (response.body() == null) {
-            System.out.println("No routes found, make sure you set the right user and access token.");
-            return;
+           throw new IllegalArgumentException("No routes found, make sure you set the right user and access token.");
         } else if (response.body().routes().size() < 1) {
-            System.out.println("No routes found");
-            return;
+            throw new IllegalArgumentException("No routes found");
         }
 
         // Retrieve the directions route from the API response
@@ -140,7 +151,7 @@ System.out.println("Fehler");
       @Override
       public void onFailure (Call < DirectionsResponse > call, Throwable throwable){
 
-        System.out.println("Error: " + throwable.getMessage());
+        throw new IllegalArgumentException("Error: " + throwable.getMessage());
 
     }
     });
@@ -149,6 +160,7 @@ System.out.println("Fehler");
     } catch (InterruptedException e) {
         e.printStackTrace();
     }
+    //route is returned
     return currentRoute;
     }
 }
