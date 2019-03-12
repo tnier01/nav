@@ -34,6 +34,7 @@ public class Nav {
                 finalprofile = "DirectionsCriteria.PROFILE_CYCLING";
                 break;
         }
+        // Ich bin ein toller Kommentar
         return finalprofile;
 
         }
