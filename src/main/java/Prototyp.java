@@ -55,7 +55,7 @@ public class Prototyp {
         System.exit( 0 );
 
         // print in which direction the user should drive on the first street
-        System.out.println(navi.legs().get(0).steps().get(0).maneuver().instruction());
+        System.out.println("navigation from " + input1 + " to " + input2 + ": \n" + navi.legs().get(0).steps().get(0).maneuver().instruction());
         // print how long the user should stay on the actual street and which street should be used next
         for(int i = 0; i < navi.legs().get(0).steps().size()-1; i++) {
             int instructionSize = navi.legs().get(0).steps().get(i).voiceInstructions().size();
