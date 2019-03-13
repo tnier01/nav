@@ -8,7 +8,7 @@ public class Test {
 
     public void testRoutenfinder()throws IOException {
 
-        Nav testNav = new Nav();
+        Routenfinder testNav = new Routenfinder();
         /*class Routenfinder
         method 1: getRoute(String origin, String destination, String profile): DirectionsRoute
 
