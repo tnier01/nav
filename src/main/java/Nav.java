@@ -32,7 +32,7 @@ ProfileSwitcher profileSwitcher = new ProfileSwitcher();
             throw new IllegalArgumentException("Origin not Found");
         }
         Point destinationLatLng = geocoder.geocoding(destination);
-        if(originLatLng== null)
+        if(destinationLatLng== null)
         {
             throw new IllegalArgumentException("Destination not not Found");
         }
@@ -48,19 +48,22 @@ ProfileSwitcher profileSwitcher = new ProfileSwitcher();
 
         Response<DirectionsResponse> response = client.build().executeCall();
 
+ if(response.isSuccessful()) {
 
+     //if there is no reslut an Expection is thrown
+     if (response.body() == null) {
+         throw new IllegalArgumentException("No routes found, make sure you set the right user and access token.");
+     } else if (response.body().routes().size() < 1) {
+         throw new IllegalArgumentException("No routes found");
+     }
 
-            //if there is no reslut an Expection is thrown
-        if (response.body() == null) {
-           throw new IllegalArgumentException("No routes found, make sure you set the right user and access token.");
-        } else if (response.body().routes().size() < 1) {
-            throw new IllegalArgumentException("No routes found");
-        }
-
-        // Retrieve the directions route from the API response
-        currentRoute = response.body().routes().get(0);
-        System.out.println(currentRoute.legs());
-
+     // Retrieve the directions route from the API response
+     currentRoute = response.body().routes().get(0);
+     System.out.println(currentRoute.legs());
+ }
+ else{
+     throw new IllegalArgumentException("Anfrage ist geschietert.");
+ }
     //route is returned
     return currentRoute;
     }

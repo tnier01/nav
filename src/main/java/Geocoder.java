@@ -18,27 +18,32 @@ public class Geocoder {
                 .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
                 .query(insert);
 
-
+//recive the callback
         Response<GeocodingResponse> response = mapboxGeocoding.build().executeCall();
 
+if (response.isSuccessful()) {
+//work with the response
 
-//recive the callback
+    List<CarmenFeature> results = response.body().features();
 
-        List<CarmenFeature> results = response.body().features();
 
-        if (results.size() > 0) {
+    if (results.size() > 0) {
 
-            // Log the first results Points
-            result = results.get(0).center();
-            System.out.println("onResponse: " + result.toString());
+        // Log the first results Points
+        result = results.get(0).center();
+        System.out.println("onResponse: " + result.toString());
 
-        } else {
+    } else {
 
-            // No result for your request were found
-            System.out.println("onResponse: No result found");
+        // No result for your request were found
+        System.out.println("onResponse: No result found");
 
-        }
-
+    }
+}
+else
+{
+    throw new IllegalArgumentException("Anfrage ist geschietert.");
+}
 // return result
         return result;
     }
