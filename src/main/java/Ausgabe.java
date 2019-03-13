@@ -13,10 +13,10 @@ public class Ausgabe {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException{
-        Nav navigation =new Nav();
+        Routenfinder navigation =new Routenfinder();
 
 
-        DirectionsRoute navi = navigation.getRoute("raesfeld", "münster", "car");
+        DirectionsRoute navi = navigation.gibRoute("raesfeld", "münster", "car");
 
         for(int i = 0; i < navi.legs().get(0).steps().size()-1; i++) {
             int instructionSize = navi.legs().get(0).steps().get(i).voiceInstructions().size();
