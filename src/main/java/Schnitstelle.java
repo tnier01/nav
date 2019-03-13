@@ -36,6 +36,11 @@ ProfileSwitcher profileSwitcher = new ProfileSwitcher();
         MapboxDirections.Builder client = MapboxDirections.builder()
             .origin(origin)
             .destination(destination)
+            .geometries("polyline")
+            .steps(true)
+            //.bannerInstructions(true)
+            .voiceInstructions(true)
+            .voiceUnits("metric")
             .overview(DirectionsCriteria.OVERVIEW_FULL)
             .profile(profile) // call of the method switchprofile with the inputted profile to set the profile
             .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg");
