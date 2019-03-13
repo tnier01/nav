@@ -24,7 +24,7 @@ public class Eingabetransformator {
             }
             else
             {
-                System.out.println("keine Zahl eingegeben");
+                System.out.println("keine Koordinaten eingegeben");
             }
         }
         else {
