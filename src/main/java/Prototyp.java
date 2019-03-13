@@ -9,9 +9,6 @@ public class Prototyp {
         Routenfinder navigation =new Routenfinder();
 
 
-        Point point2 = Point
-                .fromLngLat(41.362023, 2.168638);
-
         /*
         input
          */
