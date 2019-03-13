@@ -4,17 +4,22 @@ import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
 import retrofit2.Response;
-
+import com.mapbox.api.geocoding.v5.MapboxGeocoding;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
+import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
 import java.io.IOException;
+import java.util.List;
 
 
-public class Nav {
+
+public class Schnitstelle {
 
 
     private DirectionsRoute currentRoute;
 
-Geocoder geocoder = new Geocoder();
 ProfileSwitcher profileSwitcher = new ProfileSwitcher();
+
+
 
     /**
      *Calculates the route from the origin to the destination
@@ -24,27 +29,15 @@ ProfileSwitcher profileSwitcher = new ProfileSwitcher();
      * @throws IOException
      * @return the final route
      */
-    public DirectionsRoute getRoute(String origin, String destination, String profile) throws IOException{
-
-
-        Point originLatLng = geocoder.geocoding(origin); //Adresses were geocoded to GeoJson point
-        if(originLatLng== null)
-        {
-            throw new IllegalArgumentException("Origin not Found");
-        }
-        Point destinationLatLng = geocoder.geocoding(destination);
-        if(destinationLatLng== null)
-        {
-            throw new IllegalArgumentException("Destination not not Found");
-        }
+    public DirectionsRoute getRoute(Point origin, Point destination, String profile) throws IOException{
 
         // client with thr routing criteria is build
 
         MapboxDirections.Builder client = MapboxDirections.builder()
-            .origin(originLatLng)
-            .destination(destinationLatLng)
+            .origin(origin)
+            .destination(destination)
             .overview(DirectionsCriteria.OVERVIEW_FULL)
-            .profile(profileSwitcher.switchProfile(profile)) // call of the method switchprofile with the inputted profile to set the profile
+            .profile(profile) // call of the method switchprofile with the inputted profile to set the profile
             .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg");
 
         Response<DirectionsResponse> response = client.build().executeCall();
@@ -68,5 +61,51 @@ ProfileSwitcher profileSwitcher = new ProfileSwitcher();
     //route is returned
     return currentRoute;
     }
+
+/**
+ *
+ * @param insert the city to geocode
+ * @return the geocoded result
+ * @throws IOException
+ */
+public Point geocoding(String insert) throws IOException
+        {
+        Point result = null;
+        //build gecoder
+        MapboxGeocoding.Builder mapboxGeocoding = MapboxGeocoding.builder()
+        .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
+        .query(insert);
+
+//recive the callback
+        Response<GeocodingResponse> response = mapboxGeocoding.build().executeCall();
+
+        if (response.isSuccessful()) {
+//work with the response
+
+        List<CarmenFeature> results = response.body().features();
+
+
+        if (results.size() > 0) {
+
+        // Log the first results Points
+        result = results.get(0).center();
+        System.out.println("onResponse: " + result.toString());
+
+        } else {
+
+        // No result for your request were found
+        System.out.println("onResponse: No result found");
+
+        }
+        }
+        else
+        {
+        throw new IllegalArgumentException("Anfrage ist geschietert.");
+        }
+// return result
+        return result;
+        }
 }
+
+
 
