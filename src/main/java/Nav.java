@@ -39,7 +39,6 @@ public class Nav {
                     result = results.get(0).center();
                     System.out.println("onResponse: " + result.toString());
 
-
                 } else {
 
                     // No result for your request were found
