@@ -25,6 +25,8 @@ public class Eingabetransformator {
             else
             {
                 System.out.println("keine Koordinaten eingegeben");
+                Schnitstelle schnitstelle = new Schnitstelle();
+                resultpoint = schnitstelle.geocoding(point); //Adresses were geocoded to GeoJson point
             }
         }
         else {
