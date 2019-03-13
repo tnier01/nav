@@ -1,5 +1,5 @@
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
-import com.mapbox.geojson.Point;
+
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -22,8 +22,9 @@ public class Prototyp {
             {
                 // Create a new object for the input
                 Scanner sc = new Scanner(System.in);
-
+                System.out.println("Origin and Destination as  Coordinate: lat,lng or as Street");
                 System.out.println("From where would you like to start your route?");
+
                 // Read the first input in the string "input1"
                 input1 = sc.nextLine();
                 System.out.println("origin input: " + input1);

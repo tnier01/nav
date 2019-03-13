@@ -5,6 +5,12 @@ import java.io.IOException;
 
 public class Eingabetransformator {
 
+    /**
+     * Transform a Insert to an Point
+     * @param point as String Strretname or String lat,lng
+     * @return the resolved Point
+     * @throws IOException
+     */
     public Point transformPoint(String point) throws IOException {
 
         Point resultpoint = null;
@@ -25,6 +31,8 @@ public class Eingabetransformator {
             else
             {
                 System.out.println("keine Koordinaten eingegeben");
+                Schnitstelle schnitstelle = new Schnitstelle();
+                resultpoint = schnitstelle.geocoding(point); //Adresses were geocoded to GeoJson point
             }
         }
         else {
