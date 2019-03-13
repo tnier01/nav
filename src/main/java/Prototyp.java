@@ -10,6 +10,7 @@ public class Prototyp {
         Routenfinder navigation =new Routenfinder();
 
         DirectionsRoute navi;
+        String input1, input2,input3;
         /*
         input
         If there is no exception the route is returned
@@ -24,17 +25,17 @@ public class Prototyp {
 
                 System.out.println("From where would you like to start your route?");
                 // Read the first input in the string "input1"
-                String input1 = sc.nextLine();
+                input1 = sc.nextLine();
                 System.out.println("origin input: " + input1);
 
                 System.out.println("Where do you would like to end the route?");
                 // Read the second input in the string "input2"
-                String input2 = sc.nextLine();
+                input2 = sc.nextLine();
                 System.out.println("destination input: " + input2);
 
                 System.out.println("which profile are you using (selection: driving, driving-traffic, walking, cycling)?");
                 // Read the third input in the string "input3"
-                String input3 = sc.nextLine();
+                input3 = sc.nextLine();
                 System.out.println("profile input: " + input3);
 
                 System.out.println("route calculation:");
@@ -52,11 +53,11 @@ public class Prototyp {
 
     }
 }
-        System.exit( 0 );
 
         // print in which direction the user should drive on the first street
         System.out.println("navigation from " + input1 + " to " + input2 + ": \n" + navi.legs().get(0).steps().get(0).maneuver().instruction());
         // print how long the user should stay on the actual street and which street should be used next
+        //System.out.println(navi.legs().get(0).steps().get(0).maneuver().instruction());
         for(int i = 0; i < navi.legs().get(0).steps().size()-1; i++) {
             int instructionSize = navi.legs().get(0).steps().get(i).voiceInstructions().size();
             System.out.println("stay on the street for "+ Math.round((navi.legs().get(0).steps().get(i).distance())/10)*10 + " meters");
@@ -64,7 +65,7 @@ public class Prototyp {
         }
 
 
-
+        System.exit( 0 );
 
 
 
