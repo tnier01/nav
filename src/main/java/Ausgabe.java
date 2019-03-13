@@ -19,7 +19,13 @@ public class Ausgabe {
 
         for(int i = 0; i < navi.legs().get(0).steps().size()-1; i++) {
             int instructionSize = navi.legs().get(0).steps().get(i).voiceInstructions().size();
-            System.out.println("stay on the street for "+ Math.round((navi.legs().get(0).steps().get(i).distance())/10)*10 + " meters");
+            double distance = navi.legs().get(0).steps().get(i).distance();
+            if (distance < 1000){
+                System.out.println("stay on the street for "+ Math.round(distance/10)*10 + " meters");
+            } else {
+                System.out.println("stay on the street for "+ Math.round(distance/100)/10 + " kilometers");
+            }
+
             System.out.println(navi.legs().get(0).steps().get(i).voiceInstructions().get(instructionSize-1).announcement());
         }
 
