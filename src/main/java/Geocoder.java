@@ -7,9 +7,16 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.List;
 
+
+
 public class Geocoder {
 
-
+    /**
+     *
+     * @param insert the city to geocode
+     * @return the geocoded result
+     * @throws IOException
+     */
     public Point geocoding(String insert) throws IOException
     {
         Point result = null;

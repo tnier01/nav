@@ -21,6 +21,7 @@ ProfileSwitcher profileSwitcher = new ProfileSwitcher();
      * @param origin where to start
      * @param destination where to end
      * @param profile which transport is used
+     * @throws IOException
      * @return the final route
      */
     public DirectionsRoute getRoute(String origin, String destination, String profile) throws IOException{
