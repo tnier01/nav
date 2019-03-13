@@ -11,10 +11,10 @@ public class Routenfinder {
     public DirectionsRoute gibRoute(String origin, String destination, String profile) throws IOException {
 
         Point originPoint = eing.transformPoint(origin);
-        Point destinationPonit = eing.transformPoint(destination);
+        Point destinationPoint = eing.transformPoint(destination);
         String finalProfile= eing.transfromProfile(profile);
 
-        return schnitstelle.getRoute(originPoint,destinationPonit,finalProfile);
+        return schnitstelle.getRoute(originPoint,destinationPoint,finalProfile);
 
 
 

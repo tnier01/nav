@@ -11,9 +11,21 @@ public class Eingabetransformator {
         if(point.indexOf(',') != -1) {
             // Testet auf positive oder negative  Dezimal- und ganze Zahlen
             String Lat = point.substring(0, point.indexOf(','));
-            String Lng = point.substring(point.indexOf(','));
+            String Lng = point.substring(point.indexOf(',')+1);
+
             if (Lat.matches("-?\\d+([.]{1}\\d+)?") && Lng.matches("-?\\d+([.]{1}\\d+)?"))
-                System.out.println("positive oder negative Dezimalzahl oder ganze Zahl!");
+            {
+                Double lng=Double.parseDouble(Lng);
+                Double lat=Double.parseDouble(Lat);
+                resultpoint = Point
+                        .fromLngLat(lng,lat);
+                System.out.println(resultpoint);
+
+            }
+            else
+            {
+                System.out.println("keine Zahl eingegeben");
+            }
         }
         else {
             Schnitstelle schnitstelle = new Schnitstelle();
