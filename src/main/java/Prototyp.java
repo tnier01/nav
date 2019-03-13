@@ -1,3 +1,4 @@
+import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
 import java.io.IOException;
 import java.util.Scanner;
@@ -8,7 +9,7 @@ public class Prototyp {
     public static void main(String[] args) throws IOException{
         Routenfinder navigation =new Routenfinder();
 
-
+        DirectionsRoute navi;
         /*
         input
         If there is no exception the route is returned
@@ -38,18 +39,31 @@ public class Prototyp {
 
                 System.out.println("route calculation:");
 
-                // route calculation
-                navigation.gibRoute(input1, input2, input3);
 
-                break;
-            }
+
+        // route calculation
+        navi = navigation.gibRoute(input1, input2, input3);
+
+        break;
+    }
             catch ( Exception e )
-            {
-                System.err.println(e.getMessage()); // returns the message concerning the actual exception
+    {
+        System.err.println(e.getMessage()); // returns the message concerning the actual exception
 
-            }
-        }
+    }
+}
         System.exit( 0 );
+
+        // print in which direction the user should drive on the first street
+        System.out.println(navi.legs().get(0).steps().get(0).maneuver().instruction());
+        // print how long the user should stay on the actual street and which street should be used next
+        for(int i = 0; i < navi.legs().get(0).steps().size()-1; i++) {
+            int instructionSize = navi.legs().get(0).steps().get(i).voiceInstructions().size();
+            System.out.println("stay on the street for "+ Math.round((navi.legs().get(0).steps().get(i).distance())/10)*10 + " meters");
+            System.out.println(navi.legs().get(0).steps().get(i).voiceInstructions().get(instructionSize-1).announcement());
+        }
+
+
 
 
 
