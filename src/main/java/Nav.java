@@ -6,10 +6,9 @@ import com.mapbox.api.geocoding.v5.MapboxGeocoding;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
 import com.mapbox.geojson.Point;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -19,18 +18,18 @@ public class Nav {
     private DirectionsRoute currentRoute;
     private Point result;
 
-    public Point geocoder(String insert)
+    public Point geocoder(String insert) throws IOException
     {
  //build gecoder
-        MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
+        MapboxGeocoding.Builder mapboxGeocoding = MapboxGeocoding.builder()
                 .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
-                .query(insert)
-                .build();
+                .query(insert);
+
+
+        Response<GeocodingResponse> response = mapboxGeocoding.build().executeCall();
+
 
 //recive the callback
-        mapboxGeocoding.enqueueCall(new Callback<GeocodingResponse>() {
-            @Override
-            public void onResponse(Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
 
                 List<CarmenFeature> results = response.body().features();
 
@@ -47,19 +46,7 @@ public class Nav {
                     System.out.println("onResponse: No result found");
 
                 }
-            }
-                    @Override
-                    public void onFailure(Call<GeocodingResponse> call, Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
-                });
-                try {
 
-                    //sleep 5 seconds
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 // return result
                 return result;
             }
@@ -103,7 +90,7 @@ public class Nav {
      * @param profile which transport is used
      * @return the final route
      */
-    public DirectionsRoute getRoute(String origin, String destination, String profile) {
+    public DirectionsRoute getRoute(String origin, String destination, String profile) throws IOException{
 
 
         Point originLatLng = geocoder(origin); //Adresses were geocoded to GeoJson point
@@ -119,20 +106,16 @@ public class Nav {
 
         // client with thr routing criteria is build
 
-        MapboxDirections client = MapboxDirections.builder()
+        MapboxDirections.Builder client = MapboxDirections.builder()
             .origin(originLatLng)
             .destination(destinationLatLng)
             .overview(DirectionsCriteria.OVERVIEW_FULL)
             .profile(switchProfile(profile)) // call of the method switchprofile with the inputted profile to set the profile
-            .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
-            .build();
+            .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg");
 
-//if the client gets the call he transform the answer
-    client.enqueueCall(new Callback<DirectionsResponse>()
+        Response<DirectionsResponse> response = client.build().executeCall();
 
-    {
-        @Override
-        public void onResponse (retrofit2.Call< DirectionsResponse > call, retrofit2.Response< DirectionsResponse > response){
+
 
             //if there is no reslut an Expection is thrown
         if (response.body() == null) {
@@ -145,21 +128,6 @@ public class Nav {
         currentRoute = response.body().routes().get(0);
         System.out.println(currentRoute.legs());
 
-    }
-
-
-      @Override
-      public void onFailure (Call < DirectionsResponse > call, Throwable throwable){
-
-        throw new IllegalArgumentException("Error: " + throwable.getMessage());
-
-    }
-    });
-    try {
-        Thread.sleep(2000);
-    } catch (InterruptedException e) {
-        e.printStackTrace();
-    }
     //route is returned
     return currentRoute;
     }
