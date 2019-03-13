@@ -2,85 +2,19 @@ import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.MapboxDirections;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
-import com.mapbox.api.geocoding.v5.MapboxGeocoding;
-import com.mapbox.api.geocoding.v5.models.CarmenFeature;
-import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
 import com.mapbox.geojson.Point;
 import retrofit2.Response;
 
 import java.io.IOException;
-import java.util.List;
 
 
 public class Nav {
 
 
     private DirectionsRoute currentRoute;
-    private Point result;
 
-    public Point geocoder(String insert) throws IOException
-    {
- //build gecoder
-        MapboxGeocoding.Builder mapboxGeocoding = MapboxGeocoding.builder()
-                .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
-                .query(insert);
-
-
-        Response<GeocodingResponse> response = mapboxGeocoding.build().executeCall();
-
-
-//recive the callback
-
-                List<CarmenFeature> results = response.body().features();
-
-                if (results.size() > 0) {
-
-                    // Log the first results Points
-                    result = results.get(0).center();
-                    System.out.println("onResponse: " + result.toString());
-
-                } else {
-
-                    // No result for your request were found
-                    System.out.println("onResponse: No result found");
-
-                }
-
-// return result
-                return result;
-            }
-
-    /**
-     * method which switch between the three different profiles driving, driving-traffic and walking depending on input.
-     * @param profile
-     * @return
-     */
-    public String switchProfile(String profile) {
-        String finalprofile=null;
-        switch (profile) {
-            case "car":
-            case "Auto":
-                finalprofile = DirectionsCriteria.PROFILE_DRIVING;
-                break;
-            case "traffic":
-            case "Stau":
-                finalprofile = DirectionsCriteria.PROFILE_DRIVING_TRAFFIC;
-                break;
-            case "Laufen":
-            case "Gehen":
-            case "walking":
-                finalprofile = DirectionsCriteria.PROFILE_WALKING;
-                break;
-            case "cycling":
-            case "Fahrrad fahren":
-            case "Fahrrad":
-                finalprofile = DirectionsCriteria.PROFILE_CYCLING;
-                break;
-            default:  throw new IllegalArgumentException("no legal profile");
-        }
-        return finalprofile;
-
-        }
+Geocoder geocoder = new Geocoder();
+ProfileSwitcher profileSwitcher = new ProfileSwitcher();
 
     /**
      *Calculates the route from the origin to the destination
@@ -92,12 +26,12 @@ public class Nav {
     public DirectionsRoute getRoute(String origin, String destination, String profile) throws IOException{
 
 
-        Point originLatLng = geocoder(origin); //Adresses were geocoded to GeoJson point
+        Point originLatLng = geocoder.geocoding(origin); //Adresses were geocoded to GeoJson point
         if(originLatLng== null)
         {
             throw new IllegalArgumentException("Origin not Found");
         }
-        Point destinationLatLng =geocoder(destination);
+        Point destinationLatLng = geocoder.geocoding(destination);
         if(originLatLng== null)
         {
             throw new IllegalArgumentException("Destination not not Found");
@@ -109,7 +43,7 @@ public class Nav {
             .origin(originLatLng)
             .destination(destinationLatLng)
             .overview(DirectionsCriteria.OVERVIEW_FULL)
-            .profile(switchProfile(profile)) // call of the method switchprofile with the inputted profile to set the profile
+            .profile(profileSwitcher.switchProfile(profile)) // call of the method switchprofile with the inputted profile to set the profile
             .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg");
 
         Response<DirectionsResponse> response = client.build().executeCall();
