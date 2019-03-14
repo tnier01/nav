@@ -3,8 +3,10 @@ import com.mapbox.api.directions.v5.DirectionsCriteria;
 public class ProfileSwitcher {
     /**
      * method which switch between the three different profiles "driving", "driving-traffic", "walking", "cycling" depending on input.
+     * If one of the profiles/ cases is entered in the input the finalprofile is set accordingly to the input.
+     * finalprofile is the variable with the final selected profile which is returned.
      * @param profile
-     * @return
+     * @return finalprofile
      */
     public String switchProfile(String profile) {
         String finalprofile=null;
