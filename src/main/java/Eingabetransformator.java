@@ -44,7 +44,6 @@ public class Eingabetransformator {
 
         return resultpoint;
     }
-
     /**
      * Transform thr Profile witch the ProfileSwitcher
      * @param profile to transform
