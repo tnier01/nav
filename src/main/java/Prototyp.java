@@ -6,6 +6,13 @@ import java.util.Scanner;
 public class Prototyp {
 
 
+    /**
+     * main method which controls the input and output on the console
+     * asks for origin and destination and delivers navigation instructions
+     *
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException{
         Routenfinder navigation =new Routenfinder();
 
@@ -43,31 +50,32 @@ public class Prototyp {
 
 
 
-        // route calculation
-        navi = navigation.gibRoute(input1, input2, input3);
+                // route calculation
+                navi = navigation.gibRoute(input1, input2, input3);
 
-        break;
-    }
+                break;
+            }
             catch ( Exception e )
-    {
-        System.err.println(e.getMessage()); // returns the message concerning the actual exception
+            {
+                System.err.println(e.getMessage()); // returns the message concerning the actual exception
 
-    }
-}
+            }
+        }
 
         // print in which direction the user should drive on the first street
         System.out.println("navigation from " + input1 + " to " + input2 + ": \n" + navi.legs().get(0).steps().get(0).maneuver().instruction());
+
         // print how long the user should stay on the actual street and which street should be used next
-        //System.out.println(navi.legs().get(0).steps().get(0).maneuver().instruction());
         for(int i = 0; i < navi.legs().get(0).steps().size()-1; i++) {
-            int instructionSize = navi.legs().get(0).steps().get(i).voiceInstructions().size();
-            double distance = navi.legs().get(0).steps().get(i).distance();
+            int instructionSize = navi.legs().get(0).steps().get(i).voiceInstructions().size();  // count of instructions per step
+            double distance = navi.legs().get(0).steps().get(i).distance();  // distance between steps
+            // print the distance
             if (distance <= 1000){
                 System.out.println("stay on the street for "+ Math.round(distance/10)*10 + " meters");
             } else {
                 System.out.println("stay on the street for "+ (double) Math.round(distance/100) /10 + " kilometers");
             }
-
+            // print instruction at the end of the street
             System.out.println(navi.legs().get(0).steps().get(i).voiceInstructions().get(instructionSize-1).announcement());
         }
 

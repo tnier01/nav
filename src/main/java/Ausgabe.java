@@ -7,7 +7,6 @@ public class Ausgabe {
     /**
      * gives some navigation instructions for the route on the run console
      *
-     * @author Jan
      * @param args
      * @throws IOException
      */
