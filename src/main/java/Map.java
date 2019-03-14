@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.net.URL;
 
 public class Map {
+
     public static void main(String[] args) throws IOException {
 
         JFrame test = new JFrame("Google Maps");
