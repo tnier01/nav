@@ -12,7 +12,7 @@ public class Routenfinder {
 
         Point originPoint = eing.transformPoint(origin);
         Point destinationPoint = eing.transformPoint(destination);
-        String finalProfile= eing.transfromProfile(profile);
+        String finalProfile= eing.transformProfile(profile);
 
         return schnitstelle.getRoute(originPoint,destinationPoint,finalProfile);
 
