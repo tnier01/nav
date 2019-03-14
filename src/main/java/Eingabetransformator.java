@@ -14,13 +14,15 @@ public class Eingabetransformator {
     public Point transformPoint(String point) throws IOException {
 
         Point resultpoint = null;
+        //check
         if(point.indexOf(',') != -1) {
-            // Testet auf positive oder negative  Dezimal- und ganze Zahlen
+            // Differs the Point in latitude and longitude
             String Lat = point.substring(0, point.indexOf(','));
             String Lng = point.substring(point.indexOf(',')+1);
-
+            // Test if Lat and Lng are numbers
             if (Lat.matches("-?\\d+([.]{1}\\d+)?") && Lng.matches("-?\\d+([.]{1}\\d+)?"))
             {
+                //transform String into Mapbox Point
                 Double lng=Double.parseDouble(Lng);
                 Double lat=Double.parseDouble(Lat);
                 resultpoint = Point
@@ -32,18 +34,23 @@ public class Eingabetransformator {
             {
                 System.out.println("keine Koordinaten eingegeben");
                 Schnitstelle schnitstelle = new Schnitstelle();
-                resultpoint = schnitstelle.geocoding(point); //Adresses were geocoded to GeoJson point
+                resultpoint = schnitstelle.geocoding(point); //Adresses were geocoded to Mapbox point
             }
         }
         else {
             Schnitstelle schnitstelle = new Schnitstelle();
-            resultpoint = schnitstelle.geocoding(point); //Adresses were geocoded to GeoJson point
+            resultpoint = schnitstelle.geocoding(point); //Adresses were geocoded to MApbox point
         }
 
         return resultpoint;
     }
+    /**
+     * Transform thr Profile witch the ProfileSwitcher
+     * @param profile to transform
+     * @return the correct Profile
+     */
 
-    public String transfromProfile(String profile){
+    public String transformProfile(String profile){
         ProfileSwitcher profileSwitcher= new ProfileSwitcher();
         return profileSwitcher.switchProfile(profile);
     }

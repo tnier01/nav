@@ -23,11 +23,11 @@ ProfileSwitcher profileSwitcher = new ProfileSwitcher();
 
     /**
      *Calculates the route from the origin to the destination
-     * @param origin where to start
-     * @param destination where to end
-     * @param profile which transport is used
+     * @param origin where to start as Mapbox Pint
+     * @param destination where the destination is as Point
+     * @param profile which transport should be used
      * @throws IOException
-     * @return the final route
+     * @return the final route as DirectionsRoute
      */
     public DirectionsRoute getRoute(Point origin, Point destination, String profile) throws IOException{
 
@@ -68,20 +68,21 @@ ProfileSwitcher profileSwitcher = new ProfileSwitcher();
     }
 
 /**
- *
- * @param insert the city to geocode
- * @return the geocoded result
+ * Transform an Adress into an Mapbox Point
+ * @param insert the adress to geocode
+ * @return the geocoded result as Point
  * @throws IOException
  */
 public Point geocoding(String insert) throws IOException
         {
         Point result = null;
+
         //build gecoder
         MapboxGeocoding.Builder mapboxGeocoding = MapboxGeocoding.builder()
         .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
         .query(insert);
 
-//recive the callback
+ //get  the response
         Response<GeocodingResponse> response = mapboxGeocoding.build().executeCall();
 
         if (response.isSuccessful()) {
@@ -105,7 +106,7 @@ public Point geocoding(String insert) throws IOException
         }
         else
         {
-        throw new IllegalArgumentException("Anfrage ist geschietert.");
+        throw new IllegalArgumentException("Request failed.");
         }
 // return result
         return result;
