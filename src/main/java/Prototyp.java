@@ -1,7 +1,6 @@
 // We love beer
 
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +11,8 @@ public class Prototyp {
 
     /**
      * main method which controls the input and output on the console
-     * asks for origin and destination and delivers navigation instructions
-     *
+     * asks for origin, destination, profile, further waypoints if the
+     * user like and delivers navigation instructions
      * @param args
      * @throws IOException
      */
@@ -28,6 +27,7 @@ public class Prototyp {
         input
         If there is no exception the route is returned
          */
+
         // Create a new object for the input
         Scanner sc = new Scanner(System.in);
 
@@ -91,6 +91,8 @@ public class Prototyp {
                     }
                 }
 
+
+
                 /*
                  If the input is driving-traffic it is possible to enter one more waypoint and besides
                  one origin and one destination.
@@ -101,6 +103,8 @@ public class Prototyp {
                         System.out.println("would you like to add another point? (yes/no)");
                         input5 = sc.nextLine();
 
+                        // hier die while schleife bezüglich no oder yes kann modularisiert werden
+                        // durch entsprechende Methode in dieser Klasse
                         // if there is a wrong word which differs from yes or no, repeat the selection
                         while (!input5.equals("no") && !input5.equals("yes")) {
                             System.out.println("you used a word which differs from no or yes! Please select again!");
@@ -125,8 +129,6 @@ public class Prototyp {
 
 
 
-
-
                 // route calculation
                 System.out.println("route calculation:");
                 naviList = navigation.gibListRoute(waypoints, input3);
@@ -142,9 +144,10 @@ public class Prototyp {
                 System.out.println("Do you like to restart the program (yes/no)?");
                 input4 = sc.nextLine();
                 System.out.println("answer: " + input4);
-                //
+                // waypoints must be cleared, because otherwise there are doubled destination and origin in the result
                 waypoints.clear();
 
+                // if users, dont wont to start the program will end
                 if (input4.equals("no")) {
                     System.exit(1);
                 }
@@ -158,11 +161,8 @@ public class Prototyp {
                     // if the user do not wont to restart the program ends
                     if (input4.equals("no")) {
                         System.exit(1);
-
                     }
                 }
-
-
             }
         }
 
@@ -190,7 +190,6 @@ public class Prototyp {
 
         System.exit(0);
     }
-
 }
 
 
