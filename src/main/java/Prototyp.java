@@ -2,6 +2,8 @@
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Prototyp {
@@ -18,7 +20,9 @@ public class Prototyp {
         Routenfinder navigation = new Routenfinder();
 
         DirectionsRoute navi = null;
-        String input1 = null, input2 = null, input3 = null, input4 = null;
+        String input1 = null, input2 = null, input3 = null, input4 = null, input5 = null;
+        List<String> waypoints = new ArrayList<>();
+
         /*
         input
         If there is no exception the route is returned
@@ -34,22 +38,43 @@ public class Prototyp {
                 // Read the first input in the string "input1"
                 input1 = sc.nextLine();
                 System.out.println("origin input: " + input1);
+                waypoints.add(input1);
 
                 System.out.println("Where do you would like to end the route?");
                 // Read the second input in the string "input2"
                 input2 = sc.nextLine();
                 System.out.println("destination input: " + input2);
+                waypoints.add(input2);
+
 
                 System.out.println("which profile are you using (selection: driving, driving-traffic, walking, cycling)?");
                 // Read the third input in the string "input3"
                 input3 = sc.nextLine();
                 System.out.println("profile input: " + input3);
 
+                if (input3.equals("driving")) {
+
+
+                    System.out.println("Do you like to insert a waypoint (yes/no)?");
+                    input5 = sc.nextLine();
+                    System.out.println("answer: " + input4);
+                    if (input5.equals("yes")) {
+
+
+                    }
+                    if (!input5.equals("no") && !input5.equals("yes")) {
+                        System.out.println("you used a word which differs from no or yes! Please select again!");
+                    }
+
+
+                }
+
+
                 System.out.println("route calculation:");
 
 
                 // route calculation
-                navi = navigation.gibRoute(input1, input2, input3);
+                navi = navigation.gibListRoute(waypoints, input3);
 
                 break;
             } catch (Exception e) {
