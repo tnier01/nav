@@ -31,6 +31,9 @@ public class Ausgabe {
             System.out.println(navi.legs().get(0).steps().get(i).voiceInstructions().get(instructionSize-1).announcement());
         }
 */
+
+
+
         List<String> waypoints = new ArrayList<>();
         waypoints.add("Raesfeld");
         //waypoints.add("Borken");
