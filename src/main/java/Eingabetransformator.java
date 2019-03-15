@@ -11,7 +11,7 @@ public class Eingabetransformator {
      * @return the resolved Point
      * @throws IOException
      */
-    public Point transfromPoint(String point) throws IOException {
+    public Point transformPoint(String point) throws IOException {
 
         Point resultpoint = null;
         //check
