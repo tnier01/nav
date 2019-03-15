@@ -52,8 +52,7 @@ public class Prototyp {
                 navi = navigation.gibRoute(input1, input2, input3);
 
                 break;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                     /*
                     If there is an exception the user is able to decide on his own if he likes to restart or end the program.
                      */
@@ -66,14 +65,21 @@ public class Prototyp {
                         System.exit(1);
 
                     }
-                    if (!input4.equals("no") && !input4.equals("yes")) {
+                    while (!input4.equals("no") && !input4.equals("yes")) {
                         System.out.println("you used a word which differs from no or yes! Please select again!");
-                    }
+                        input4 = sc.nextLine();
+                        System.out.println("profile input: " + input4);
 
+                        if (input4.equals("no")) {
+                            System.exit(1);
+
+                        }
+                    }
 
 
                 }
             }
+
 
 
             // print in which direction the user should drive on the first street
