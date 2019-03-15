@@ -80,7 +80,7 @@ public class Prototyp {
             System.out.println(navi.legs().get(0).steps().get(i).voiceInstructions().get(instructionSize-1).announcement());
         }
 
-
+        // nicht im Master dfdfdf Hallo
         System.exit( 0 );
 
 
