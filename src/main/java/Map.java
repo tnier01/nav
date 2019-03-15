@@ -1,53 +1,72 @@
 import javax.swing.*;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
 
 public class Map {
 
-    public static void main(String[] args) throws IOException {
 
-        JFrame test = new JFrame("Google Maps");
+    private JPanel panel1;
+    private JTable table1;
 
-        try {
-            String latitude = "40.714728";
-            String longitude = "-73.998672";
+    /*
+            // main-Methode
+            public static void main(String[] args)
+            {
+                // Erzeugung eines neuen Dialoges
+                JDialog meinJDialog = new JDialog();
+                meinJDialog.setTitle("JSplitPane Beispiel");
+                meinJDialog.setSize(600,400);
 
-            String imageUrl = "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/-122.4241,37.78,14.25,0,60/600x600?access_token=pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhgA";
-            String destinationFile = "image.jpg";
 
-            // read the map image from Google
-            // then save it to a local file: image.jpg
-            //
-            URL url = new URL(imageUrl);
-            InputStream is = url.openStream();
-            OutputStream os = new FileOutputStream(destinationFile);
+                // create a GUI component that loads the image: image.jpg
+                //
+                ImageIcon imageIcon = new ImageIcon((new ImageIcon("image.jpg"))
+                        .getImage().getScaledInstance(630, 600,
+                                java.awt.Image.SCALE_SMOOTH));
+                test.add(new JLabel(imageIcon));
 
-            byte[] b = new byte[2048];
-            int length;
 
-            while ((length = is.read(b)) != -1) {
-                os.write(b, 0, length);
+                // Erzeugung zweier JPanel-Objekte
+                JPanel panelRot = new JPanel();
+                JPanel panelGelb = new JPanel(imageIcon);
+                // Hintergrundfarben der JPanels werden gesetzt
+                panelRot.setBackground(Color.red);
+                panelGelb.setBackground(Color.yellow);
+                //Beschriftungen für die beiden Seiten werden erstellt
+                JLabel labelRot = new JLabel("Ich bin auf der roten Seite");
+                JLabel labelGelb = new JLabel("Ich bin auf der gelben Seite");
+                //Labels werden unseren Panels hinzugefügt
+                panelRot.add(labelRot);
+                panelGelb.add(labelGelb);
+
+                // Erzeugung eines JSplitPane-Objektes mit horizontaler Trennung
+                JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+                // Hier setzen wir links unser rotes JPanel und rechts das gelbe
+                splitpane.setLeftComponent(panelRot);
+                splitpane.setRightComponent(panelGelb);
+
+                // Hier fügen wir unserem Dialog unser JSplitPane hinzu
+                meinJDialog.add(splitpane);
+                // Wir lassen unseren Dialog anzeigen
+                meinJDialog.setVisible(true);
+
             }
 
-            is.close();
-            os.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+    */
+public static void main(String[] args) throws IOException {
+    JFrame map = new JFrame("Route");
 
-        // create a GUI component that loads the image: image.jpg
-        //
-        ImageIcon imageIcon = new ImageIcon((new ImageIcon("image.jpg"))
-                .getImage().getScaledInstance(630, 600,
-                        java.awt.Image.SCALE_SMOOTH));
-        test.add(new JLabel(imageIcon));
+    Prototyp.main(args);
 
-        // show the GUI window
-        test.setVisible(true);
-        test.pack();
-    }
+    // create a GUI component that loads the image: image.jpg
+    //
+    ImageIcon imageIcon = new ImageIcon((new ImageIcon("map.jpg"))
+            .getImage().getScaledInstance(600, 600,
+                    java.awt.Image.SCALE_SMOOTH));
+        map.add(new JLabel(imageIcon));
+
+    // show the GUI window
+        map.setVisible(true);
+        map.pack();
+}
+
 }

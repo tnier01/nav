@@ -17,7 +17,10 @@ public class Routenfinder {
         Point destinationPoint = eing.transformPoint(destination);
         String finalProfile= eing.transformProfile(profile);
 
-        return schnitstelle.getRoute(originPoint,destinationPoint,finalProfile);
+
+   DirectionsRoute route = schnitstelle.getRoute(originPoint,destinationPoint,finalProfile);
+        getMap(originPoint, destinationPoint, route);
+        return route;
 
     }
 
@@ -35,5 +38,8 @@ public class Routenfinder {
 
     }
 
-
+    public void getMap(Point origin, Point destination, DirectionsRoute route)
+    {
+        schnitstelle.getMap(origin, destination, route);
+    }
 }
