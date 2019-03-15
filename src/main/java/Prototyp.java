@@ -19,8 +19,8 @@ public class Prototyp {
     public static void main(String[] args) throws IOException {
         Routenfinder navigation = new Routenfinder();
 
-        DirectionsRoute navi = null;
-        String input1 = null, input2 = null, input3 = null, input4 = null, input5 = null;
+        DirectionsRoute naviList = null;
+        String input1 = null, input2 = null, input3 = null, input4 = null, input5 = null, waypoint = null;
         List<String> waypoints = new ArrayList<>();
 
         /*
@@ -52,18 +52,42 @@ public class Prototyp {
                 input3 = sc.nextLine();
                 System.out.println("profile input: " + input3);
 
-                if (input3.equals("driving")) {
+                if (input3.equals("driving") || input3.equals("walking") || input3.equals("cycling")) {
+
+                    //System.out.println("Do you like to insert a waypoint (yes/no)?");
+                    //input5 = sc.nextLine();
+                    //System.out.println("answer: " + input5);
+
+                    for (int i = 0; i < 25; i++) {
 
 
-                    System.out.println("Do you like to insert a waypoint (yes/no)?");
-                    input5 = sc.nextLine();
-                    System.out.println("answer: " + input4);
-                    if (input5.equals("yes")) {
+                            System.out.println("would you like to add another point? (yes/no)");
+                            input5 = sc.nextLine();
 
 
-                    }
-                    if (!input5.equals("no") && !input5.equals("yes")) {
+
+                            if(input5.equals("yes")) {
+                                if (i > 23) {
+                                    System.out.println("last possible waypoint!");
+                                }
+                                System.out.println("Please input the new waypoint!");
+                                waypoint = sc.nextLine();
+                                System.out.println("new waypoint: " + waypoint);
+                                waypoints.add(waypoints.size() - 1, waypoint);
+                                System.out.println("actual route: " + waypoints);
+                            }
+                        }
+
+
+                    while (!input5.equals("no") && !input5.equals("yes")) {
                         System.out.println("you used a word which differs from no or yes! Please select again!");
+                        input5 = sc.nextLine();
+                        System.out.println("profile input: " + input5);
+
+                        if (input5.equals("no")) {
+                            System.exit(1);
+
+                        }
                     }
 
 
@@ -74,7 +98,7 @@ public class Prototyp {
 
 
                 // route calculation
-                navi = navigation.gibListRoute(waypoints, input3);
+                naviList = navigation.gibListRoute(waypoints, input3);
 
                 break;
             } catch (Exception e) {
@@ -108,26 +132,29 @@ public class Prototyp {
 
 
             // print in which direction the user should drive on the first street
-            System.out.println("navigation from " + input1 + " to " + input2 + ": \n" + navi.legs().get(0).steps().get(0).maneuver().instruction());
+            System.out.println("navigation from " + input1 + " to " + input2 + ": \n" + naviList.legs().get(0).steps().get(0).maneuver().instruction());
 
             // print how long the user should stay on the actual street and which street should be used next
-            for (int i = 0; i < navi.legs().get(0).steps().size() - 1; i++) {
-                int instructionSize = navi.legs().get(0).steps().get(i).voiceInstructions().size();  // count of instructions per step
-                double distance = navi.legs().get(0).steps().get(i).distance();  // distance between steps
-                // print the distance
-                if (distance <= 1000) {
+        for (int j = 0; j < naviList.legs().size(); j++) {
+
+            for (int i = 0; i < naviList.legs().get(j).steps().size() - 1; i++) {
+                int instructionSize = naviList.legs().get(j).steps().get(i).voiceInstructions().size();
+                double distance = naviList.legs().get(j).steps().get(i).distance();
+                if (distance < 1000) {
                     System.out.println("stay on the street for " + Math.round(distance / 10) * 10 + " meters");
                 } else {
-                    System.out.println("stay on the street for " + (double) Math.round(distance / 100) / 10 + " kilometers");
+                    System.out.println("stay on the street for " + Math.round(distance / 100) / 10 + " kilometers");
                 }
-                // print instruction at the end of the street
-                System.out.println(navi.legs().get(0).steps().get(i).voiceInstructions().get(instructionSize - 1).announcement());
+
+                System.out.println(naviList.legs().get(j).steps().get(i).voiceInstructions().get(instructionSize - 1).announcement());
             }
+
+        }
 
 
             System.exit(0);
         }
 
-        }
+}
 
 
