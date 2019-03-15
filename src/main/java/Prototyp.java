@@ -1,4 +1,5 @@
 // We love beer
+
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 
 import java.io.IOException;
@@ -46,95 +47,130 @@ public class Prototyp {
                 System.out.println("destination input: " + input2);
                 waypoints.add(input2);
 
-
                 System.out.println("which profile are you using (selection: driving, driving-traffic, walking, cycling)?");
                 // Read the third input in the string "input3"
                 input3 = sc.nextLine();
                 System.out.println("profile input: " + input3);
 
+                /*
+                 If the input is driving, walking or cycling it is possible to enter 25 different waypoints and besides
+                 one origin and one destination.
+                  */
                 if (input3.equals("driving") || input3.equals("walking") || input3.equals("cycling")) {
 
-                    //System.out.println("Do you like to insert a waypoint (yes/no)?");
-                    //input5 = sc.nextLine();
-                    //System.out.println("answer: " + input5);
+                    for (int i = 0; i < 23; i++) {
 
-                    for (int i = 0; i < 25; i++) {
+                        // input decision if there will be an further waypoint
+                        System.out.println("would you like to add another point? (yes/no)");
+                        input5 = sc.nextLine();
 
-
-                            System.out.println("would you like to add another point? (yes/no)");
+                        // if there is a wrong word which differs from yes or no, repeat the selection
+                        while (!input5.equals("no") && !input5.equals("yes")) {
+                            System.out.println("you used a word which differs from no or yes! Please select again!");
                             input5 = sc.nextLine();
-
-
-
-                            if(input5.equals("yes")) {
-                                if (i > 23) {
-                                    System.out.println("last possible waypoint!");
-                                }
-                                System.out.println("Please input the new waypoint!");
-                                waypoint = sc.nextLine();
-                                System.out.println("new waypoint: " + waypoint);
-                                waypoints.add(waypoints.size() - 1, waypoint);
-                                System.out.println("actual route: " + waypoints);
-                            }
+                            System.out.println("profile input: " + input5);
                         }
 
-
-                    while (!input5.equals("no") && !input5.equals("yes")) {
-                        System.out.println("you used a word which differs from no or yes! Please select again!");
-                        input5 = sc.nextLine();
-                        System.out.println("profile input: " + input5);
-
+                        // if the users wants a further waypoint he can insert it
+                        if (input5.equals("yes")) {
+                            // if the limit of waypoints is reached the user gets a notification
+                            if (i > 21) {
+                                System.out.println("last possible waypoint!");
+                            }
+                            System.out.println("Please input the new waypoint!");
+                            waypoint = sc.nextLine();
+                            System.out.println("new waypoint: " + waypoint);
+                            // the new waypoint gets insert at the last place before destination
+                            waypoints.add(waypoints.size() - 1, waypoint);
+                            System.out.println("actual route: " + waypoints);
+                        }
+                        // if the user wants no new waypoint the route is printed
                         if (input5.equals("no")) {
-                            System.exit(1);
-
+                            break;
                         }
                     }
-
-
                 }
 
+                /*
+                 If the input is driving-traffic it is possible to enter one more waypoint and besides
+                 one origin and one destination.
+                  */
+                if (input3.equals("driving-traffic")) {
 
-                System.out.println("route calculation:");
+                        // input decision if there will be an further waypoint
+                        System.out.println("would you like to add another point? (yes/no)");
+                        input5 = sc.nextLine();
+
+                        // if there is a wrong word which differs from yes or no, repeat the selection
+                        while (!input5.equals("no") && !input5.equals("yes")) {
+                            System.out.println("you used a word which differs from no or yes! Please select again!");
+                            input5 = sc.nextLine();
+                            System.out.println("profile input: " + input5);
+                        }
+
+
+                            System.out.println("Please input the new waypoint!");
+                            waypoint = sc.nextLine();
+                            System.out.println("new waypoint: " + waypoint);
+                            // the new waypoint gets insert at the last place before destination
+                            waypoints.add(waypoints.size() - 1, waypoint);
+                            System.out.println("actual route: " + waypoints);
+                        }
+                        // if the user wants no new waypoint the route is printed
+                        //if (input5.equals("no")) {
+                        //    break;
+
+
+
+
+
+
 
 
                 // route calculation
+                System.out.println("route calculation:");
                 naviList = navigation.gibListRoute(waypoints, input3);
 
                 break;
-            } catch (Exception e) {
+            }
+
+            catch (Exception e) {
                     /*
                     If there is an exception the user is able to decide on his own if he likes to restart or end the program.
                      */
-                    System.err.println("The input is wrong cause: " + e.getMessage()); // returns the message concerning the actual exception
-                    System.out.println("Do you like to restart the program (yes/no)?");
+                System.err.println("The input is wrong cause: " + e.getMessage()); // returns the message concerning the actual exception
+                System.out.println("Do you like to restart the program (yes/no)?");
+                input4 = sc.nextLine();
+                System.out.println("answer: " + input4);
+                //
+                waypoints.clear();
+
+                if (input4.equals("no")) {
+                    System.exit(1);
+                }
+
+                // if there is a wrong word which differs from yes or no, repeat the selection
+                while (!input4.equals("no") && !input4.equals("yes")) {
+                    System.out.println("you used a word which differs from no or yes! Please select again!");
                     input4 = sc.nextLine();
                     System.out.println("profile input: " + input4);
 
+                    // if the user do not wont to restart the program ends
                     if (input4.equals("no")) {
                         System.exit(1);
 
                     }
-                    while (!input4.equals("no") && !input4.equals("yes")) {
-                        System.out.println("you used a word which differs from no or yes! Please select again!");
-                        input4 = sc.nextLine();
-                        System.out.println("profile input: " + input4);
-
-                        if (input4.equals("no")) {
-                            System.exit(1);
-
-                        }
-                    }
-
-
                 }
+
+
             }
+        }
 
 
+        // print in which direction the user should drive on the first street
+        System.out.println("navigation from " + input1 + " to " + input2 + ": \n" + naviList.legs().get(0).steps().get(0).maneuver().instruction());
 
-            // print in which direction the user should drive on the first street
-            System.out.println("navigation from " + input1 + " to " + input2 + ": \n" + naviList.legs().get(0).steps().get(0).maneuver().instruction());
-
-            // print how long the user should stay on the actual street and which street should be used next
+        // print how long the user should stay on the actual street and which street should be used next
         for (int j = 0; j < naviList.legs().size(); j++) {
 
             for (int i = 0; i < naviList.legs().get(j).steps().size() - 1; i++) {
@@ -152,8 +188,8 @@ public class Prototyp {
         }
 
 
-            System.exit(0);
-        }
+        System.exit(0);
+    }
 
 }
 
