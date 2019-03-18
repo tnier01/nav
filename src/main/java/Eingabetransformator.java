@@ -13,7 +13,7 @@ public class Eingabetransformator {
      */
     public Point transformPoint(String point) throws IOException {
 
-        Point resultpoint = null;
+        Point resultpoint;
         //check
         if(point.indexOf(',') != -1) {
             // Differs the Point in latitude and longitude
@@ -32,14 +32,13 @@ public class Eingabetransformator {
             }
             else
             {
-                System.out.println("keine Koordinaten eingegeben");
                 Schnitstelle schnitstelle = new Schnitstelle();
                 resultpoint = schnitstelle.geocoding(point); //Adresses were geocoded to Mapbox point
             }
         }
         else {
             Schnitstelle schnitstelle = new Schnitstelle();
-            resultpoint = schnitstelle.geocoding(point); //Adresses were geocoded to MApbox point
+            resultpoint = schnitstelle.geocoding(point); //Adresses were geocoded to Mapbox point
         }
 
         return resultpoint;

@@ -11,18 +11,6 @@ public class Routenfinder {
     Eingabetransformator eing=new Eingabetransformator();
     Schnitstelle schnitstelle= new Schnitstelle();
 
-    public DirectionsRoute gibRoute(String origin, String destination, String profile) throws IOException {
-
-        Point originPoint = eing.transformPoint(origin);
-        Point destinationPoint = eing.transformPoint(destination);
-        String finalProfile= eing.transformProfile(profile);
-
-
-   DirectionsRoute route = schnitstelle.getRoute(originPoint,destinationPoint,finalProfile);
-      //  getMap(originPoint, destinationPoint, route);
-        return route;
-
-    }
 
     public DirectionsRoute gibListRoute(List<String> stringWaypoints, String profile) throws IOException {
 
@@ -30,6 +18,10 @@ public class Routenfinder {
         Point pointToAdd;
         for (int i=0; i< stringWaypoints.size(); i++) {
             pointToAdd = eing.transformPoint(stringWaypoints.get(i));
+            if(pointToAdd==null)
+            {
+                throw new IllegalArgumentException("The Point: " +stringWaypoints.get(i) +"was not found");
+            }
             waypoints.add(pointToAdd);
         }
         String finalProfile= eing.transformProfile(profile);
@@ -42,7 +34,7 @@ public class Routenfinder {
 
     /**
      * Open the Schnitstelle to save the map
-     * @param waypoints
+     * @param waypoints the List of Waypoints
      * @param route the calculated route
      */
     public void getMap(List<Point> waypoints, DirectionsRoute route)

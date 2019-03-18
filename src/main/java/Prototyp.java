@@ -12,8 +12,8 @@ public class Prototyp {
     /**
      * modularized method, in case the input differs from "yes" and "no".
      *
-     * @param x
-     * @param scanner
+     * @param x the input
+     * @param scanner the Scanner which reads out the input
      */
     private static void ifInputWrong(String x, Scanner scanner) {
         while (!x.equals("no") && !x.equals("yes")) {
@@ -26,13 +26,12 @@ public class Prototyp {
     /**
      * modularized method, for a further input, a new waypoint
      *
-     * @param scanner
-     * @param waypoint
-     * @param waypoints
+     * @param scanner the Scanner, which reads the input
+     * @param waypoints the list of waypoints to visit
      */
-    private static void inputWaypoint(Scanner scanner, String waypoint, List<String> waypoints) {
+    private static void inputWaypoint(Scanner scanner, List<String> waypoints) {
         System.out.println("Please input the new waypoint!");
-        waypoint = scanner.nextLine();
+        String waypoint = scanner.nextLine();
         System.out.println("new waypoint: " + waypoint);
         // the new waypoint gets insert at the last place before destination
         waypoints.add(waypoints.size() - 1, waypoint);
@@ -49,8 +48,8 @@ public class Prototyp {
     public static void main(String[] args) throws IOException {
         Routenfinder navigation = new Routenfinder();
 
-        DirectionsRoute naviList = null;
-        String input1 = null, input2 = null, input3 = null, input4 = null, input5 = null, waypoint = null;
+        DirectionsRoute naviList;
+        String input1, input2, input3, input4, input5;
         List<String> waypoints = new ArrayList<>();
 
         /*
@@ -104,7 +103,7 @@ public class Prototyp {
                             if (i > 21) {
                                 System.out.println("last possible waypoint!");
                             }
-                            inputWaypoint(sc, waypoint, waypoints);
+                            inputWaypoint(sc, waypoints);
                         }
                         // if the user wants no new waypoint the route is printed
                         if (input5.equals("no")) {
@@ -130,7 +129,7 @@ public class Prototyp {
 
                     // if input is "yes" there is the possibility to add a new waypoint, if no the route gets calculated
                     if (input5.equals("yes")) {
-                        inputWaypoint(sc, waypoint, waypoints);
+                        inputWaypoint(sc, waypoints);
                     }
                 }
 
@@ -149,7 +148,7 @@ public class Prototyp {
                 // waypoints must be cleared, because otherwise there are doubled destination and origin in the result
                 waypoints.clear();
 
-                // if users, dont wont to start the program will end
+                // if the user do not wont to restart the program ends
                 if (input4.equals("no")) {
                     System.exit(1);
                 }
@@ -157,14 +156,12 @@ public class Prototyp {
                 // if there is a wrong word which differs from yes or no, repeat the selection
                 ifInputWrong(input4, sc);
 
-                // if the user do not wont to restart the program ends
-                if (input4.equals("no")) {
-                    System.exit(1);
-                }
             }
         }
 
-
+        System.out.println(naviList.distance());
+        System.out.println("Distance of the Route: " + (double) Math.round(naviList.distance()/10)/100 + " kilometers");
+        System.out.println("Duration of the Route: " + Math.round(naviList.duration()/3600) + " Hours " + Math.round(naviList.duration()%3600/60) + " Minutes");
         // print in which direction the user should drive on the first street
         System.out.println("navigation from " + input1 + " to " + input2 + ": \n" + naviList.legs().get(0).steps().get(0).maneuver().instruction());
 
@@ -177,7 +174,7 @@ public class Prototyp {
                 if (distance < 1000) {
                     System.out.println("stay on the street for " + Math.round(distance / 10) * 10 + " meters");
                 } else {
-                    System.out.println("stay on the street for " + Math.round(distance / 100) / 10 + " kilometers");
+                    System.out.println("stay on the street for " + (double) Math.round(distance / 100) / 10 + " kilometers");
                 }
 
                 System.out.println(naviList.legs().get(j).steps().get(i).voiceInstructions().get(instructionSize - 1).announcement());
