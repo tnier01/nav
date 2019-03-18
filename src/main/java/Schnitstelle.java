@@ -27,55 +27,6 @@ public class Schnitstelle {
 
     private DirectionsRoute currentRoute;
 
-ProfileSwitcher profileSwitcher = new ProfileSwitcher();
-
-
-
-    /**
-     *Calculates the route from the origin to the destination
-     * @param origin where to start as Mapbox Pint
-     * @param destination where the destination is as Point
-     * @param profile which transport should be used
-     * @throws IOException
-     * @return the final route as DirectionsRoute
-     */
-    public DirectionsRoute getRoute(Point origin, Point destination, String profile) throws IOException{
-
-        // client with thr routing criteria is build
-
-        MapboxDirections.Builder client = MapboxDirections.builder()
-            .origin(origin)
-            .destination(destination)
-            .geometries("polyline6")
-            .steps(true)
-            //.bannerInstructions(true)
-            .voiceInstructions(true)
-            .voiceUnits("metric")
-            .overview(DirectionsCriteria.OVERVIEW_SIMPLIFIED)
-            .profile(profile) // call of the method switchprofile with the inputted profile to set the profile
-            .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg");
-
-        Response<DirectionsResponse> response = client.build().executeCall();
-
- if(response.isSuccessful()) {
-
-     //if there is no reslut an Expection is thrown
-     if (response.body() == null) {
-         throw new IllegalArgumentException("No routes found, make sure you set the right user and access token.");
-     } else if (response.body().routes().size() < 1) {
-         throw new IllegalArgumentException("No routes found");
-     }
-
-     // Retrieve the directions route from the API response
-     currentRoute = response.body().routes().get(0);
-     System.out.println(currentRoute.legs());
- }
- else{
-     throw new IllegalArgumentException("Anfrage ist geschietert.");
- }
-    //route is returned
-    return currentRoute;
-    }
 
 
     public DirectionsRoute getListRoute(List<Point> waypoints, String profile) throws IOException{
@@ -113,7 +64,7 @@ ProfileSwitcher profileSwitcher = new ProfileSwitcher();
 
             // Retrieve the directions route from the API response
             currentRoute = response.body().routes().get(0);
-            System.out.println(currentRoute.legs());
+           // System.out.println(currentRoute.legs());
         }
         else{
             throw new IllegalArgumentException("Anfrage ist geschietert.");
@@ -150,12 +101,9 @@ public Point geocoding(String insert) throws IOException
 
         // Log the first results Points
         result = results.get(0).center();
-        System.out.println("onResponse: " + result.toString());
+        //System.out.println("onResponse: " + result.toString());
 
         } else {
-
-        // No result for your request were found
-        System.out.println("onResponse: No result found");
 
         }
         }
@@ -193,7 +141,7 @@ public Point geocoding(String insert) throws IOException
      */
         public void getMap(List<Point> waypoints, DirectionsRoute route)
         {
-            // transforms the Poliline into a Feature
+            // transforms the Polyline into a Feature
             Feature directionsRouteFeature = Feature.fromGeometry(LineString.fromPolyline(route.geometry(), PRECISION_6));
 
             //transform the Feature into an JSON

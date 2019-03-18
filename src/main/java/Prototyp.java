@@ -159,7 +159,6 @@ public class Prototyp {
             }
         }
 
-        System.out.println(naviList.distance());
         System.out.println("Distance of the Route: " + (double) Math.round(naviList.distance()/10)/100 + " kilometers");
         System.out.println("Duration of the Route: " + Math.round(naviList.duration()/3600) + " Hours " + Math.round(naviList.duration()%3600/60) + " Minutes");
         // print in which direction the user should drive on the first street
