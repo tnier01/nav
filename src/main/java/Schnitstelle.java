@@ -67,7 +67,7 @@ public class Schnitstelle {
            // System.out.println(currentRoute.legs());
         }
         else{
-            throw new IllegalArgumentException("Anfrage ist geschietert.");
+            throw new IllegalArgumentException("Request failed, please try with better insertions");
         }
         //route is returned
         return currentRoute;
@@ -81,7 +81,7 @@ public class Schnitstelle {
  */
 public Point geocoding(String insert) throws IOException
         {
-        Point result = null;
+        Point result= null;
 
         //build gecoder
         MapboxGeocoding.Builder mapboxGeocoding = MapboxGeocoding.builder()
@@ -102,8 +102,6 @@ public Point geocoding(String insert) throws IOException
         // Log the first results Points
         result = results.get(0).center();
         //System.out.println("onResponse: " + result.toString());
-
-        } else {
 
         }
         }

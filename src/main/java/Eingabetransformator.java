@@ -13,7 +13,7 @@ public class Eingabetransformator {
      */
     public Point transformPoint(String point) throws IOException {
 
-        Point resultpoint;
+        Point resultPoint;
         //check
         if(point.indexOf(',') != -1) {
             // Differs the Point in latitude and longitude
@@ -25,23 +25,23 @@ public class Eingabetransformator {
                 //transform String into Mapbox Point
                 Double lng=Double.parseDouble(Lng);
                 Double lat=Double.parseDouble(Lat);
-                resultpoint = Point
+                resultPoint = Point
                         .fromLngLat(lng,lat);
-                System.out.println(resultpoint);
+               // System.out.println(resultpoint);
 
             }
             else
             {
                 Schnitstelle schnitstelle = new Schnitstelle();
-                resultpoint = schnitstelle.geocoding(point); //Adresses were geocoded to Mapbox point
+                resultPoint = schnitstelle.geocoding(point); //Adresses were geocoded to Mapbox point
             }
         }
         else {
             Schnitstelle schnitstelle = new Schnitstelle();
-            resultpoint = schnitstelle.geocoding(point); //Adresses were geocoded to Mapbox point
+            resultPoint = schnitstelle.geocoding(point); //Adresses were geocoded to Mapbox point
         }
 
-        return resultpoint;
+        return resultPoint;
     }
     /**
      * Transform thr Profile witch the ProfileSwitcher

@@ -12,7 +12,7 @@ public class Routenfinder {
     Schnitstelle schnitstelle= new Schnitstelle();
 
 
-    public DirectionsRoute gibListRoute(List<String> stringWaypoints, String profile) throws IOException {
+    public DirectionsRoute getListRoute(List<String> stringWaypoints, String profile) throws IOException {
 
         List waypoints = new ArrayList();
         Point pointToAdd;
@@ -20,7 +20,7 @@ public class Routenfinder {
             pointToAdd = eing.transformPoint(stringWaypoints.get(i));
             if(pointToAdd==null)
             {
-                throw new IllegalArgumentException("The Point: " +stringWaypoints.get(i) +"was not found");
+                throw new IllegalArgumentException("The Point: " +stringWaypoints.get(i) +" was not found");
             }
             waypoints.add(pointToAdd);
         }

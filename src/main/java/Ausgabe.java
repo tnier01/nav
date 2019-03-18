@@ -1,12 +1,11 @@
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
-import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
-import com.mapbox.geojson.Point;
-//import org.graalvm.compiler.loop.InductionVariable;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+//import org.graalvm.compiler.loop.InductionVariable;
 
 public class Ausgabe {
 
@@ -67,7 +66,7 @@ public class Ausgabe {
         waypoints.add("Raesfeld");
         waypoints.add("Münster");
 
-        DirectionsRoute naviList = navigation.gibListRoute(waypoints, "driving");
+        DirectionsRoute naviList = navigation.getListRoute(waypoints, "driving");
 
         Offroute onroute = new Offroute();
         boolean amionroute = onroute.stillOnRoute(naviList, "Paschenvenne");

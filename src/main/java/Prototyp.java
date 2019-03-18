@@ -135,7 +135,7 @@ public class Prototyp {
 
                 // route calculation
                 System.out.println("route calculation:");
-                naviList = navigation.gibListRoute(waypoints, input3);
+                naviList = navigation.getListRoute(waypoints, input3);
                 break;
             } catch (Exception e) {
                     /*
