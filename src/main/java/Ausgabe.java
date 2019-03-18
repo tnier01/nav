@@ -1,4 +1,7 @@
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
+import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
+import com.mapbox.geojson.Point;
 //import org.graalvm.compiler.loop.InductionVariable;
 
 import java.io.IOException;
@@ -15,6 +18,7 @@ public class Ausgabe {
      */
     public static void main(String[] args) throws IOException {
         Routenfinder navigation = new Routenfinder();
+        Schnitstelle geocode = new Schnitstelle();
 
 /*
         DirectionsRoute navi = navigation.gibRoute("raesfeld", "münster", "car");
@@ -30,7 +34,7 @@ public class Ausgabe {
 
             System.out.println(navi.legs().get(0).steps().get(i).voiceInstructions().get(instructionSize-1).announcement());
         }
-*/
+
 
 
 
@@ -58,6 +62,23 @@ public class Ausgabe {
             }
 
         }
+*/
+        List<String> waypoints = new ArrayList<>();
+        waypoints.add("Raesfeld");
+        waypoints.add("Münster");
 
+        DirectionsRoute naviList = navigation.gibListRoute(waypoints, "driving");
+
+        Offroute onroute = new Offroute();
+        boolean amionroute = onroute.stillOnRoute(naviList, "Paschenvenne");
+        System.out.println(amionroute);
+
+
+        List<CarmenFeature> response = geocode.geocodeToObj("heisenbergstraße münster");
+        System.out.println(response.get(0).text());
+/*
+        Point point = geocode.geocoding("paschenvenne raesfeld");
+        System.out.println(point.toString());
+*/
     }
 }

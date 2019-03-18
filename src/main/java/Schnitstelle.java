@@ -165,7 +165,27 @@ public Point geocoding(String insert) throws IOException
         }
 // return result
         return result;
+    }
+
+
+    public List<CarmenFeature> geocodeToObj(String insert) throws IOException {
+        List<CarmenFeature> results = null;
+        //build geocoder
+        MapboxGeocoding.Builder mapboxGeocoding = MapboxGeocoding.builder()
+                .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
+                .query(insert);
+
+        //get  the response
+        Response<GeocodingResponse> response = mapboxGeocoding.build().executeCall();
+
+        if (response.isSuccessful()) {
+            //work with the response
+
+            results = response.body().features();
+
         }
+        return results;
+    }
 
     /**
      * Saves a Map of the route as map

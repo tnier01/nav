@@ -1,3 +1,5 @@
+// We love beer
+
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 
 import java.io.IOException;
@@ -39,8 +41,7 @@ public class Prototyp {
 
     /**
      * main method which controls the input and output on the console
-     * asks for origin, destination, profile, further waypoints if the
-     * user like and delivers navigation instructions
+     * asks for origin and destination and delivers navigation instructions
      *
      * @param args
      * @throws IOException
