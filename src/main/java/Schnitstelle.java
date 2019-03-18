@@ -197,23 +197,30 @@ public Point geocoding(String insert) throws IOException
                 }
             };
 
+            //create a list of List of StaticMarker annotatuions
+            List<StaticMarkerAnnotation> marker = new ArrayList<>();
+
             //create a StaticMarkeAnnotation from the origin
             StaticMarkerAnnotation originMarke = StaticMarkerAnnotation.builder()
                     .lnglat(waypoints.get(0))
                     .color("ff0000")
                     .build();
 
+            marker.add(originMarke);
+            for(int i=1; i<waypoints.size();i++)
+            {
+                StaticMarkerAnnotation marke = StaticMarkerAnnotation.builder()
+                        .lnglat(waypoints.get(i))
+                        .color("0000ff")
+                        .build();
+                marker.add(marke);
+            }
             //create a StaticMarkeAnnotation from the destination
             StaticMarkerAnnotation destinationMarke = StaticMarkerAnnotation.builder()
                     .lnglat(waypoints.get(waypoints.size()-1))
-                    .color("0000ff")
+                    .color("00ff00")
                     .build();
 
-//create a list of List of StaticMarker annotatuions and add the origin and destination
-
-            List<StaticMarkerAnnotation> marker = new ArrayList<>();
-
-            marker.add(originMarke);
             marker.add(destinationMarke);
 
             // create a Valid URL to get a Map with the route and Markes for Start and Origin
