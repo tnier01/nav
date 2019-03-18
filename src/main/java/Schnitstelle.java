@@ -207,7 +207,7 @@ public Point geocoding(String insert) throws IOException
                     .build();
 
             marker.add(originMarke);
-            for(int i=1; i<waypoints.size();i++)
+            for(int i=1; i<waypoints.size()-1;i++)
             {
                 StaticMarkerAnnotation marke = StaticMarkerAnnotation.builder()
                         .lnglat(waypoints.get(i))
