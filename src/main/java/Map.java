@@ -11,7 +11,7 @@ public void showMap() throws IOException {
 
     // create a GUI component that loads the image: map.png
 
-    ImageIcon imageIcon = new ImageIcon((new ImageIcon("map.png"))
+    ImageIcon imageIcon = new ImageIcon((new ImageIcon("map.jpg"))
             .getImage().getScaledInstance(600, 600,
                     java.awt.Image.SCALE_SMOOTH));
         map.add(new JLabel(imageIcon));

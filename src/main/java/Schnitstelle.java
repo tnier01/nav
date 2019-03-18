@@ -2,8 +2,6 @@ import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.MapboxDirections;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
-import com.mapbox.geojson.Point;
-import retrofit2.Response;
 import com.mapbox.api.geocoding.v5.MapboxGeocoding;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
@@ -18,7 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.mapbox.core.constants.Constants.PRECISION_6;
 
@@ -86,14 +85,14 @@ ProfileSwitcher profileSwitcher = new ProfileSwitcher();
         int waypointsSize = waypoints.size();
 
         MapboxDirections.Builder client = MapboxDirections.builder()
-                .geometries("polyline")
+                .geometries("polyline6")
                 .steps(true)
                 .origin(waypoints.get(0))
                 .destination(waypoints.get(waypointsSize-1))
                 //.bannerInstructions(true)
                 .voiceInstructions(true)
                 .voiceUnits("metric")
-                .overview(DirectionsCriteria.OVERVIEW_FULL)
+                .overview(DirectionsCriteria.OVERVIEW_SIMPLIFIED)
                 .profile(profile) // call of the method switchprofile with the inputted profile to set the profile
                 .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg");
 
@@ -170,11 +169,9 @@ public Point geocoding(String insert) throws IOException
 
     /**
      * Saves a Map of the route as map
-     * @param origin  the point to start
      * @param route the calculated route
-     * @param destination the point where the route ends
      */
-        public void getMap(final Point origin, final Point destination, DirectionsRoute route)
+        public void getMap(List<Point> waypoints, DirectionsRoute route)
         {
             // transforms the Poliline into a Feature
             Feature directionsRouteFeature = Feature.fromGeometry(LineString.fromPolyline(route.geometry(), PRECISION_6));
@@ -202,12 +199,13 @@ public Point geocoding(String insert) throws IOException
 
             //create a StaticMarkeAnnotation from the origin
             StaticMarkerAnnotation originMarke = StaticMarkerAnnotation.builder()
-                    .lnglat(origin)
+                    .lnglat(waypoints.get(0))
                     .color("ff0000")
                     .build();
-//create a StaticMarkeAnnotation from the destination
+
+            //create a StaticMarkeAnnotation from the destination
             StaticMarkerAnnotation destinationMarke = StaticMarkerAnnotation.builder()
-                    .lnglat(destination)
+                    .lnglat(waypoints.get(waypoints.size()-1))
                     .color("0000ff")
                     .build();
 
@@ -234,7 +232,7 @@ public Point geocoding(String insert) throws IOException
             try {
 
                 String imageUrl = staticImage.url().toString();
-                String destinationFile = "map.png";
+                String destinationFile = "map.jpg";
 
                 URL url = new URL(imageUrl);
                 InputStream is = url.openStream();

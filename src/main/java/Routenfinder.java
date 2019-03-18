@@ -19,7 +19,7 @@ public class Routenfinder {
 
 
    DirectionsRoute route = schnitstelle.getRoute(originPoint,destinationPoint,finalProfile);
-        getMap(originPoint, destinationPoint, route);
+      //  getMap(originPoint, destinationPoint, route);
         return route;
 
     }
@@ -34,18 +34,19 @@ public class Routenfinder {
         }
         String finalProfile= eing.transformProfile(profile);
 
-        return schnitstelle.getListRoute(waypoints,finalProfile);
 
+        DirectionsRoute route=  schnitstelle.getListRoute(waypoints,finalProfile);
+        getMap(waypoints,route);
+        return route;
     }
 
     /**
      * Open the Schnitstelle to save the map
-     * @param origin the place to start
-     * @param destination where the route should end
+     * @param waypoints
      * @param route the calculated route
      */
-    public void getMap(Point origin, Point destination, DirectionsRoute route)
+    public void getMap(List<Point> waypoints, DirectionsRoute route)
     {
-        schnitstelle.getMap(origin, destination, route);
+        schnitstelle.getMap(waypoints, route);
     }
 }
