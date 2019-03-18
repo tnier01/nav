@@ -1,6 +1,5 @@
-// We love beer
-
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +7,41 @@ import java.util.Scanner;
 
 public class Prototyp {
 
+    /**
+     * modularized method, in case the input differs from "yes" and "no".
+     *
+     * @param x
+     * @param scanner
+     */
+    private static void ifInputWrong(String x, Scanner scanner) {
+        while (!x.equals("no") && !x.equals("yes")) {
+            System.out.println("you used a word which differs from no or yes! Please select again!");
+            x = scanner.nextLine();
+            System.out.println("input: " + x);
+        }
+    }
+
+    /**
+     * modularized method, for a further input, a new waypoint
+     *
+     * @param scanner
+     * @param waypoint
+     * @param waypoints
+     */
+    private static void inputWaypoint(Scanner scanner, String waypoint, List<String> waypoints) {
+        System.out.println("Please input the new waypoint!");
+        waypoint = scanner.nextLine();
+        System.out.println("new waypoint: " + waypoint);
+        // the new waypoint gets insert at the last place before destination
+        waypoints.add(waypoints.size() - 1, waypoint);
+        System.out.println("actual route: " + waypoints);
+    }
 
     /**
      * main method which controls the input and output on the console
      * asks for origin, destination, profile, further waypoints if the
      * user like and delivers navigation instructions
+     *
      * @param args
      * @throws IOException
      */
@@ -27,13 +56,14 @@ public class Prototyp {
         input
         If there is no exception the route is returned
          */
-
         // Create a new object for the input
         Scanner sc = new Scanner(System.in);
 
         while (true) {
             try {
-                System.out.println("Origin and Destination as  Coordinate: lat,lng or as Street");
+                System.out.println("Höllennavigationsmaschiene");
+                System.out.println("Origin and Destination as Coordinate: Either you use lat,lng e.g. 51.9606649, 7.6261347\n" +
+                        "or a City/ Street/ PLZ e.g. Martin-Luther-King-Weg 20 Münster");
                 System.out.println("From where would you like to start your route?");
 
                 // Read the first input in the string "input1"
@@ -65,11 +95,7 @@ public class Prototyp {
                         input5 = sc.nextLine();
 
                         // if there is a wrong word which differs from yes or no, repeat the selection
-                        while (!input5.equals("no") && !input5.equals("yes")) {
-                            System.out.println("you used a word which differs from no or yes! Please select again!");
-                            input5 = sc.nextLine();
-                            System.out.println("profile input: " + input5);
-                        }
+                        ifInputWrong(input5, sc);
 
                         // if the users wants a further waypoint he can insert it
                         if (input5.equals("yes")) {
@@ -77,12 +103,7 @@ public class Prototyp {
                             if (i > 21) {
                                 System.out.println("last possible waypoint!");
                             }
-                            System.out.println("Please input the new waypoint!");
-                            waypoint = sc.nextLine();
-                            System.out.println("new waypoint: " + waypoint);
-                            // the new waypoint gets insert at the last place before destination
-                            waypoints.add(waypoints.size() - 1, waypoint);
-                            System.out.println("actual route: " + waypoints);
+                            inputWaypoint(sc, waypoint, waypoints);
                         }
                         // if the user wants no new waypoint the route is printed
                         if (input5.equals("no")) {
@@ -99,44 +120,24 @@ public class Prototyp {
                   */
                 if (input3.equals("driving-traffic")) {
 
-                        // input decision if there will be an further waypoint
-                        System.out.println("would you like to add another point? (yes/no)");
-                        input5 = sc.nextLine();
+                    // input decision if there will be an further waypoint
+                    System.out.println("would you like to add another point? (yes/no)");
+                    input5 = sc.nextLine();
 
-                        // hier die while schleife bezüglich no oder yes kann modularisiert werden
-                        // durch entsprechende Methode in dieser Klasse
-                        // if there is a wrong word which differs from yes or no, repeat the selection
-                        while (!input5.equals("no") && !input5.equals("yes")) {
-                            System.out.println("you used a word which differs from no or yes! Please select again!");
-                            input5 = sc.nextLine();
-                            System.out.println("profile input: " + input5);
-                        }
+                    // if there is a wrong word which differs from yes or no, repeat the selection
+                    ifInputWrong(input5, sc);
 
-
-                            System.out.println("Please input the new waypoint!");
-                            waypoint = sc.nextLine();
-                            System.out.println("new waypoint: " + waypoint);
-                            // the new waypoint gets insert at the last place before destination
-                            waypoints.add(waypoints.size() - 1, waypoint);
-                            System.out.println("actual route: " + waypoints);
-                        }
-                        // if the user wants no new waypoint the route is printed
-                        //if (input5.equals("no")) {
-                        //    break;
-
-
-
-
-
+                    // if input is "yes" there is the possibility to add a new waypoint, if no the route gets calculated
+                    if (input5.equals("yes")) {
+                        inputWaypoint(sc, waypoint, waypoints);
+                    }
+                }
 
                 // route calculation
                 System.out.println("route calculation:");
                 naviList = navigation.gibListRoute(waypoints, input3);
-
                 break;
-            }
-
-            catch (Exception e) {
+            } catch (Exception e) {
                     /*
                     If there is an exception the user is able to decide on his own if he likes to restart or end the program.
                      */
@@ -153,15 +154,11 @@ public class Prototyp {
                 }
 
                 // if there is a wrong word which differs from yes or no, repeat the selection
-                while (!input4.equals("no") && !input4.equals("yes")) {
-                    System.out.println("you used a word which differs from no or yes! Please select again!");
-                    input4 = sc.nextLine();
-                    System.out.println("profile input: " + input4);
+                ifInputWrong(input4, sc);
 
-                    // if the user do not wont to restart the program ends
-                    if (input4.equals("no")) {
-                        System.exit(1);
-                    }
+                // if the user do not wont to restart the program ends
+                if (input4.equals("no")) {
+                    System.exit(1);
                 }
             }
         }
@@ -186,7 +183,6 @@ public class Prototyp {
             }
 
         }
-
 
         System.exit(0);
     }
