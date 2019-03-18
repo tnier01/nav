@@ -8,6 +8,13 @@ public class Offroute {
 
     Schnitstelle geocoder = new Schnitstelle();
 
+    /**
+     *
+     * @param route
+     * @param point
+     * @return
+     * @throws IOException
+     */
     public boolean stillOnRoute(DirectionsRoute route, String point) throws IOException {
         boolean onRoute = false;
         List<CarmenFeature> pointInfo = geocoder.geocodeToObj(point);
@@ -19,7 +26,17 @@ public class Offroute {
             for (int i = 0; i < route.legs().get(j).steps().size() - 1; i++) {
                 // is one of the streets in the route the same as of the point
                 if (street.equals(route.legs().get(j).steps().get(0).name())) {
-                    onRoute = true;
+
+                    String routePoint = route.legs().get(j).steps().get(0).maneuver().location().toString();
+                    List<CarmenFeature> routePointCarmen = geocoder.geocodeToObj(routePoint);
+
+                    // is it the street in the same city or in another
+                    if (routePointCarmen.get(0).context().get(0).text() == pointInfo.get(0).context().get(0).text()) {
+                        onRoute = true;
+                    }
+
+
+
                 }
             }
         }

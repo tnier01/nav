@@ -75,7 +75,7 @@ public class Ausgabe {
 
 
         List<CarmenFeature> response = geocode.geocodeToObj("heisenbergstraße münster");
-        System.out.println(response.get(0).text());
+        System.out.println(response.get(0).context().get(0).text());
 /*
         Point point = geocode.geocoding("paschenvenne raesfeld");
         System.out.println(point.toString());
