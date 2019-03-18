@@ -38,6 +38,12 @@ public class Routenfinder {
 
     }
 
+    /**
+     * Open the Schnitstelle to save the map
+     * @param origin the place to start
+     * @param destination where the route should end
+     * @param route the calculated route
+     */
     public void getMap(Point origin, Point destination, DirectionsRoute route)
     {
         schnitstelle.getMap(origin, destination, route);

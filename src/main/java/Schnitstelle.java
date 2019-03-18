@@ -168,15 +168,22 @@ public Point geocoding(String insert) throws IOException
         return result;
         }
 
-        public void getMap(final Point origin, final Point destion, DirectionsRoute route)
+    /**
+     * Saves a Map of the route as map
+     * @param origin  the point to start
+     * @param route the calculated route
+     * @param destination the point where the route ends
+     */
+        public void getMap(final Point origin, final Point destination, DirectionsRoute route)
         {
-            GeoJson directionsRouteFeature = Feature.fromGeometry(LineString.fromPolyline(route.geometry(), PRECISION_6));
+            // transforms the Poliline into a Feature
+            Feature directionsRouteFeature = Feature.fromGeometry(LineString.fromPolyline(route.geometry(), PRECISION_6));
 
+            //transform the Feature into an JSON
             final String JSON=directionsRouteFeature.toJson();
 
-            System.out.println(JSON);
 
-
+//transform the Json into an valid GeoJson
             GeoJson geoJson= new GeoJson() {
                 @Override
                 public String type() {
@@ -193,42 +200,25 @@ public Point geocoding(String insert) throws IOException
                 }
             };
 
+            //create a StaticMarkeAnnotation from the origin
             StaticMarkerAnnotation originMarke = StaticMarkerAnnotation.builder()
                     .lnglat(origin)
                     .color("ff0000")
                     .build();
-
+//create a StaticMarkeAnnotation from the destination
             StaticMarkerAnnotation destinationMarke = StaticMarkerAnnotation.builder()
-                    .lnglat(destion)
+                    .lnglat(destination)
                     .color("0000ff")
                     .build();
 
-            List<StaticMarkerAnnotation> marker = new ArrayList<StaticMarkerAnnotation>();
+//create a list of List of StaticMarker annotatuions and add the origin and destination
+
+            List<StaticMarkerAnnotation> marker = new ArrayList<>();
 
             marker.add(originMarke);
             marker.add(destinationMarke);
 
-
-/*
-            final String Jorigin= origin.toJson() + destion.toJson();
-            GeoJson GJorigin = new GeoJson(){
-                @Override
-                public String type() {
-                    return "Point";
-                }
-
-                @Override
-                public String toJson() {
-                    return Jorigin;
-                }
-                @Override
-                public BoundingBox bbox() {
-                    return null;
-                }
-            };
-
-            System.out.println(Jorigin);
-*/
+            // create a Valid URL to get a Map with the route and Markes for Start and Origin
             MapboxStaticMap staticImage = MapboxStaticMap.builder()
                     .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZTNoZ3czMnYxcTNrczE2OTZxbHdsMiJ9.aHG4oyq2cE57oNFq0irkbA")
                     .styleId(StaticMapCriteria.NAVIGATION_GUIDANCE_DAY)
@@ -240,17 +230,17 @@ public Point geocoding(String insert) throws IOException
                     .retina(true) // Retina 2x image will be returned
                     .build();
 
-
+            //open the Stream with then builded URL
             try {
 
                 String imageUrl = staticImage.url().toString();
-                System.out.println(imageUrl);
-                String destinationFile = "map.jpg";
+                String destinationFile = "map.png";
 
                 URL url = new URL(imageUrl);
                 InputStream is = url.openStream();
                 OutputStream os = new FileOutputStream(destinationFile);
 
+                //save the image
                 byte[] b = new byte[2048];
                 int length;
 

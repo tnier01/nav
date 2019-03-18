@@ -182,10 +182,12 @@ public class Prototyp {
                 System.out.println(naviList.legs().get(j).steps().get(i).voiceInstructions().get(instructionSize - 1).announcement());
             }
 
+            //
+            Map map = new Map();
+            map.showMap();
+
         }
 
         System.exit(0);
     }
 }
-
-
