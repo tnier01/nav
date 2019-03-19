@@ -17,17 +17,42 @@ public class Testclass {
 
         Routenfinder testNav = new Routenfinder();
         List waypoints = new ArrayList();
-        waypoints.add("berlin");waypoints.add("washington");
+        waypoints.add("berlin");waypoints.add("wahington");
         /*class Routenfinder
 
         method 1: public DirectionsRoute getListRoute(List<String> stringWaypoints, String profile) throws IOException
          possibilities:
              input is a not existing location -> IOException */
-        assertThrows(IllegalArgumentException.class,
+        Throwable ex= assertThrows(IllegalArgumentException.class,
                 () -> {
-                    testNav.getListRoute(waypoints, "walking");
+                    testNav.getListRoute(waypoints, "car");
                 },
-                "no IOException thrown in getListRoute");
+                "no ArgumentException thrown in getListRoute");
+        assertEquals(ex.getMessage(),"no legal profile");
+        ex= assertThrows(IllegalArgumentException.class,
+                () -> {
+                    testNav.getListRoute(waypoints, "driving");
+                },
+                "no ArgumentException thrown in getListRoute");
+        assertEquals(ex.getMessage(),"No routes found");
+
+        waypoints.add(":(");
+        ex= assertThrows(IllegalArgumentException.class,
+                () -> {
+                    testNav.getListRoute(waypoints, "driving");
+                },
+                "no ArgumentException thrown in getListRoute");
+        assertEquals(ex.getMessage(),"The Point :( was not found");
+
+        waypoints.remove(2);
+        waypoints.add("");
+        ex= assertThrows(IllegalArgumentException.class,
+                () -> {
+                    testNav.getListRoute(waypoints, "driving");
+                },
+                "no ArgumentException thrown in getListRoute");
+        assertEquals(ex.getMessage(),"No insertion for the 3. Waypoint");
+
 
         //coordinates are not on the land -> "Route not found"
 
@@ -79,11 +104,15 @@ public class Testclass {
         // example 2: transformPoint("10.0, 53.55") -> [10.0, 53.55]
         assertEquals(testEt.transformPoint("53.55,10.0"), p);
         // example 3: transformPoint("köln") -> [6.95778, 50.94222]
-        p= Point.fromLngLat(6.95778, 50.9422);
+        p= Point.fromLngLat(6.95778, 50.94222);
         assertEquals(testEt.transformPoint("köln"), p);
 
         // example 4: transformPoint("6.95778, 50.94222") -> [6.95778, 50.94222]
         assertEquals(testEt.transformPoint("50.94222,6.95778"), p);
+
+        p= Point.fromLngLat( 7.640063, 51.95173);
+        assertEquals(testEt.transformPoint("Hafen, Münster"), p);
+        assertEquals(testEt.transformPoint("Hafen Münster"), p);
 
 /*
         method 2: transformiereProfile(): String
@@ -118,17 +147,17 @@ public class Testclass {
             assertEquals(testPS.switchProfile("cycling"),DirectionsCriteria.PROFILE_CYCLING);
 
     }
-
+/*
     @Test
     public void testSchnittstelle() throws IOException {
 
         Schnitstelle testS = new Schnitstelle();
         List waypoints = new ArrayList();
         waypoints.add("");waypoints.add("");
-  /*  class Schnittstelle
+   class Schnittstelle
         method 1: getRoute(String origin, String destination, String profile): DirectionsRoute
              possibilities:
-                  input is a not existing location -> IOException*/
+                  input is a not existing location -> IOException
     assertThrows(IOException.class,
             () -> {
                 testS.getListRoute(waypoints, "");
@@ -136,7 +165,7 @@ public class Testclass {
             "no IOException thrown in getListRoute");
                 //more tests are not necessary, because we assume that the API returns the correct Route
 
-       /*//method 2: geocoder(String Eingabe): Point
+       /method 2: geocoder(String Eingabe): Point
                 //input is a not a point or a existing location -> IOException
                 //assertEquals(testEt.transformPoint("no Point"), IOException)
                 //example 1: geocoder("hamburg") -> [10.0, 53.55]
@@ -161,7 +190,7 @@ public class Testclass {
                 return l;
             }
         };assertEquals(testS.geocodeToObj("köln"), p);
-       */
-    }
+
+    }*/
 }
 

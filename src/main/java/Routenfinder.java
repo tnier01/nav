@@ -18,6 +18,10 @@ public class Routenfinder {
         List waypoints = new ArrayList();
         Point pointToAdd;
         for (int i=0; i< stringWaypoints.size(); i++) {
+            if(stringWaypoints.get(i).length()==0)
+            {
+                throw new IllegalArgumentException("No insertion for the " + (i+1) +". Waypoint");
+            }
             pointToAdd = eing.transformPoint(stringWaypoints.get(i));
             if(pointToAdd==null)
             {

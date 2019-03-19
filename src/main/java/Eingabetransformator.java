@@ -10,12 +10,11 @@ public class Eingabetransformator {
 
     /**
      * Transform a Insert to an Point
-     * @param point as String Strretname or String lat,lng
+     * @param point as String Streetname or String lat,lng
      * @return the resolved Point
      * @throws IOException
      */
     public Point transformPoint(String point) throws IOException {
-
         List<CarmenFeature> results= new ArrayList<>();
         Point resultPoint = null;
         //check
@@ -31,7 +30,7 @@ public class Eingabetransformator {
                 Double lat=Double.parseDouble(Lat);
                 resultPoint = Point
                         .fromLngLat(lng,lat);
-               // System.out.println(resultpoint);
+               //System.out.println(resultPoint);
 
             }
             else
