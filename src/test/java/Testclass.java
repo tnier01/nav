@@ -130,40 +130,24 @@ public class Testclass {
             assertEquals(testPS.switchProfile("cycling"),DirectionsCriteria.PROFILE_CYCLING);
 
     }
+    /*
 @Test
     public void testSchnittstelle() throws IOException {
 
         Schnitstelle testS = new Schnitstelle();
-    /*
+
     class Schnittstelle
         method 1: getRoute(String origin, String destination, String profile): DirectionsRoute
              possibilities:
-                  input is a not existing location -> IOException */
+                  input is a not existing location -> IOException
                 //more tests are not necessary, because we assume that the API returns the correct Route
 
        //method 2: geocoder(String Eingabe): Point
                 //input is a not a point or a existing location -> IOException
                 //assertEquals(testEt.transformPoint("no Point"), IOException)
                 //example 1: geocoder("hamburg") -> [10.0, 53.55]
-    Point p=new Point() {
-        @Override
-        public String type() {
-            return "Point";
-        }
-
-        @Override
-        public BoundingBox bbox() {
-            return null;
-        }
-
-        @Override
-        public List<Double> coordinates() {
-            List<Double> l= new ArrayList<>();
-            l.add(10.0);l.add(53.55);
-            return l;
-        }
-    };
-        assertEquals(testS.geocoding("hamburg"), p);
+    Point p= Point.fromLngLat(53.55,10.0);
+        assertEquals(testS.geocode("hamburg"), p);
         //example 3: geocoder("köln") -> [6.95778, 50.94222]
         p= new Point() {
             @Override
@@ -182,8 +166,8 @@ public class Testclass {
                 l.add(6.95778);l.add(50.94222);
                 return l;
             }
-        };assertEquals(testS.geocoding("köln"), p);
+        };assertEquals(testS.geocodeToObj("köln"), p);
 
-    }
+    } */
 }
 

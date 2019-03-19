@@ -73,47 +73,13 @@ public class Schnitstelle {
         return currentRoute;
     }
 
-/**
- * Transform an Adress into an Mapbox Point
- * @param insert the adress to geocode
- * @return the geocoded result as Point
- * @throws IOException
- */
-public Point geocoding(String insert) throws IOException
-        {
-        Point result= null;
 
-        //build gecoder
-        MapboxGeocoding.Builder mapboxGeocoding = MapboxGeocoding.builder()
-        .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
-        .query(insert);
-
- //get  the response
-        Response<GeocodingResponse> response = mapboxGeocoding.build().executeCall();
-
-        if (response.isSuccessful()) {
-//work with the response
-
-        List<CarmenFeature> results = response.body().features();
-
-
-        if (results.size() > 0) {
-
-        // Log the first results Points
-        result = results.get(0).center();
-        //System.out.println("onResponse: " + result.toString());
-
-        }
-        }
-        else
-        {
-        throw new IllegalArgumentException("Request failed.");
-        }
-// return result
-        return result;
-    }
-
-
+    /**
+     * Transform an Adress into an Mapbox Point
+     * @param insert the adress to geocode
+     * @return a List of the geocoded reults
+     * @throws IOException
+     */
     public List<CarmenFeature> geocodeToObj(String insert) throws IOException {
         List<CarmenFeature> results = null;
         //build geocoder
@@ -129,6 +95,10 @@ public Point geocoding(String insert) throws IOException
 
             results = response.body().features();
 
+        }
+        else
+        {
+            throw new IllegalArgumentException("Request failed.");
         }
         return results;
     }
@@ -173,8 +143,7 @@ public Point geocoding(String insert) throws IOException
                     .build();
 
             marker.add(originMarke);
-            for(int i=1; i<waypoints.size()-1;i++)
-            {
+            for(int i=1; i<waypoints.size()-1;i++) {
                 StaticMarkerAnnotation marke = StaticMarkerAnnotation.builder()
                         .lnglat(waypoints.get(i))
                         .color("0000ff")

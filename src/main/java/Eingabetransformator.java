@@ -1,6 +1,9 @@
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.geojson.Point;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Eingabetransformator {
@@ -13,7 +16,8 @@ public class Eingabetransformator {
      */
     public Point transformPoint(String point) throws IOException {
 
-        Point resultPoint;
+        List<CarmenFeature> results= new ArrayList<>();
+        Point resultPoint = null;
         //check
         if(point.indexOf(',') != -1) {
             // Differs the Point in latitude and longitude
@@ -33,12 +37,17 @@ public class Eingabetransformator {
             else
             {
                 Schnitstelle schnitstelle = new Schnitstelle();
-                resultPoint = schnitstelle.geocoding(point); //Adresses were geocoded to Mapbox point
+                results = schnitstelle.geocodeToObj(point); //Adresses were geocoded to a List of points
             }
         }
         else {
             Schnitstelle schnitstelle = new Schnitstelle();
-            resultPoint = schnitstelle.geocoding(point); //Adresses were geocoded to Mapbox point
+            results= schnitstelle.geocodeToObj(point); //Adresses were geocoded to a List of points
+        }
+
+        if (results.size() > 0) {
+            // Log the first results Point.
+            resultPoint = results.get(0).center();
         }
 
         return resultPoint;
