@@ -9,6 +9,30 @@ import java.util.Scanner;
 
 public class Prototyp {
 
+    private static String likeInput(String input) throws IOException {
+        Routenfinder navigation = new Routenfinder();
+        // Create a new object for the input
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println(navigation.getAdress(input));
+        System.out.println("Is this the right adress (yes/no)?");
+
+        String input9 = sc.nextLine();
+        System.out.println("input: " + input9);
+
+        ifInputWrong(input9, sc);
+
+        if (input9.equals("yes")) {
+            return input;
+        }
+        else {
+            System.out.println("Insert a more detailed adress!");
+            String input10 = sc.nextLine();
+            System.out.println("input: " + input10);
+            return likeInput(input10);
+        }
+    }
+
     /**
      * modularized method, in case the input differs from "yes" and "no".
      *
@@ -29,9 +53,11 @@ public class Prototyp {
      * @param scanner the Scanner, which reads the input
      * @param waypoints the list of waypoints to visit
      */
-    private static void inputWaypoint(Scanner scanner, List<String> waypoints) {
+    private static void inputWaypoint(Scanner scanner, List<String> waypoints) throws IOException {
         System.out.println("Please input the new waypoint!");
         String waypoint = scanner.nextLine();
+        waypoint = likeInput(waypoint);
+
         System.out.println("new waypoint: " + waypoint);
         // the new waypoint gets insert at the last place before destination
         waypoints.add(waypoints.size() - 1, waypoint);
@@ -72,12 +98,14 @@ public class Prototyp {
 
                 // Read the first input in the string "input1"
                 input1 = sc.nextLine();
+                input1 = likeInput(input1);
                 System.out.println("origin input: " + input1);
                 waypoints.add(input1);
 
                 System.out.println("Where do you would like to end the route?");
                 // Read the second input in the string "input2"
                 input2 = sc.nextLine();
+                input2 = likeInput(input2);
                 System.out.println("destination input: " + input2);
                 waypoints.add(input2);
 
@@ -207,6 +235,7 @@ public class Prototyp {
                     DirectionsRoute naviListNew = navigation.goneAstray(naviList, input7);
 
                     output.output(input1,input2, naviListNew);
+                    map.showMap();
                 }
             }
 
