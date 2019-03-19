@@ -2,6 +2,10 @@ import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.geojson.BoundingBox;
 import com.mapbox.geojson.Point;
 import org.junit.Test;
+import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.CoreMatchers.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,17 +15,25 @@ import static org.junit.Assert.assertEquals;
 
 public class Testclass {
 
-    @org.junit.Test
+    @Test
     public void testRoutenfinder() throws IOException {
 
         Routenfinder testNav = new Routenfinder();
+        List waypoints = new ArrayList();
+        waypoints.add("berlin");waypoints.add("washington");
         /*class Routenfinder
 
-        method 1: getRoute(String origin, String destination, String profile): DirectionsRoute
+        method 1: public DirectionsRoute getListRoute(List<String> stringWaypoints, String profile) throws IOException
          possibilities:
              input is a not existing location -> IOException */
-        //assertEquals(testNav.gibRoute("n", "s", "Fahrrad"), IOException );
+        assertThrows(IllegalArgumentException.class,
+                () -> {
+                    testNav.getListRoute(waypoints, "walking");
+                },
+                "no IOException thrown in getListRoute");
+
         //coordinates are not on the land -> "Route not found"
+
         //assertEquals("the returned route is not equal the expected", testNav.gibRoute("Hamburg", "Köln", "Auto"),
         //              "[RouteLeg{distance=423875.4, duration=113074.2, summary=, steps=[], annotation=null}]");
 
@@ -45,6 +57,7 @@ public class Testclass {
                          "113074.2")
 */
     }
+
     @Test
     public void testEingabetransformator() throws IOException {
 
@@ -54,8 +67,13 @@ public class Testclass {
 
         method 1: transformPoint(String point): Point
             possibilities:*/
-        // input is a not a point or a existing location -> IOException
+        // input is not a point or a existing location -> IOException
         //assertEquals(testEt.transformPoint("no Point"), IOException)
+        assertThrows(IOException.class,
+                () -> {
+                    testEt.transformPoint("");
+                },
+                "no IOException thrown in transformPoint");
         // example 1: transformPoint("hamburg") -> [10.0, 53.55]
         Point p=new Point() {
             @Override
@@ -120,6 +138,10 @@ public class Testclass {
             possibilities:*/
         //switchProfile(" ") -> IllegalArgumentException("no legal profile")
         //assertEquals(testPS.switchProfile(" "),IllegalArgumentException)
+        assertThrows(IllegalArgumentException.class,
+                () -> {
+                    testPS.switchProfile("");
+                },"no IllegalArgumentException thrown");
         // switchProfile("driving") -> "DirectionsCriteria.PROFILE_DRIVING"
             assertEquals(testPS.switchProfile("driving"), DirectionsCriteria.PROFILE_DRIVING);
         //switchProfile("driving-traffic") -> "DirectionsCriteria.PROFILE_DRIVING_TRAFFIC"
@@ -130,19 +152,25 @@ public class Testclass {
             assertEquals(testPS.switchProfile("cycling"),DirectionsCriteria.PROFILE_CYCLING);
 
     }
-    /*
-@Test
+
+    @Test
     public void testSchnittstelle() throws IOException {
 
         Schnitstelle testS = new Schnitstelle();
-
-    class Schnittstelle
+        List waypoints = new ArrayList();
+        waypoints.add("");waypoints.add("");
+  /*  class Schnittstelle
         method 1: getRoute(String origin, String destination, String profile): DirectionsRoute
              possibilities:
-                  input is a not existing location -> IOException
+                  input is a not existing location -> IOException*/
+    assertThrows(IOException.class,
+            () -> {
+                testS.getListRoute(waypoints, "");
+            },
+            "no IOException thrown in getListRoute");
                 //more tests are not necessary, because we assume that the API returns the correct Route
 
-       //method 2: geocoder(String Eingabe): Point
+       /*//method 2: geocoder(String Eingabe): Point
                 //input is a not a point or a existing location -> IOException
                 //assertEquals(testEt.transformPoint("no Point"), IOException)
                 //example 1: geocoder("hamburg") -> [10.0, 53.55]
@@ -167,7 +195,7 @@ public class Testclass {
                 return l;
             }
         };assertEquals(testS.geocodeToObj("köln"), p);
-
-    } */
+       */
+    }
 }
 
