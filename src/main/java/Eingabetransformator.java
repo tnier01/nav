@@ -14,9 +14,10 @@ public class Eingabetransformator {
      * @return the resolved Point
      * @throws IOException
      */
-    public Point transformPoint(String point) throws IOException {
+    public CarmenFeature transformPoint(String point) throws IOException {
         List<CarmenFeature> results= new ArrayList<>();
-        Point resultPoint = null;
+        CarmenFeature resultFeature = null;
+        Schnitstelle schnitstelle = new Schnitstelle();
         //check
         if(point.indexOf(',') != -1) {
             // Differs the Point in latitude and longitude
@@ -28,28 +29,28 @@ public class Eingabetransformator {
                 //transform String into Mapbox Point
                 Double lng=Double.parseDouble(Lng);
                 Double lat=Double.parseDouble(Lat);
-                resultPoint = Point
+                Point resultPoint = Point
                         .fromLngLat(lng,lat);
+
+                results= schnitstelle.geocodeToAdress(resultPoint);
+
+
                //System.out.println(resultPoint);
 
             }
             else
             {
-                Schnitstelle schnitstelle = new Schnitstelle();
+
                 results = schnitstelle.geocodeToObj(point); //Adresses were geocoded to a List of points
             }
         }
         else {
-            Schnitstelle schnitstelle = new Schnitstelle();
             results= schnitstelle.geocodeToObj(point); //Adresses were geocoded to a List of points
         }
 
-        if (results.size() > 0) {
-            // Log the first results Point.
-            resultPoint = results.get(0).center();
-        }
+        resultFeature= results.get(0);
 
-        return resultPoint;
+        return resultFeature;
     }
     /**
      * Transform thr Profile witch the ProfileSwitcher

@@ -1,16 +1,22 @@
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.geojson.Point;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import java.io.IOException;
 
 public class Routenfinder {
 
     Eingabetransformator eing=new Eingabetransformator();
     Schnitstelle schnitstelle= new Schnitstelle();
     Offroute offroute = new Offroute();
+
+    public String getAdress(String point) throws IOException {
+
+        CarmenFeature feature= eing.transformPoint(point);
+        return feature.placeName();
+    }
 
 
     public DirectionsRoute getListRoute(List<String> stringWaypoints, String profile) throws IOException {
@@ -22,7 +28,7 @@ public class Routenfinder {
             {
                 throw new IllegalArgumentException("No insertion for the " + (i+1) +". Waypoint");
             }
-            pointToAdd = eing.transformPoint(stringWaypoints.get(i));
+            pointToAdd = eing.transformPoint(stringWaypoints.get(i)).center();
             if(pointToAdd==null)
             {
                 throw new IllegalArgumentException("The Point " +stringWaypoints.get(i) +" was not found");
@@ -47,7 +53,7 @@ public class Routenfinder {
 
         List<Point> newWaypoints = new ArrayList<>();
         boolean onroute = offroute.stillOnRoute(inputRoute, point);
-        Point origin = eing.transformPoint(point);
+        Point origin = eing.transformPoint(point).center();
         String profile = inputRoute.legs().get(0).steps().get(0).mode();
 
         if (!onroute) {

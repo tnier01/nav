@@ -158,6 +158,8 @@ public class Prototyp {
 
             }
         }
+        System.out.println(navigation.getAdress(input1));
+        System.out.println(navigation.getAdress(input2));
 
        Ausgabe output = new Ausgabe();
         output.output(input1, input2, naviList);

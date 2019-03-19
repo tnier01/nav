@@ -2,6 +2,7 @@ import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.MapboxDirections;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
+import com.mapbox.api.geocoding.v5.GeocodingCriteria;
 import com.mapbox.api.geocoding.v5.MapboxGeocoding;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
@@ -71,6 +72,36 @@ public class Schnitstelle {
         }
         //route is returned
         return currentRoute;
+    }
+
+    /**
+     * Transform an Adress into an Mapbox Point
+     * @param insert the adress to geocode
+     * @return a List of the geocoded reults
+     * @throws IOException
+     */
+    public List<CarmenFeature> geocodeToAdress(Point insert) throws IOException {
+        List<CarmenFeature> results = null;
+        //build geocoder
+        MapboxGeocoding.Builder mapboxGeocoding = MapboxGeocoding.builder()
+                .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
+                .geocodingTypes(GeocodingCriteria.TYPE_ADDRESS)
+                .query(insert);
+
+        //get  the response
+        Response<GeocodingResponse> response = mapboxGeocoding.build().executeCall();
+
+        if (response.isSuccessful()) {
+            //work with the response
+
+            results = response.body().features();
+
+        }
+        else
+        {
+            throw new IllegalArgumentException("Request failed.");
+        }
+        return results;
     }
 
 
