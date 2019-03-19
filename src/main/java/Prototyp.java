@@ -48,6 +48,7 @@ public class Prototyp {
     public static void main(String[] args) throws IOException {
         Routenfinder navigation = new Routenfinder();
 
+        System.out.println("Ha" + (char)34 + "l" + (char)34 + "lo");
         DirectionsRoute naviList;
         String input1, input2, input3, input4, input5;
         List<String> waypoints = new ArrayList<>();

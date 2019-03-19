@@ -47,8 +47,9 @@ public class Eingabetransformator {
         else {
             results= schnitstelle.geocodeToObj(point); //Adresses were geocoded to a List of points
         }
-
-        resultFeature= results.get(0);
+        if (results.size() > 0) {
+            resultFeature = results.get(0);
+        }
 
         return resultFeature;
     }
