@@ -48,10 +48,13 @@ public class Prototyp {
     public static void main(String[] args) throws IOException {
         Routenfinder navigation = new Routenfinder();
 
-        System.out.println("Ha" + (char)34 + "l" + (char)34 + "lo");
+        Offroute offroute = new Offroute();
         DirectionsRoute naviList;
-        String input1, input2, input3, input4, input5;
+        String input1, input2, input3, input4, input5, input6, input7, input8;
         List<String> waypoints = new ArrayList<>();
+        boolean stillOnRoute = false;
+        boolean running = true;
+
 
         /*
         input
@@ -64,7 +67,7 @@ public class Prototyp {
             try {
                 System.out.println("Höllennavigationsmaschiene");
                 System.out.println("Origin and Destination as Coordinate: Either you use lat,lng e.g. 51.9606649, 7.6261347\n" +
-                        "or a City/ Street/ PLZ e.g. Martin-Luther-King-Weg 20 Münster");
+                        "or a City/ Street/ postcode e.g. Martin-Luther-King-Weg 20 Münster");
                 System.out.println("From where would you like to start your route?");
 
                 // Read the first input in the string "input1"
@@ -138,6 +141,7 @@ public class Prototyp {
                 System.out.println("route calculation:");
                 naviList = navigation.getListRoute(waypoints, input3);
                 break;
+
             } catch (Exception e) {
                     /*
                     If there is an exception the user is able to decide on his own if he likes to restart or end the program.
@@ -167,5 +171,45 @@ public class Prototyp {
         //
         Map map = new Map();
         map.showMap();
+
+        while (running) {
+            System.out.println("Insert " + (char) 34 + "check " + (char) 34 + "to proof if you are still on the route, insert " + (char) 34 + "exit " + (char) 34 + "to leave the program and insert " + (char) 34 + "restart " + (char) 34 + "to restart the program");
+            input6 = sc.nextLine();
+            System.out.println("answer: " + input6);
+
+            while (!input6.equals("check") && !input6.equals("exit") && !input6.equals("restart")) {
+                System.out.println("you used a word which differs from no or yes! Please select again!");
+                input6 = sc.nextLine();
+                System.out.println("answer: " + input6);
+            }
+
+            if (input6.equals("restart")) {
+                main(args);
+            }
+
+            if (input6.equals("exit")) {
+                System.exit(1);
+            }
+
+            if (input6.equals("check")) {
+
+                System.out.println("Please insert your actual position (the way you did it with origin, destination and waypoint)?");
+                input7 = sc.nextLine();
+                System.out.println("answer: " + input7);
+                stillOnRoute = offroute.stillOnRoute(naviList, input7);
+
+                if (stillOnRoute == true) {
+                    System.out.println("You are still on route!");
+                }
+
+                if (stillOnRoute == false) {
+                    System.out.println("You have left the route, the route gets recalculated from your actual destination1");
+                    DirectionsRoute naviListNew = navigation.goneAstray(naviList, input7);
+
+                    output.output(input1,input2, naviListNew);
+                }
+            }
+
+        }
     }
 }
