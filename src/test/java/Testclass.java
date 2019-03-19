@@ -1,17 +1,14 @@
 import com.mapbox.api.directions.v5.DirectionsCriteria;
-import com.mapbox.geojson.BoundingBox;
+import com.mapbox.core.exceptions.ServicesException;
 import com.mapbox.geojson.Point;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class Testclass {
 
@@ -69,52 +66,20 @@ public class Testclass {
             possibilities:*/
         // input is not a point or a existing location -> IOException
         //assertEquals(testEt.transformPoint("no Point"), IOException)
-        assertThrows(IOException.class,
+        Throwable ex= assertThrows(ServicesException.class,
                 () -> {
                     testEt.transformPoint("");
                 },
                 "no IOException thrown in transformPoint");
+        assertEquals(ex.getMessage(), "A query with at least one character or digit is required.");
         // example 1: transformPoint("hamburg") -> [10.0, 53.55]
-        Point p=new Point() {
-            @Override
-            public String type() {
-                return "Point";
-            }
+        Point p=Point.fromLngLat(10.0, 53.55);
 
-            @Override
-            public BoundingBox bbox() {
-                return null;
-            }
-
-            @Override
-            public List<Double> coordinates() {
-                List<Double> l= new ArrayList<>();
-                l.add(10.0);l.add(53.55);
-                return l;
-            }
-        };
         assertEquals(testEt.transformPoint("hamburg"), p);
         // example 2: transformPoint("10.0, 53.55") -> [10.0, 53.55]
         assertEquals(testEt.transformPoint("53.55,10.0"), p);
         // example 3: transformPoint("köln") -> [6.95778, 50.94222]
-        p= new Point() {
-            @Override
-            public String type() {
-                return "Point";
-            }
-
-            @Override
-            public BoundingBox bbox() {
-                return null;
-            }
-
-            @Override
-            public List<Double> coordinates() {
-                List<Double> l= new ArrayList<>();
-                l.add(6.95778);l.add(50.94222);
-                return l;
-            }
-        };
+        p= Point.fromLngLat(6.95778, 50.9422);
         assertEquals(testEt.transformPoint("köln"), p);
 
         // example 4: transformPoint("6.95778, 50.94222") -> [6.95778, 50.94222]
@@ -138,10 +103,11 @@ public class Testclass {
             possibilities:*/
         //switchProfile(" ") -> IllegalArgumentException("no legal profile")
         //assertEquals(testPS.switchProfile(" "),IllegalArgumentException)
-        assertThrows(IllegalArgumentException.class,
+        Throwable ex = assertThrows(IllegalArgumentException.class,
                 () -> {
-                    testPS.switchProfile("");
+                    testPS.switchProfile("car");
                 },"no IllegalArgumentException thrown");
+        assertEquals(ex.getMessage(),"no legal profile");
         // switchProfile("driving") -> "DirectionsCriteria.PROFILE_DRIVING"
             assertEquals(testPS.switchProfile("driving"), DirectionsCriteria.PROFILE_DRIVING);
         //switchProfile("driving-traffic") -> "DirectionsCriteria.PROFILE_DRIVING_TRAFFIC"
