@@ -10,6 +10,7 @@ public class Routenfinder {
 
     Eingabetransformator eing=new Eingabetransformator();
     Schnitstelle schnitstelle= new Schnitstelle();
+    Offroute offroute = new Offroute();
 
 
     public DirectionsRoute getListRoute(List<String> stringWaypoints, String profile) throws IOException {
@@ -31,6 +32,45 @@ public class Routenfinder {
         getMap(waypoints,route);
         return route;
     }
+
+    /**
+     *
+     * @param inputRoute
+     * @param point
+     * @return
+     */
+    public DirectionsRoute goneAstray (DirectionsRoute inputRoute, String point) throws IOException {
+
+        List<String> newWaypoints = new ArrayList<>();
+        boolean onroute = offroute.stillOnRoute(inputRoute, point);
+        String profile = inputRoute.legs().get(0).steps().get(0).mode();
+
+        if (!onroute) {
+            int lastLegIndex = inputRoute
+                    .legs()
+                    .size()-1;
+            int destinationIndex = inputRoute
+                    .legs()
+                    .get(lastLegIndex)
+                    .steps()
+                    .size()-1;
+            // ad offside point as origin
+            newWaypoints.add(point);
+            // add destination
+            newWaypoints.add(inputRoute
+                    .legs()
+                    .get(lastLegIndex)
+                    .steps()
+                    .get(destinationIndex)
+                    .maneuver()
+                    .location()
+                    .toString());
+            DirectionsRoute newRoute = getListRoute(newWaypoints, profile);
+            return newRoute;
+        }
+        return inputRoute;
+    }
+
 
     /**
      * Open the Schnitstelle to save the map

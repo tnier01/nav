@@ -1,5 +1,4 @@
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
-import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,6 +17,7 @@ public class Ausgabe {
     public static void main(String[] args) throws IOException {
         Routenfinder navigation = new Routenfinder();
         Schnitstelle geocode = new Schnitstelle();
+
 
 /*
         DirectionsRoute navi = navigation.gibRoute("raesfeld", "münster", "car");
@@ -68,13 +68,13 @@ public class Ausgabe {
 
         DirectionsRoute naviList = navigation.getListRoute(waypoints, "driving");
 
+        DirectionsRoute newRoute = navigation.goneAstray(naviList, "Paschenvenne Raesfeld");
+
+        System.out.println(newRoute);
+
         Offroute onroute = new Offroute();
-        boolean amionroute = onroute.stillOnRoute(naviList, "Paschenvenne");
-        System.out.println(amionroute);
 
 
-        List<CarmenFeature> response = geocode.geocodeToObj("heisenbergstraße münster");
-        System.out.println(response.get(0).context().get(0).text());
 /*
         Point point = geocode.geocoding("paschenvenne raesfeld");
         System.out.println(point.toString());
