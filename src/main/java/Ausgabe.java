@@ -1,8 +1,10 @@
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.String;
 
 //import org.graalvm.compiler.loop.InductionVariable;
 
@@ -68,11 +70,23 @@ public class Ausgabe {
 
         DirectionsRoute naviList = navigation.getListRoute(waypoints, "driving");
 
-        DirectionsRoute newRoute = navigation.goneAstray(naviList, "Paschenvenne Raesfeld");
+        DirectionsRoute newRoute = navigation.goneAstray(naviList, "Weseler Straße (B 70)");
 
-        System.out.println(newRoute);
+        //System.out.println(newRoute);
+
+        List<CarmenFeature> pointInfo = geocode.geocodeToObj("Weseler Straße (B 70) Raesfeld");
+        // the streetname of the point
+        String street = pointInfo.get(0).placeName();
+        //System.out.println(pointInfo);
+        //System.out.println(naviList);
+        String string1 = "Weseler Straße";
+        String string2 = "abcdefg Straße B(70)";
+        int compare = string1.compareTo(string2);
+        System.out.println(compare);
 
         Offroute onroute = new Offroute();
+        boolean ontheroute = onroute.stillOnRoute(naviList, "Weseler Straße (B 70) Raesfeld");
+        System.out.println(ontheroute);
 
 
 /*

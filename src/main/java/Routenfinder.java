@@ -41,8 +41,9 @@ public class Routenfinder {
      */
     public DirectionsRoute goneAstray (DirectionsRoute inputRoute, String point) throws IOException {
 
-        List<String> newWaypoints = new ArrayList<>();
+        List<Point> newWaypoints = new ArrayList<>();
         boolean onroute = offroute.stillOnRoute(inputRoute, point);
+        Point origin = eing.transformPoint(point);
         String profile = inputRoute.legs().get(0).steps().get(0).mode();
 
         if (!onroute) {
@@ -55,7 +56,7 @@ public class Routenfinder {
                     .steps()
                     .size()-1;
             // ad offside point as origin
-            newWaypoints.add(point);
+            newWaypoints.add(origin);
             // add destination
             newWaypoints.add(inputRoute
                     .legs()
@@ -64,8 +65,8 @@ public class Routenfinder {
                     .get(destinationIndex)
                     .maneuver()
                     .location()
-                    .toString());
-            DirectionsRoute newRoute = getListRoute(newWaypoints, profile);
+            );
+            DirectionsRoute newRoute = schnitstelle.getListRoute(newWaypoints, profile);
             return newRoute;
         }
         return inputRoute;
