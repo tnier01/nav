@@ -22,7 +22,7 @@ public class Routenfinder {
     public String getAdress(String point) throws IOException {
         if(point.length()==0)
         {
-            throw new IllegalArgumentException("No insertion for the this Waypoint");
+            throw new IllegalArgumentException("No insertion for this Waypoint");
         }
 
         CarmenFeature feature= eing.transformPoint(point);
