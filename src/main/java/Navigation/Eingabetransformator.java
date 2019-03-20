@@ -1,3 +1,5 @@
+package Navigation;
+
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.geojson.Point;
 
@@ -54,7 +56,7 @@ public class Eingabetransformator {
         return resultFeature;
     }
     /**
-     * Transform thr Profile witch the ProfileSwitcher
+     * Transform thr Profile witch the Navigation.ProfileSwitcher
      * @param profile to transform
      * @return the correct Profile
      */

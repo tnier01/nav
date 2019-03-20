@@ -1,3 +1,7 @@
+import Navigation.Eingabetransformator;
+import Navigation.Offroute;
+import Navigation.ProfileSwitcher;
+import Navigation.Routenfinder;
 import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.core.exceptions.ServicesException;
@@ -19,7 +23,7 @@ public class Testclass {
         Routenfinder testNav = new Routenfinder();
         List waypoints = new ArrayList();
         waypoints.add("berlin");waypoints.add("washington");
-        /*class Routenfinder
+        /*class Navigation.Routenfinder
 
         method 1: public DirectionsRoute getListRoute(List<String> stringWaypoints, String profile) throws IOException
          possibilities:
@@ -101,7 +105,7 @@ public class Testclass {
 
         Eingabetransformator testEt = new Eingabetransformator();
         /*
-    class Eingabetransformator
+    class Navigation.Eingabetransformator
 
         method 1: transformPoint(String point): Point
             possibilities:*/
@@ -135,7 +139,7 @@ public class Testclass {
 
 /*
         method 2: transformiereProfile(): String
-            possibilities: only accesses the ProfileSwitcher -> therefore no tests necessary
+            possibilities: only accesses the Navigation.ProfileSwitcher -> therefore no tests necessary
 
 
      */
@@ -162,7 +166,7 @@ public class Testclass {
 
         ProfileSwitcher testPS = new ProfileSwitcher();
     /*
-    class ProfileSwitcher
+    class Navigation.ProfileSwitcher
         method 1: switchProfile (String profile): void
             possibilities:*/
         //switchProfile(" ") -> IllegalArgumentException("no legal profile")
@@ -186,7 +190,7 @@ public class Testclass {
     @Test
     public void testSchnittstelle() throws IOException {
 
-        Schnitstelle testS = new Schnitstelle();
+        Navigation.Schnitstelle testS = new Navigation.Schnitstelle();
         List waypoints = new ArrayList();
         waypoints.add("");waypoints.add("");
    class Schnittstelle

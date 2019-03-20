@@ -1,3 +1,5 @@
+package Navigation;
+
 import javax.swing.*;
 import java.io.IOException;
 
@@ -18,6 +20,8 @@ public void showMap() throws IOException {
 
     // show the GUI window
         map.setVisible(true);
+        map.setAlwaysOnTop(true);
+        map.toFront();
         map.pack();
 }
 

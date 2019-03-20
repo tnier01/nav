@@ -1,3 +1,5 @@
+package Navigation;
+
 import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.MapboxDirections;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
@@ -141,7 +143,7 @@ public class Schnitstelle {
     }
 
     /**
-     * Saves a Map of the route as map
+     * Saves a Navigation.Map of the route as map
      * @param route the calculated route
      */
         public void getMap(List<Point> waypoints, DirectionsRoute route)
@@ -195,7 +197,7 @@ public class Schnitstelle {
 
             marker.add(destinationMarke);
 
-            // create a Valid URL to get a Map with the route and Markes for Start and Origin
+            // create a Valid URL to get a Navigation.Map with the route and Markes for Start and Origin
             MapboxStaticMap staticImage = MapboxStaticMap.builder()
                     .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZTNoZ3czMnYxcTNrczE2OTZxbHdsMiJ9.aHG4oyq2cE57oNFq0irkbA")
                     .styleId(StaticMapCriteria.NAVIGATION_GUIDANCE_DAY)

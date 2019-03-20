@@ -1,3 +1,5 @@
+package Navigation;
+
 import com.mapbox.api.directions.v5.DirectionsCriteria;
 
 /**

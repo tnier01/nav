@@ -1,3 +1,5 @@
+package Navigation;
+
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 
 import java.io.IOException;
@@ -6,7 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Class for implementation of the Prototyp, at least our user-interface.
+ * Class for implementation of the Navigation.Prototyp, at least our user-interface.
  */
 public class Prototyp {
 

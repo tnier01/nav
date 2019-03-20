@@ -1,3 +1,5 @@
+package Navigation;
+
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.geojson.Point;
@@ -103,7 +105,7 @@ public class Routenfinder {
 
 
     /**
-     * Open the Schnitstelle to save the map
+     * Open the Navigation.Schnitstelle to save the map
      * @param waypoints the List of Waypoints
      * @param route the calculated route
      */
