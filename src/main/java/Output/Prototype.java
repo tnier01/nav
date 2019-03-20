@@ -11,7 +11,7 @@ import java.util.Scanner;
 /**
  * Class for implementation of the Output.Prototype, at least our user-interface.
  */
-public class Prototyp {
+public class Prototype {
     /**
      * Main method which aks for different parameters for the route calculation and finally output the route description
      * with the map.
@@ -22,8 +22,7 @@ public class Prototyp {
      * - output duration + distance of route, route description, map of the route with marked origin, destination,
      * waypoints
      *
-     * @param args
-     * @throws IOException if connection to mapbox fails.
+     * @param args arguments needed to start the main method
      */
     public static void main(String[] args){
         RouteFinder navigation = new RouteFinder();
@@ -236,9 +235,9 @@ public class Prototyp {
      * to the input of the user. If the user is content with this location, the program use this location, if not
      * this method gets called recursively.
      *
-     * @param input
+     * @param input the street/ coordinate of the actual address
      * @return the final input which gets used
-     * @throws IOException if connection to mapbox fails.
+     * @throws IOException if connection to mapbox fails
      */
     private static String doYouLikeInput(String input) throws IOException {
         RouteFinder navigation = new RouteFinder();
@@ -266,8 +265,8 @@ public class Prototyp {
     /**
      * Method, in case the input differs from "yes" and "no".
      *
-     * @param inputNotYesOrNo
-     * @param scanner
+     * @param inputNotYesOrNo the input which differs from no or yes
+     * @param scanner the used scanner
      * @return correct input
      */
     private static String ifInputNotYesOrNo(String inputNotYesOrNo, Scanner scanner) {
@@ -296,3 +295,4 @@ public class Prototyp {
         System.out.println("actual route: " + waypoints);
     }
 }
+
