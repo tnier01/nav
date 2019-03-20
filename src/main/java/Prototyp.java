@@ -20,7 +20,7 @@ public class Prototyp {
         String input9 = sc.nextLine();
         System.out.println("input: " + input9);
 
-        ifInputWrong(input9, sc);
+        input9 = ifInputWrong(input9, sc);
 
         if (input9.equals("yes")) {
             return input;
@@ -39,12 +39,13 @@ public class Prototyp {
      * @param x the input
      * @param scanner the Scanner which reads out the input
      */
-    private static void ifInputWrong(String x, Scanner scanner) {
+    private static String ifInputWrong(String x, Scanner scanner) {
         while (!x.equals("no") && !x.equals("yes")) {
             System.out.println("you used a word which differs from no or yes! Please select again!");
             x = scanner.nextLine();
             System.out.println("input: " + x);
         }
+        return x;
     }
 
     /**
@@ -127,7 +128,7 @@ public class Prototyp {
                         input5 = sc.nextLine();
 
                         // if there is a wrong word which differs from yes or no, repeat the selection
-                        ifInputWrong(input5, sc);
+                        input5= ifInputWrong(input5, sc);
 
                         // if the users wants a further waypoint he can insert it
                         if (input5.equals("yes")) {
@@ -157,7 +158,7 @@ public class Prototyp {
                     input5 = sc.nextLine();
 
                     // if there is a wrong word which differs from yes or no, repeat the selection
-                    ifInputWrong(input5, sc);
+                    input5 = ifInputWrong(input5, sc);
 
                     // if input is "yes" there is the possibility to add a new waypoint, if no the route gets calculated
                     if (input5.equals("yes")) {
@@ -191,8 +192,6 @@ public class Prototyp {
 
             }
         }
-        System.out.println(navigation.getAdress(input1));
-        System.out.println(navigation.getAdress(input2));
 
        Ausgabe output = new Ausgabe();
         output.output(input1, input2, naviList);

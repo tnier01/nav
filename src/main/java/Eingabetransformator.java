@@ -22,7 +22,7 @@ public class Eingabetransformator {
         if(point.indexOf(',') != -1) {
             // Differs the Point in latitude and longitude
             String Lat = point.substring(0, point.indexOf(','));
-            String Lng = point.substring(point.indexOf(',')+1);
+            String Lng = point.substring(point.indexOf(',')+2);
             // Test if Lat and Lng are numbers
             if (Lat.matches("-?\\d+([.]{1}\\d+)?") && Lng.matches("-?\\d+([.]{1}\\d+)?"))
             {
