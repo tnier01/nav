@@ -8,9 +8,10 @@ import java.util.List;
 public class Offroute {
 
     Schnitstelle geocoder = new Schnitstelle();
+    Eingabetransformator eingabetrans = new Eingabetransformator();
 
     /**
-     * checks if a point is part of the given route
+     * checks if the streetname of a point is part of the given route
      *
      * @param route route as DirectionsRoute to test if the point is part of it
      * @param point point as String to test if it is on the route
@@ -20,9 +21,9 @@ public class Offroute {
     public boolean stillOnRoute(DirectionsRoute route, String point) throws IOException {
         boolean onRoute = false;
 
-        List<CarmenFeature> pointInfo = geocoder.geocodeToObj(point);
+        CarmenFeature pointInfo = eingabetrans.transformPoint(point);
         // the streetname of the point
-        String street = pointInfo.get(0).text();
+        String street = pointInfo.text();
 
         // all legs
         for (int j = 0; j < route.legs().size(); j++) {
@@ -45,10 +46,9 @@ public class Offroute {
                     List<CarmenFeature> routePointCarmen = geocoder.geocodeToAdress(routePoint);
 
                     // is it the street in the same city or in another
-                    if (routePointCarmen.get(0).context().get(0).text().equals(pointInfo.get(0).context().get(0).text())) {
+                    if (routePointCarmen.get(0).context().get(0).text().equals(pointInfo.context().get(0).text())) {
                         onRoute = true;
                     }
-
 
 
                 }

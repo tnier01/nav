@@ -31,6 +31,14 @@ public class Ausgabe {
                 }
 
                 System.out.println(naviList.legs().get(j).steps().get(i).voiceInstructions().get(instructionSize - 1).announcement());
+                /*
+                try {
+                    Thread.sleep(500);
+                } catch(Exception e) {
+
+                }
+                */
+
             }
 
 

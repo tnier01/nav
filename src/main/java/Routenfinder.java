@@ -59,9 +59,9 @@ public class Routenfinder {
 
     /**
      * checks if a point is on the input route
-     * if it is not a new route from the input point to the destination of the inputRoute will be calculated
-     * and returned
-     * if the point is on the route the original route will be returned
+     * if its streetname is not part of the route, a new route from the input point to the destination of the inputRoute
+     * will be calculated and returned
+     * if the streetname of the point is on the route, the original route will be returned
      *
      * @param inputRoute route to check if the point is part of it
      * @param point point to check if it is on the route
