@@ -27,11 +27,16 @@ public class Offroute {
         for (int j = 0; j < route.legs().size(); j++) {
 
             for (int i = 0; i < route.legs().get(j).steps().size(); i++) {
-                // is one of the streets in the route the same as of the point
-                if (street.equals(route.legs().get(j).steps().get(i).name()
-                        .substring(0, Math.min(street.length()-1, route.legs().get(j).steps().get(i).name().length()-1)))) {
-                    onRoute = true;
+                // name of the street on the route
+                String routeStreet = route.legs().get(j).steps().get(i).name();
 
+                System.out.println(routeStreet);
+
+                // is one of the streets in the route the same as of the point
+                if (street.equals(routeStreet
+                        .substring(0, Math.min(street.length(), routeStreet.length())))) {
+                    // onRoute = true;
+                    // Equal Point on the route
                     Point routePoint = route
                             .legs()
                             .get(j)
@@ -41,7 +46,7 @@ public class Offroute {
                     List<CarmenFeature> routePointCarmen = geocoder.geocodeToAdress(routePoint);
 
                     // is it the street in the same city or in another
-                    if (routePointCarmen.get(0).context().get(0).text() == pointInfo.get(0).context().get(0).text()) {
+                    if (routePointCarmen.get(0).context().get(0).text().equals(pointInfo.get(0).context().get(0).text())) {
                         onRoute = true;
                     }
 
