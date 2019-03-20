@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Methods to calculate routes out of different kinds of waypoints.
+ *
+ */
 public class RouteFinder {
 
     private transformInsertion transformer=new transformInsertion();
@@ -16,11 +20,11 @@ public class RouteFinder {
     private Offroute offroute = new Offroute();
 
     /**
-     * get the streetname of a chosen point
+     * Get the streetname of the input point.
      *
-     * @param point String of a point
+     * @param point String of a point to get the address from
      * @return the description / placeName of the point
-     * @throws IOException
+     * @throws IOException cant connect to mapbox
      */
     public String getAdress(String point) throws IOException {
         if(point.length()==0)
@@ -37,12 +41,12 @@ public class RouteFinder {
     }
 
     /**
-     * calculates a DirectionsRoute for the given waypoints and profile
+     * Calculates a DirectionsRoute route for the given waypoints and a profile.
      *
      * @param stringWaypoints List of String waypoints for the route calculation
      * @param profile profile to use for calculation (driving, driving-traffic, cycling, walking)
      * @return calculated DirectionsRoute
-     * @throws IOException
+     * @throws IOException cant connect to mapbox
      */
     public DirectionsRoute getListRoute(List<String> stringWaypoints, String profile) throws IOException {
 
@@ -61,10 +65,10 @@ public class RouteFinder {
     }
 
     /**
-     * checks if a point is on the input route
-     * if its streetname is not part of the route, a new route from the input point to the destination of the inputRoute
-     * will be calculated and returned
-     * if the streetname of the point is on the route, the original route will be returned
+     * Checks if a point (its street name) is part of a route.
+     * If its streetname is not part of the route, a new route from the input point to the destination of the
+     * inputRoute will be calculated and returned. If the streetname of the point is on the route,
+     * the input route will be returned.
      *
      * @param inputRoute route to check if the point is part of it
      * @param point point to check if it is on the route
@@ -104,14 +108,26 @@ public class RouteFinder {
         return inputRoute;
     }
 
-    public boolean stillOnRoute(DirectionsRoute route, String input) throws IOException
+    /**
+     * Returns a route depending on if a point is part of it or not.
+     * Checks whether the street name of the point is part of the input route.
+     * If its not a new route from the point to the destination of the input route is calculated.
+     * If the point is part of the route, the input route is returned.
+     *
+     * @param route route to test if a point is part of it
+     * @param point point to test whether its street name is part of the route
+     * @return input route when the point is part of the route
+     *         new route from point to the destination of the input route
+     * @throws IOException cant connect to mapbox
+     */
+    public boolean stillOnRoute(DirectionsRoute route, String point) throws IOException
     {
-        return offroute.stillOnRoute(route, input);
+        return offroute.stillOnRoute(route, point);
     }
 
 
     /**
-     * Open the ConnectionMapbox.IMapbox to save the map
+     * Open the ConnectionMapbox.IMapbox to save the map.
      * @param waypoints the List of Waypoints
      * @param route the calculated route
      */
