@@ -78,6 +78,7 @@ public class Routenfinder {
                     .location()
             );
             DirectionsRoute newRoute = schnitstelle.getListRoute(newWaypoints, profile);
+            getMap(newWaypoints, newRoute);
             return newRoute;
         }
         return inputRoute;
