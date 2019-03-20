@@ -1,4 +1,5 @@
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ public class Prototyp {
      * The user insert a location, then the program is printing the location which the API is recognizing with regard
      * to the input of the user. If the user is content with this location, the program use this location, if not
      * this method gets called recursively.
+     *
      * @param input
      * @return the final input which gets used
      * @throws IOException
@@ -33,8 +35,7 @@ public class Prototyp {
 
         if (input9.equals("yes")) {
             return input;
-        }
-        else {
+        } else {
             System.out.println("Insert a more detailed adress!");
             String input10 = sc.nextLine();
             System.out.println("input: " + input10);
@@ -44,6 +45,7 @@ public class Prototyp {
 
     /**
      * Modularized method, in case the input differs from "yes" and "no".
+     *
      * @param x
      * @param scanner
      * @return correct input
@@ -59,7 +61,8 @@ public class Prototyp {
 
     /**
      * Modularized method, for a further input, a new waypoint
-     * @param scanner the Scanner, which reads the input
+     *
+     * @param scanner   the Scanner, which reads the input
      * @param waypoints the list of waypoints to visit
      */
     private static void inputWaypoint(Scanner scanner, List<String> waypoints) throws IOException {
@@ -81,7 +84,8 @@ public class Prototyp {
      * - input different amount of waypoints (one in profile driving-traffic, up to 25 in the other profiles)
      * - input check/ restart/ exit
      * - output duration + distance of route, route description, map of the route with marked origin, destination,
-     *   waypoints
+     * waypoints
+     *
      * @param args
      * @throws IOException
      */
@@ -142,7 +146,7 @@ public class Prototyp {
                         input5 = sc.nextLine();
 
                         // if there is a wrong word which differs from yes or no, repeat the selection
-                        input5= ifInputWrong(input5, sc);
+                        input5 = ifInputWrong(input5, sc);
 
                         // if the users wants a further waypoint he can insert it
                         if (input5.equals("yes")) {
@@ -224,54 +228,63 @@ public class Prototyp {
         actual location.
          */
         while (running) {
-            // input by the user
-            System.out.println("Insert " + (char) 34 + "check" + (char) 34 +
-                    " to proof if you are still on the route, insert " + (char) 34 + "exit" + (char) 34 +
-                    " to leave the program and insert " + (char) 34 + "restart" + (char) 34 +
-                    " to restart the program!");
-            input6 = sc.nextLine();
-            System.out.println("answer: " + input6);
-
-            // wrong input
-            while (!input6.equals("check") && !input6.equals("exit") && !input6.equals("restart")) {
-                System.out.println("You used a word which differs from no or yes! Please select again!");
+            try {
+                // input by the user
+                System.out.println("Insert " + (char) 34 + "check" + (char) 34 +
+                        " to proof if you are still on the route, insert " + (char) 34 + "exit" + (char) 34 +
+                        " to leave the program and insert " + (char) 34 + "restart" + (char) 34 +
+                        " to restart the program!");
                 input6 = sc.nextLine();
                 System.out.println("answer: " + input6);
-            }
 
-            // restart
-            if (input6.equals("restart")) {
-                main(args);
-            }
-
-            // exit
-            if (input6.equals("exit")) {
-                System.exit(0);
-            }
-
-            // check
-            if (input6.equals("check")) {
-
-                System.out.println("Please insert your actual position " +
-                        "(the way you did it with origin, destination and waypoint)?");
-                input7 = sc.nextLine();
-                input7 = likeInput(input7);
-                System.out.println("answer: " + input7);
-                stillOnRoute = offroute.stillOnRoute(naviList, input7);
-
-                if (stillOnRoute == true) {
-                    System.out.println("You are still on route!");
+                // wrong input
+                while (!input6.equals("check") && !input6.equals("exit") && !input6.equals("restart")) {
+                    System.out.println("You used a word which differs from no or yes! Please select again!");
+                    input6 = sc.nextLine();
+                    System.out.println("answer: " + input6);
                 }
 
-                if (stillOnRoute == false) {
-                    System.out.println("You have left the route, " +
-                            "the route gets recalculated from your actual destination1");
-                    DirectionsRoute naviListNew = navigation.goneAstray(naviList, input7);
-
-                    output.output(input7,input2, naviListNew);
-                    map.showMap();
+                // restart
+                if (input6.equals("restart")) {
+                    main(args);
                 }
+
+                // exit
+                if (input6.equals("exit")) {
+                    System.exit(0);
+                }
+
+                // check
+                if (input6.equals("check")) {
+
+                    System.out.println("Please insert your actual position " +
+                            "(the way you did it with origin, destination and waypoint)?");
+                    input7 = sc.nextLine();
+                    input7 = likeInput(input7);
+                    System.out.println("answer: " + input7);
+                    stillOnRoute = offroute.stillOnRoute(naviList, input7);
+
+                    if (stillOnRoute == true) {
+                        System.out.println("You are still on route!");
+                    }
+
+                    if (stillOnRoute == false) {
+                        System.out.println("You have left the route, " +
+                                "the route gets recalculated from your actual destination!");
+                        DirectionsRoute naviListNew = navigation.goneAstray(naviList, input7);
+
+                        output.output(input7, input2, naviListNew);
+                        map.showMap();
+                    }
+                }
+            } catch (Exception e) {
+                    /*
+                    If there is an exception the program restarts this while-loop and the user is able to decide
+                    if he like to check again, restart or end the program.
+                    */
+                System.err.println("The input is wrong cause: " + e.getMessage());
             }
+
         }
     }
 }
