@@ -1,5 +1,8 @@
 import com.mapbox.api.directions.v5.DirectionsCriteria;
 
+/**
+ * Class for realization of a method to switch the profile.
+ */
 public class ProfileSwitcher {
     /**
      * method which switch between the three different profiles "driving", "driving-traffic", "walking", "cycling" depending on input.
