@@ -10,10 +10,11 @@ public class Offroute {
     Schnitstelle geocoder = new Schnitstelle();
 
     /**
+     * checks if a point is part of the given route
      *
-     * @param route
-     * @param point
-     * @return
+     * @param route route as DirectionsRoute to test if the point is part of it
+     * @param point point as String to test if it is on the route
+     * @return true if the point is on the route, false if not
      * @throws IOException
      */
     public boolean stillOnRoute(DirectionsRoute route, String point) throws IOException {
@@ -23,19 +24,17 @@ public class Offroute {
         // the streetname of the point
         String street = pointInfo.get(0).text();
 
-        System.out.println(street);
+        // all legs
         for (int j = 0; j < route.legs().size(); j++) {
-
+            // every step per leg
             for (int i = 0; i < route.legs().get(j).steps().size(); i++) {
                 // name of the street on the route
                 String routeStreet = route.legs().get(j).steps().get(i).name();
 
-                System.out.println(routeStreet);
-
                 // is one of the streets in the route the same as of the point
                 if (street.equals(routeStreet
                         .substring(0, Math.min(street.length(), routeStreet.length())))) {
-                    // onRoute = true;
+
                     // Equal Point on the route
                     Point routePoint = route
                             .legs()

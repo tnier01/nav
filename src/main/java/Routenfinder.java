@@ -12,6 +12,13 @@ public class Routenfinder {
     Schnitstelle schnitstelle= new Schnitstelle();
     Offroute offroute = new Offroute();
 
+    /**
+     * get the streetname of a chosen point
+     *
+     * @param point String of a point
+     * @return the description / placeName of the point
+     * @throws IOException
+     */
     public String getAdress(String point) throws IOException {
         if(point.length()==0)
         {
