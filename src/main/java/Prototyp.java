@@ -198,7 +198,7 @@ public class Prototyp {
 
                 // if the user do not wont to restart the program ends
                 if (input4.equals("no")) {
-                    System.exit(1);
+                    System.exit(0);
                 }
 
                 // if there is a wrong word which differs from yes or no, repeat the selection
@@ -246,7 +246,7 @@ public class Prototyp {
 
             // exit
             if (input6.equals("exit")) {
-                System.exit(1);
+                System.exit(0);
             }
 
             // check
