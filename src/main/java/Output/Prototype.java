@@ -24,7 +24,7 @@ public class Prototype {
      *
      * @param args arguments needed to start the main method
      */
-    public static void main(String[] args){
+    public static void main(String[] args) {
         RouteFinder navigation = new RouteFinder();
 
         DirectionsRoute naviList;
@@ -142,13 +142,16 @@ public class Prototype {
                 waypoints.clear();
 
                 // if the user do not wont to restart the program ends
-                if (inputLikeToRestart.equals("no")) {
-                    System.exit(0);
+                boolean inputNotYesOrNo = true;
+                while (inputNotYesOrNo) {
+                    if (inputLikeToRestart.equals("no")) {
+                        System.exit(0);
+                    } else {
+                        inputNotYesOrNo = false;
+                    }
+                    // if there is a wrong word which differs from yes or no, repeat the selection
+                    inputLikeToRestart = ifInputNotYesOrNo(inputLikeToRestart, sc);
                 }
-
-                // if there is a wrong word which differs from yes or no, repeat the selection
-                ifInputNotYesOrNo(inputLikeToRestart, sc);
-
             }
         }
 
@@ -266,7 +269,7 @@ public class Prototype {
      * Method, in case the input differs from "yes" and "no".
      *
      * @param inputNotYesOrNo the input which differs from no or yes
-     * @param scanner the used scanner
+     * @param scanner         the used scanner
      * @return correct input
      */
     private static String ifInputNotYesOrNo(String inputNotYesOrNo, Scanner scanner) {
