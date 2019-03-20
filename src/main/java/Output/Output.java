@@ -1,19 +1,16 @@
-package Navigation;
+package Output;
 
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 
-import java.io.IOException;
-
 //import org.graalvm.compiler.loop.InductionVariable;
-
-public class Ausgabe {
+ class Output {
 
     /**
      * gives some navigation instructions for the route on the run console
 
-     * @throws IOException
+     *
      */
-    public void output(String origin, String destination, DirectionsRoute naviList) throws IOException {
+    protected void output(String origin, String destination, DirectionsRoute naviList) {
 
         System.out.println("Distance of the Route: " + (double) Math.round(naviList.distance()/10)/100 + " kilometers");
         System.out.println("Duration of the Route: " + Math.round(naviList.duration()/3600) + " Hours " + Math.round(naviList.duration()%3600/60) + " Minutes");

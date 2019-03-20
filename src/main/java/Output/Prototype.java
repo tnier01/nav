@@ -1,5 +1,6 @@
-package Navigation;
+package Output;
 
+import Navigation.RouteFinder;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 
 import java.io.IOException;
@@ -8,9 +9,9 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Class for implementation of the Navigation.Prototyp, at least our user-interface.
+ * Class for implementation of the Output.Prototype, at least our user-interface.
  */
-public class Prototyp {
+public class Prototype {
 
     /**
      * Modularized method to check if the user is content with the by the program proposed location.
@@ -23,7 +24,7 @@ public class Prototyp {
      * @throws IOException
      */
     private static String likeInput(String input) throws IOException {
-        Routenfinder navigation = new Routenfinder();
+        RouteFinder navigation = new RouteFinder();
         // Create a new object for the input
         Scanner sc = new Scanner(System.in);
 
@@ -91,14 +92,13 @@ public class Prototyp {
      * @param args
      * @throws IOException
      */
-    public static void main(String[] args) throws IOException {
-        Routenfinder navigation = new Routenfinder();
-        Offroute offroute = new Offroute();
+    public static void main(String[] args){
+        RouteFinder navigation = new RouteFinder();
 
         DirectionsRoute naviList;
         String input1, input2, input3, input4, input5, input6, input7;
         List<String> waypoints = new ArrayList<>();
-        boolean stillOnRoute = false;
+        boolean stillOnRoute;
         boolean running = true;
 
         /*
@@ -214,7 +214,7 @@ public class Prototyp {
         }
 
         // output with
-        Ausgabe output = new Ausgabe();
+        Output output = new Output();
         output.output(input1, input2, naviList);
 
         // creating map
@@ -264,13 +264,13 @@ public class Prototyp {
                     input7 = sc.nextLine();
                     input7 = likeInput(input7);
                     System.out.println("answer: " + input7);
-                    stillOnRoute = offroute.stillOnRoute(naviList, input7);
+                    stillOnRoute = navigation.stillOnRoute(naviList, input7);
 
-                    if (stillOnRoute == true) {
+                    if (stillOnRoute) {
                         System.out.println("You are still on route!");
                     }
 
-                    if (stillOnRoute == false) {
+                    if (!stillOnRoute) {
                         System.out.println("You have left the route, " +
                                 "the route gets recalculated from your actual destination!");
                         DirectionsRoute naviListNew = navigation.goneAstray(naviList, input7);

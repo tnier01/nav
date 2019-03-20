@@ -1,71 +1,69 @@
-import Navigation.Eingabetransformator;
-import Navigation.Offroute;
 import Navigation.ProfileSwitcher;
-import Navigation.Routenfinder;
+import Navigation.RouteFinder;
+import Navigation.transformInsertion;
 import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.core.exceptions.ServicesException;
 import com.mapbox.geojson.Point;
+import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class Testclass {
 
     @Test
     public void testRoutenfinder() throws IOException {
 
-        Routenfinder testNav = new Routenfinder();
+        RouteFinder testNav = new RouteFinder();
         List waypoints = new ArrayList();
         waypoints.add("berlin");waypoints.add("washington");
-        /*class Navigation.Routenfinder
+        /*class Navigation.RouteFinder
 
         method 1: public DirectionsRoute getListRoute(List<String> stringWaypoints, String profile) throws IOException
          possibilities:
              input is a not existing location -> IOException */
-        Throwable ex= assertThrows(IllegalArgumentException.class,
+        Throwable ex= Assertions.assertThrows(IllegalArgumentException.class,
                 () -> {
                     testNav.getListRoute(waypoints, "car");
                 },
                 "no ArgumentException thrown in getListRoute");
-        assertEquals(ex.getMessage(),"no legal profile");
-        ex= assertThrows(IllegalArgumentException.class,
+        Assert.assertEquals(ex.getMessage(),"no legal profile");
+        ex= Assertions.assertThrows(IllegalArgumentException.class,
                 () -> {
                     testNav.getListRoute(waypoints, "driving");
                 },
                 "no ArgumentException thrown in getListRoute");
-        assertEquals(ex.getMessage(),"No routes found");
+        Assert.assertEquals(ex.getMessage(),"No routes found");
 
-        ex= assertThrows(IllegalArgumentException.class,
+        ex= Assertions.assertThrows(IllegalArgumentException.class,
                 () -> {
                     testNav.getAdress(":(");
                 },
                 "no ArgumentException thrown in getListRoute");
-        assertEquals(ex.getMessage(),"The Point :( was not found");
+        Assert.assertEquals(ex.getMessage(),"The Point :( was not found");
 
         waypoints.add("");
-        ex= assertThrows(IllegalArgumentException.class,
+        ex= Assertions.assertThrows(IllegalArgumentException.class,
                 () -> {
                     testNav.getAdress("");
                 },
                 "no ArgumentException thrown in getListRoute");
-        assertEquals(ex.getMessage(),"No insertion for this Waypoint");
+        Assert.assertEquals(ex.getMessage(),"No insertion for this Waypoint");
 
-        assertEquals(testNav.getAdress("Köln"), "Köln, Nordrhein-Westfalen, Germany");
+        Assert.assertEquals(testNav.getAdress("Köln"), "Köln, Nordrhein-Westfalen, Germany");
 
-        assertEquals(testNav.getAdress("50.94222, 6.95778"), "a-Passage, 50667 Köln, Germany");
+        Assert.assertEquals(testNav.getAdress("50.94222, 6.95778"), "a-Passage, 50667 Köln, Germany");
 
         List<String> newWaypoints= new ArrayList();
 
         newWaypoints.add("Krefeld");newWaypoints.add("Raesfeld");
         DirectionsRoute route = testNav.getListRoute(newWaypoints, DirectionsCriteria.PROFILE_DRIVING);
 
-        assertEquals(testNav.goneAstray(route,"Ostwall, Krefeld"), route);
+        Assert.assertEquals(testNav.goneAstray(route,"Ostwall, Krefeld"), route);
 
         List<String> newWaypoints2 = new ArrayList<>();
         newWaypoints2.add("Ostwall, Berlin");newWaypoints2.add("Raesfeld");
@@ -103,39 +101,39 @@ public class Testclass {
     @Test
     public void testEingabetransformator() throws IOException {
 
-        Eingabetransformator testEt = new Eingabetransformator();
+        transformInsertion testEt = new transformInsertion();
         /*
-    class Navigation.Eingabetransformator
+    class Navigation.transformInsertion
 
         method 1: transformPoint(String point): Point
             possibilities:*/
         // input is not a point or a existing location -> IOException
         //assertEquals(testEt.transformPoint("no Point"), IOException)
-        Throwable ex= assertThrows(ServicesException.class,
+        Throwable ex= Assertions.assertThrows(ServicesException.class,
                 () -> {
                     testEt.transformPoint("");
                 },
                 "no IOException thrown in transformPoint");
-        assertEquals(ex.getMessage(), "A query with at least one character or digit is required.");
+        Assert.assertEquals(ex.getMessage(), "A query with at least one character or digit is required.");
         // example 1: transformPoint("hamburg") -> [10.0, 53.55]
         Point p=Point.fromLngLat(10.0, 53.55);
 
-        assertEquals(testEt.transformPoint("hamburg").center(), p);
+        Assert.assertEquals(testEt.transformPoint("hamburg").center(), p);
         p=Point.fromLngLat(9.999952, 53.54987);
         // example 2: transformPoint("10.0, 53.55") -> [9.999953, 53.54978]
-        assertEquals(testEt.transformPoint("53.55, 10.0").center(), p);
+        Assert.assertEquals(testEt.transformPoint("53.55, 10.0").center(), p);
         // example 3: transformPoint("köln") -> [6.95778, 50.94222]
         p= Point.fromLngLat(6.95778, 50.94222);
-        assertEquals(testEt.transformPoint("köln").center(), p);
+        Assert.assertEquals(testEt.transformPoint("köln").center(), p);
 
         p=Point.fromLngLat(6.958112, 50.94232);
 
         // example 4: transformPoint("6.95778, 50.94222") -> [6.95778, 50.94222]
-        assertEquals(testEt.transformPoint("50.94222, 6.95778").center(), p);
+        Assert.assertEquals(testEt.transformPoint("50.94222, 6.95778").center(), p);
 
         p= Point.fromLngLat( 7.640063, 51.95173);
-        assertEquals(testEt.transformPoint("Hafen, Münster").center(), p);
-        assertEquals(testEt.transformPoint("Hafen Münster").center(), p);
+        Assert.assertEquals(testEt.transformPoint("Hafen, Münster").center(), p);
+        Assert.assertEquals(testEt.transformPoint("Hafen Münster").center(), p);
 
 /*
         method 2: transformiereProfile(): String
@@ -148,16 +146,15 @@ public class Testclass {
     @Test
     public void testOffroute() throws  IOException{
 
-        Offroute offTester = new Offroute();
-        Routenfinder naviTest = new Routenfinder();
+        RouteFinder naviTest = new RouteFinder();
         List<String> waypoints = new ArrayList<>();
         waypoints.add("Krefeld");
         waypoints.add("Raesfeld");
 
         DirectionsRoute route= naviTest.getListRoute(waypoints, DirectionsCriteria.PROFILE_DRIVING);
 
-        assertEquals(offTester.stillOnRoute(route, "Ostwall, Krefeld"), true);
-        assertEquals(offTester.stillOnRoute(route, "Ostwall, Berlin"), false);
+        Assert.assertEquals(naviTest.stillOnRoute(route, "Ostwall, Krefeld"), true);
+        Assert.assertEquals(naviTest.stillOnRoute(route, "Ostwall, Berlin"), false);
 
     }
 
@@ -171,26 +168,26 @@ public class Testclass {
             possibilities:*/
         //switchProfile(" ") -> IllegalArgumentException("no legal profile")
         //assertEquals(testPS.switchProfile(" "),IllegalArgumentException)
-        Throwable ex = assertThrows(IllegalArgumentException.class,
+        Throwable ex = Assertions.assertThrows(IllegalArgumentException.class,
                 () -> {
                     testPS.switchProfile("car");
                 },"no IllegalArgumentException thrown");
-        assertEquals(ex.getMessage(),"no legal profile");
+        Assert.assertEquals(ex.getMessage(),"no legal profile");
         // switchProfile("driving") -> "DirectionsCriteria.PROFILE_DRIVING"
-            assertEquals(testPS.switchProfile("driving"), DirectionsCriteria.PROFILE_DRIVING);
+            Assert.assertEquals(testPS.switchProfile("driving"), DirectionsCriteria.PROFILE_DRIVING);
         //switchProfile("driving-traffic") -> "DirectionsCriteria.PROFILE_DRIVING_TRAFFIC"
-            assertEquals(testPS.switchProfile("driving-traffic"), DirectionsCriteria.PROFILE_DRIVING_TRAFFIC);
+            Assert.assertEquals(testPS.switchProfile("driving-traffic"), DirectionsCriteria.PROFILE_DRIVING_TRAFFIC);
         //switchProfile("walking") -> "DirectionsCriteria.PROFILE_WALKING"
-            assertEquals(testPS.switchProfile("walking"),DirectionsCriteria.PROFILE_WALKING);
+            Assert.assertEquals(testPS.switchProfile("walking"),DirectionsCriteria.PROFILE_WALKING);
         //switchProfile("cycling") -> "DirectionsCriteria.PROFILE_CYCLING"
-            assertEquals(testPS.switchProfile("cycling"),DirectionsCriteria.PROFILE_CYCLING);
+            Assert.assertEquals(testPS.switchProfile("cycling"),DirectionsCriteria.PROFILE_CYCLING);
 
     }
 /*
     @Test
     public void testSchnittstelle() throws IOException {
 
-        Navigation.Schnitstelle testS = new Navigation.Schnitstelle();
+        ConnectionMapbox.IMapbox testS = new ConnectionMapbox.IMapbox();
         List waypoints = new ArrayList();
         waypoints.add("");waypoints.add("");
    class Schnittstelle

@@ -31,7 +31,7 @@
                             <shadedArtifactAttached>true</shadedArtifactAttached>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>Navigation.Prototyp</mainClass>
+                                    <mainClass>Output.Prototype</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

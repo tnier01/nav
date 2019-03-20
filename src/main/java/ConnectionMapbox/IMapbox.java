@@ -1,4 +1,4 @@
-package Navigation;
+package ConnectionMapbox;
 
 import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.MapboxDirections;
@@ -25,7 +25,7 @@ import java.util.List;
 import static com.mapbox.core.constants.Constants.PRECISION_6;
 
 
-public class Schnitstelle {
+public class IMapbox {
 
 
     private DirectionsRoute currentRoute;
@@ -89,7 +89,7 @@ public class Schnitstelle {
      * @throws IOException
      */
     public List<CarmenFeature> geocodeToAdress(Point insert) throws IOException {
-        List<CarmenFeature> results = null;
+        List<CarmenFeature> results;
         //build geocoder
         MapboxGeocoding.Builder mapboxGeocoding = MapboxGeocoding.builder()
                 .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
@@ -120,7 +120,7 @@ public class Schnitstelle {
      * @throws IOException
      */
     public List<CarmenFeature> geocodeToObj(String insert) throws IOException {
-        List<CarmenFeature> results = null;
+        List<CarmenFeature> results;
         //build geocoder
         MapboxGeocoding.Builder mapboxGeocoding = MapboxGeocoding.builder()
                 .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
@@ -143,7 +143,7 @@ public class Schnitstelle {
     }
 
     /**
-     * Saves a Navigation.Map of the route as map
+     * Saves a Output.Map of the route as map
      * @param route the calculated route
      */
         public void getMap(List<Point> waypoints, DirectionsRoute route)
@@ -197,7 +197,7 @@ public class Schnitstelle {
 
             marker.add(destinationMarke);
 
-            // create a Valid URL to get a Navigation.Map with the route and Markes for Start and Origin
+            // create a Valid URL to get a Output.Map with the route and Markes for Start and Origin
             MapboxStaticMap staticImage = MapboxStaticMap.builder()
                     .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZTNoZ3czMnYxcTNrczE2OTZxbHdsMiJ9.aHG4oyq2cE57oNFq0irkbA")
                     .styleId(StaticMapCriteria.NAVIGATION_GUIDANCE_DAY)

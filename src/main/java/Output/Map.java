@@ -1,13 +1,12 @@
-package Navigation;
+package Output;
 
 import javax.swing.*;
-import java.io.IOException;
 
-public class Map {
-
+class Map {
 
 
-public void showMap() throws IOException {
+
+protected void showMap(){
     JFrame map = new JFrame("Route");
 
 

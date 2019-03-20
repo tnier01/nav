@@ -1,14 +1,14 @@
 package Navigation;
 
+import ConnectionMapbox.IMapbox;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.geojson.Point;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 
-public class Eingabetransformator {
+ class transformInsertion {
 
     /**
      * Transform a Insert to an Point
@@ -16,10 +16,10 @@ public class Eingabetransformator {
      * @return the resolved Point
      * @throws IOException
      */
-    public CarmenFeature transformPoint(String point) throws IOException {
-        List<CarmenFeature> results= new ArrayList<>();
+    protected CarmenFeature transformPoint(String point) throws IOException {
+        List<CarmenFeature> results;
         CarmenFeature resultFeature = null;
-        Schnitstelle schnitstelle = new Schnitstelle();
+        IMapbox anIMapbox = new IMapbox();
         //check
         if(point.indexOf(',') != -1) {
             // Differs the Point in latitude and longitude
@@ -34,7 +34,7 @@ public class Eingabetransformator {
                 Point resultPoint = Point
                         .fromLngLat(lng,lat);
 
-                results= schnitstelle.geocodeToAdress(resultPoint);
+                results= anIMapbox.geocodeToAdress(resultPoint);
 
 
                //System.out.println(resultPoint);
@@ -43,11 +43,11 @@ public class Eingabetransformator {
             else
             {
 
-                results = schnitstelle.geocodeToObj(point); //Adresses were geocoded to a List of points
+                results = anIMapbox.geocodeToObj(point); //Adresses were geocoded to a List of points
             }
         }
         else {
-            results= schnitstelle.geocodeToObj(point); //Adresses were geocoded to a List of points
+            results= anIMapbox.geocodeToObj(point); //Adresses were geocoded to a List of points
         }
         if (results.size() > 0) {
             resultFeature = results.get(0);
@@ -61,7 +61,7 @@ public class Eingabetransformator {
      * @return the correct Profile
      */
 
-    public String transformProfile(String profile){
+    protected String transformProfile(String profile){
         ProfileSwitcher profileSwitcher= new ProfileSwitcher();
         return profileSwitcher.switchProfile(profile);
     }
