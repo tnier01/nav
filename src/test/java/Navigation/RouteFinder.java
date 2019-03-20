@@ -104,6 +104,14 @@ public class RouteFinder {
         return inputRoute;
     }
 
+    /**
+            * checks if the streetname of a point is part of the given route
+     *
+     * @param route route as DirectionsRoute to test if the point is part of it
+     * @param input point as String to test if it is on the route
+     * @return true if the point is on the route, false if not
+     * @throws IOException if
+            */
     public boolean stillOnRoute(DirectionsRoute route, String input) throws IOException
     {
         return offroute.stillOnRoute(route, input);
