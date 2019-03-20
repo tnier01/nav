@@ -29,7 +29,14 @@ public class Schnitstelle {
     private DirectionsRoute currentRoute;
 
 
-
+    /**
+     * calculates a route from a list of waypoints with a given profile
+     *
+     * @param waypoints List<Point> of waypoints
+     * @param profile profile to use for route calculation
+     * @return DirectionsRoute calculated out of the given waypoints
+     * @throws IOException
+     */
     public DirectionsRoute getListRoute(List<Point> waypoints, String profile) throws IOException{
 
         // client with thr routing criteria is build
@@ -41,7 +48,6 @@ public class Schnitstelle {
                 .steps(true)
                 .origin(waypoints.get(0))
                 .destination(waypoints.get(waypointsSize-1))
-                //.bannerInstructions(true)
                 .voiceInstructions(true)
                 .voiceUnits("metric")
                 .overview(DirectionsCriteria.OVERVIEW_SIMPLIFIED)
