@@ -73,14 +73,47 @@ public class Prototype {
                 inputProfile = sc.nextLine();
                 System.out.println("profile input: " + inputProfile);
 
+                boolean validInput=false;
+                while (!validInput) {
                 /*
                  If the input is driving, walking or cycling it is possible to enter 25 different waypoints and besides
                  one origin and one destination.
                   */
-                if (inputProfile.equals("driving") || inputProfile.equals("walking")
-                        || inputProfile.equals("cycling")) {
+                    if (inputProfile.equals("driving") || inputProfile.equals("walking")
+                            || inputProfile.equals("cycling")) {
+                        validInput=true;
 
-                    for (int i = 0; i < 23; i++) {
+                        for (int i = 0; i < 23; i++) {
+
+                            // input decision if there will be an further waypoint
+                            System.out.println("Would you like to add another point (yes/no)?");
+                            System.out.println("You are still able to add " +(23-i) +" waypoints");
+                            inputLikeToAddNewWaypoint = sc.nextLine();
+
+                            // if there is a wrong word which differs from yes or no, repeat the selection
+                            inputLikeToAddNewWaypoint = ifInputNotYesOrNo(inputLikeToAddNewWaypoint, sc);
+
+                            // if the users wants a further waypoint he can insert it
+                            if (inputLikeToAddNewWaypoint.equals("yes")) {
+                                // if the limit of waypoints is reached the user gets a notification
+                                if (i > 21) {
+                                    System.out.println("Last possible waypoint!");
+                                }
+                                inputWaypoint(sc, waypoints);
+                            }
+                            // if the user wants no new waypoint the route is printed
+                            if (inputLikeToAddNewWaypoint.equals("no")) {
+                                break;
+                            }
+                        }
+                    }
+
+                /*
+                 If the input is driving-traffic it is possible to enter one more waypoint and besides
+                 one origin and one destination.
+                  */
+                    else if (inputProfile.equals("driving-traffic")) {
+                        validInput=true;
 
                         // input decision if there will be an further waypoint
                         System.out.println("Would you like to add another point (yes/no)?");
@@ -89,37 +122,14 @@ public class Prototype {
                         // if there is a wrong word which differs from yes or no, repeat the selection
                         inputLikeToAddNewWaypoint = ifInputNotYesOrNo(inputLikeToAddNewWaypoint, sc);
 
-                        // if the users wants a further waypoint he can insert it
+                        // if input is "yes" there is the possibility to add a new waypoint, if no the route gets calculated
                         if (inputLikeToAddNewWaypoint.equals("yes")) {
-                            // if the limit of waypoints is reached the user gets a notification
-                            if (i > 21) {
-                                System.out.println("Last possible waypoint!");
-                            }
                             inputWaypoint(sc, waypoints);
                         }
-                        // if the user wants no new waypoint the route is printed
-                        if (inputLikeToAddNewWaypoint.equals("no")) {
-                            break;
-                        }
                     }
-                }
-
-                /*
-                 If the input is driving-traffic it is possible to enter one more waypoint and besides
-                 one origin and one destination.
-                  */
-                if (inputProfile.equals("driving-traffic")) {
-
-                    // input decision if there will be an further waypoint
-                    System.out.println("Would you like to add another point (yes/no)?");
-                    inputLikeToAddNewWaypoint = sc.nextLine();
-
-                    // if there is a wrong word which differs from yes or no, repeat the selection
-                    inputLikeToAddNewWaypoint = ifInputNotYesOrNo(inputLikeToAddNewWaypoint, sc);
-
-                    // if input is "yes" there is the possibility to add a new waypoint, if no the route gets calculated
-                    if (inputLikeToAddNewWaypoint.equals("yes")) {
-                        inputWaypoint(sc, waypoints);
+                    else{
+                        System.out.println("No legal profile! Please select again");
+                        inputProfile=sc.nextLine();
                     }
                 }
 
@@ -273,7 +283,7 @@ public class Prototype {
         } catch (IllegalArgumentException e) {
             System.out.println("The input is wrong because: " + e.getMessage());
             System.out.println("Please insert an other description of the location or end the program with "
-                    + (char) 34 + "check" + (char) 34 + " !");
+                    + (char) 34 + "exit" + (char) 34 + " !");
             // Create a new object for the input
             Scanner sc = new Scanner(System.in);
             input = sc.nextLine();
