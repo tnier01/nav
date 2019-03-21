@@ -84,17 +84,17 @@ public class IMapbox {
 
     /**
      * Transform an Adress into an Mapbox Point
-     * @param insert the adress to geocode
+     * @param input the adress to geocode
      * @return a List of the geocoded reults
      * @throws IOException
      */
-    public List<CarmenFeature> geocodeToAdress(Point insert) throws IOException {
+    public List<CarmenFeature> geocodeToAdress(Point input) throws IOException {
         List<CarmenFeature> results;
         //build geocoder
         MapboxGeocoding.Builder mapboxGeocoding = MapboxGeocoding.builder()
                 .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
                 .geocodingTypes(GeocodingCriteria.TYPE_ADDRESS)
-                .query(insert);
+                .query(input);
 
         //get  the response
         Response<GeocodingResponse> response = mapboxGeocoding.build().executeCall();
@@ -115,16 +115,16 @@ public class IMapbox {
 
     /**
      * Transform an Adress into an Mapbox Point
-     * @param insert the adress to geocode
+     * @param input the adress to geocode
      * @return a List of the geocoded reults
      * @throws IOException
      */
-    public List<CarmenFeature> geocodeToObj(String insert) throws IOException {
+    public List<CarmenFeature> geocodeToObj(String input) throws IOException {
         List<CarmenFeature> results;
         //build geocoder
         MapboxGeocoding.Builder mapboxGeocoding = MapboxGeocoding.builder()
                 .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
-                .query(insert);
+                .query(input);
 
         //get  the response
         Response<GeocodingResponse> response = mapboxGeocoding.build().executeCall();
