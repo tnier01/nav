@@ -146,8 +146,8 @@ public class Prototype {
                 while (inputNotYesOrNo) {
                     if (inputLikeToRestart.equals("no")) {
                         System.exit(0);
-                    } else {
-                        inputNotYesOrNo = false;
+                    } else if (inputLikeToRestart.equals("yes")){
+                        break;
                     }
                     // if there is a wrong word which differs from yes or no, repeat the selection
                     inputLikeToRestart = ifInputNotYesOrNo(inputLikeToRestart, sc);
@@ -184,7 +184,7 @@ public class Prototype {
                 // wrong input
                 while (!inputWantToCheck.equals("check") && !inputWantToCheck.equals("exit")
                         && !inputWantToCheck.equals("restart")) {
-                    System.out.println("You used a word which differs from no or yes! Please select again!");
+                    System.out.println("You used a word which differs from check,exit or restart! Please select again!");
                     inputWantToCheck = sc.nextLine();
                     System.out.println("answer: " + inputWantToCheck);
                 }
