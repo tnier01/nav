@@ -87,7 +87,7 @@ public class Prototype {
 
                             // input decision if there will be an further waypoint
                             System.out.println("Would you like to add another point (yes/no)?");
-                            System.out.println("You are still able to add " +(23-i) +" waypoints");
+                            System.out.println("You are still able to add " +(23-i) +" waypoints!");
                             inputLikeToAddNewWaypoint = sc.nextLine();
 
                             // if there is a wrong word which differs from yes or no, repeat the selection
@@ -129,7 +129,7 @@ public class Prototype {
                     }
                     // User has to repeat the input if the input was no legal profile.
                     else{
-                        System.out.println("No legal profile! Please select again");
+                        System.out.println("No legal profile! Please select again!");
                         inputProfile=sc.nextLine();
                     }
                 }
