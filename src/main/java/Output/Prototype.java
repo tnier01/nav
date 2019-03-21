@@ -146,7 +146,7 @@ public class Prototype {
                 while (inputNotYesOrNo) {
                     if (inputLikeToRestart.equals("no")) {
                         System.exit(0);
-                    } else if (inputLikeToRestart.equals("yes")){
+                    } else if (inputLikeToRestart.equals("yes")) {
                         break;
                     }
                     // if there is a wrong word which differs from yes or no, repeat the selection
@@ -184,7 +184,8 @@ public class Prototype {
                 // wrong input
                 while (!inputWantToCheck.equals("check") && !inputWantToCheck.equals("exit")
                         && !inputWantToCheck.equals("restart")) {
-                    System.out.println("You used a word which differs from check,exit or restart! Please select again!");
+                    System.out.println("You used a word which differs from check,exit or restart! " +
+                            "Please select again!");
                     inputWantToCheck = sc.nextLine();
                     System.out.println("answer: " + inputWantToCheck);
                 }
@@ -243,25 +244,45 @@ public class Prototype {
      * @throws IOException if connection to mapbox fails
      */
     private static String doYouLikeInput(String input) throws IOException {
-        RouteFinder navigation = new RouteFinder();
-        // Create a new object for the input
-        Scanner sc = new Scanner(System.in);
+        try {
+            RouteFinder navigation = new RouteFinder();
+            // Create a new object for the input
+            Scanner sc = new Scanner(System.in);
 
-        System.out.println(navigation.getAdress(input));
-        System.out.println("Is this the right address (yes/no)?");
+            System.out.println(navigation.getAdress(input));
+            System.out.println("Is this the right address (yes/no)?");
 
-        String inputLikeTheAddress = sc.nextLine();
-        System.out.println("input: " + inputLikeTheAddress);
+            String inputLikeTheAddress = sc.nextLine();
+            System.out.println("input: " + inputLikeTheAddress);
 
-        inputLikeTheAddress = ifInputNotYesOrNo(inputLikeTheAddress, sc);
+            inputLikeTheAddress = ifInputNotYesOrNo(inputLikeTheAddress, sc);
 
-        if (inputLikeTheAddress.equals("yes")) {
-            return input;
-        } else {
-            System.out.println("Insert a more detailed address!");
-            String inputDetailedAddress = sc.nextLine();
-            System.out.println("input: " + inputDetailedAddress);
-            return doYouLikeInput(inputDetailedAddress);
+            if (inputLikeTheAddress.equals("yes")) {
+                return input;
+            } else {
+                System.out.println("Insert a more detailed address!");
+                String inputDetailedAddress = sc.nextLine();
+                System.out.println("input: " + inputDetailedAddress);
+                return doYouLikeInput(inputDetailedAddress);
+            }
+
+            /*
+            If the input is not assignably to a location by the API,
+            the user is able to end the program or the repeat the input.
+             */
+        } catch (IllegalArgumentException e) {
+            System.out.println("The input is wrong because: " + e.getMessage());
+            System.out.println("Please insert an other description of the location or end the program with "
+                    + (char) 34 + "check" + (char) 34 + " !");
+            // Create a new object for the input
+            Scanner sc = new Scanner(System.in);
+            input = sc.nextLine();
+
+            if (input.equals("exit")) {
+                System.exit(0);
+            }
+
+            return doYouLikeInput(input);
         }
     }
 
