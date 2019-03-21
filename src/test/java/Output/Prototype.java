@@ -38,7 +38,8 @@ public class Prototype {
 
         if (input9.equals("yes")) {
             return input;
-        } else {
+        }
+        else {
             System.out.println("Insert a more detailed adress!");
             String input10 = sc.nextLine();
             System.out.println("input: " + input10);
