@@ -136,16 +136,22 @@ public class Prototype {
                 input3 = sc.nextLine();
                 System.out.println("profile input: " + input3);
 
+                boolean noValidProfile= true;
+
+                while(noValidProfile){
+
                 /*
                  If the input is driving, walking or cycling it is possible to enter 25 different waypoints and besides
                  one origin and one destination.
                   */
                 if (input3.equals("driving") || input3.equals("walking") || input3.equals("cycling")) {
+                    noValidProfile = false;
 
                     for (int i = 0; i < 23; i++) {
 
                         // input decision if there will be an further waypoint
                         System.out.println("Would you like to add another point (yes/no)?");
+                        System.out.println("You are still able to add " +(23-i) +" Waypoints");
                         input5 = sc.nextLine();
 
                         // if there is a wrong word which differs from yes or no, repeat the selection
@@ -170,7 +176,8 @@ public class Prototype {
                  If the input is driving-traffic it is possible to enter one more waypoint and besides
                  one origin and one destination.
                   */
-                if (input3.equals("driving-traffic")) {
+               else  if (input3.equals("driving-traffic")) {
+                    noValidProfile = false;
 
                     // input decision if there will be an further waypoint
                     System.out.println("Would you like to add another point (yes/no)?");
@@ -182,6 +189,14 @@ public class Prototype {
                     // if input is "yes" there is the possibility to add a new waypoint, if no the route gets calculated
                     if (input5.equals("yes")) {
                         inputWaypoint(sc, waypoints);
+                    }
+                }
+
+               else
+                {
+                        System.out.println("No legal Profile, please select again");
+                        input3 = sc.nextLine();
+
                     }
                 }
 
