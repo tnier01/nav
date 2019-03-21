@@ -38,6 +38,7 @@ public class Prototype {
         List<String> waypoints = new ArrayList<>();
         boolean stillOnRoute;
         boolean running = true;
+        boolean legalInputProfile =false;
 
         /*
         input
@@ -73,15 +74,14 @@ public class Prototype {
                 inputProfile = sc.nextLine();
                 System.out.println("profile input: " + inputProfile);
 
-                boolean validInput=false;
-                while (!validInput) {
+                while (!legalInputProfile) {
                 /*
                  If the input is driving, walking or cycling it is possible to enter 25 different waypoints and besides
                  one origin and one destination.
                   */
                     if (inputProfile.equals("driving") || inputProfile.equals("walking")
                             || inputProfile.equals("cycling")) {
-                        validInput=true;
+                        legalInputProfile =true;
 
                         for (int i = 0; i < 23; i++) {
 
@@ -113,7 +113,7 @@ public class Prototype {
                  one origin and one destination.
                   */
                     else if (inputProfile.equals("driving-traffic")) {
-                        validInput=true;
+                        legalInputProfile =true;
 
                         // input decision if there will be an further waypoint
                         System.out.println("Would you like to add another point (yes/no)?");
@@ -127,6 +127,7 @@ public class Prototype {
                             inputWaypoint(sc, waypoints);
                         }
                     }
+                    // User has to repeat the input if the input was no legal profile.
                     else{
                         System.out.println("No legal profile! Please select again");
                         inputProfile=sc.nextLine();
@@ -283,7 +284,7 @@ public class Prototype {
         } catch (IllegalArgumentException e) {
             System.out.println("The input is wrong because: " + e.getMessage());
             System.out.println("Please insert an other description of the location or end the program with "
-                    + (char) 34 + "exit" + (char) 34 + " !");
+                    + (char) 34 + "exit" + (char) 34 + "!");
             // Create a new object for the input
             Scanner sc = new Scanner(System.in);
             input = sc.nextLine();
