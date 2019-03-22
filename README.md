@@ -8,4 +8,4 @@ Außerdem ist es möglich zu kontrollieren ob man noch auf der Route ist. Wenn n
 Berechnungen und Routenbeschreibungen beruhen auf der Mapbox API.
 
 javadoc for public Routefinder methods: 
-tnier01.github.io/nav/javadoc
+https://tnier01.github.io/nav/javadoc
