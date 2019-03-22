@@ -13,7 +13,7 @@ import com.mapbox.api.directions.v5.models.DirectionsRoute;
     void output(String origin, String destination, DirectionsRoute naviList) {
 
         System.out.println("Distance of the Route: " + (double) Math.round(naviList.distance()/10)/100 + " kilometers");
-        System.out.println("Duration of the Route: " + Math.round(naviList.duration()/3600) + " Hours " + Math.round(naviList.duration()%3600/60) + " Minutes");
+        System.out.println("Duration of the Route: " + (int) (naviList.duration()/3600) + " Hours " + Math.round(naviList.duration()%3600/60) + " Minutes");
         // print in which direction the user should drive on the first street
         System.out.println("navigation from " + origin + " to " + destination + ": \n" + naviList.legs().get(0).steps().get(0).maneuver().instruction());
 
@@ -30,13 +30,13 @@ import com.mapbox.api.directions.v5.models.DirectionsRoute;
                 }
 
                 System.out.println(naviList.legs().get(j).steps().get(i).voiceInstructions().get(instructionSize - 1).announcement());
-                /*
+
                 try {
                     Thread.sleep(500);
                 } catch(Exception e) {
 
                 }
-                */
+
 
             }
 
