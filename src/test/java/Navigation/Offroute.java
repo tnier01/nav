@@ -9,9 +9,8 @@ import java.io.IOException;
 import java.util.List;
 
 class Offroute {
-
     private IMapbox geocoder = new IMapbox();
-    private transformInsertion eingabetrans = new transformInsertion();
+    private TransformInsertion insertionTransformer = new TransformInsertion();
 
     /**
      * checks if the streetname of a point is part of the given route
@@ -21,14 +20,12 @@ class Offroute {
      * @return true if the point is on the route, false if not
      * @throws IOException if
      */
-    protected boolean stillOnRoute(DirectionsRoute route, String point) throws IOException {
+    boolean stillOnRoute(DirectionsRoute route, String point) throws IOException {
         boolean onRoute = false;
 
-        CarmenFeature pointInfo = eingabetrans.transformPoint(point);
-        // the streetname of the point
+        CarmenFeature pointInfo = insertionTransformer.transformPoint(point);
         String street = pointInfo.text();
 
-        // all legs
         for (int j = 0; j < route.legs().size(); j++) {
             // every step per leg
             for (int i = 0; i < route.legs().get(j).steps().size(); i++) {
@@ -52,8 +49,6 @@ class Offroute {
                     if (routePointCarmen.get(0).context().get(0).text().equals(pointInfo.context().get(0).text())) {
                         onRoute = true;
                     }
-
-
                 }
             }
         }
