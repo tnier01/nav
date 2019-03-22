@@ -4,9 +4,11 @@ import javax.swing.*;
 
 class Map {
 
+    /**
+     * Shows a the map of the route in a JFrame
+     */
 
-
-protected void showMap(){
+void showMap(){
     JFrame map = new JFrame("Route");
 
 

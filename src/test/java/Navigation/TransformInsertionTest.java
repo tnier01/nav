@@ -8,15 +8,13 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class transformInsertionTest {
+class TransformInsertionTest {
 
     @Test
     void transformPoint() throws IOException {
-        transformInsertion testEt = new transformInsertion();
+        TransformInsertion testEt = new TransformInsertion();
         /*
-    class Navigation.transformInsertion
+    class Navigation.TransformInsertion
 
         method 1: transformPoint(String point): Point
             possibilities:*/

@@ -3,14 +3,11 @@ package Navigation;
 import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import org.junit.Assert;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class RouteFinderTest {
 
@@ -25,10 +22,10 @@ class RouteFinderTest {
 
 
     @org.junit.jupiter.api.Test
-    void getAdress() throws IOException {
+    void getAddress() throws IOException {
        Throwable ex= Assertions.assertThrows(IllegalArgumentException.class,
                 () -> {
-                    testNav.getAdress(":(");
+                    testNav.getAddress(":(");
                 },
                 "no ArgumentException thrown in getListRoute");
         Assert.assertEquals(ex.getMessage(),"The Point :( was not found");
@@ -36,14 +33,14 @@ class RouteFinderTest {
         waypoints.add("");
         ex= Assertions.assertThrows(IllegalArgumentException.class,
                 () -> {
-                    testNav.getAdress("");
+                    testNav.getAddress("");
                 },
                 "no ArgumentException thrown in getListRoute");
         Assert.assertEquals(ex.getMessage(),"No insertion for this Waypoint");
 
-        Assert.assertEquals(testNav.getAdress("Köln"), "Köln, Nordrhein-Westfalen, Germany");
+        Assert.assertEquals(testNav.getAddress("Köln"), "Köln, Nordrhein-Westfalen, Germany");
 
-        Assert.assertEquals(testNav.getAdress("50.94222, 6.95778"), "a-Passage, 50667 Köln, Germany");
+        Assert.assertEquals(testNav.getAddress("50.94222, 6.95778"), "a-Passage, 50667 Köln, Germany");
 
     }
 

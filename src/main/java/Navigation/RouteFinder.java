@@ -11,11 +11,10 @@ import java.util.List;
 
 /**
  * Methods to calculate routes out of different kinds of waypoints.
- *
  */
 public class RouteFinder {
 
-    private transformInsertion transformer=new transformInsertion();
+    private TransformInsertion transformer = new TransformInsertion();
     private IMapbox anIMapbox = new IMapbox();
     private Offroute offroute = new Offroute();
 
@@ -26,16 +25,14 @@ public class RouteFinder {
      * @return the description / placeName of the point
      * @throws IOException cant connect to mapbox
      */
-    public String getAdress(String point) throws IOException {
-        if(point.length()==0)
-        {
+    public String getAddress(String point) throws IOException {
+        if (point.length() == 0) {
             throw new IllegalArgumentException("No insertion for this Waypoint");
         }
 
-        CarmenFeature feature= transformer.transformPoint(point);
-        if(feature==null)
-        {
-            throw new IllegalArgumentException("The Point " +point +" was not found");
+        CarmenFeature feature = transformer.transformPoint(point);
+        if (feature == null) {
+            throw new IllegalArgumentException("The Point " + point + " was not found");
         }
         return feature.placeName();
     }
@@ -44,23 +41,21 @@ public class RouteFinder {
      * Calculates a DirectionsRoute route for the given waypoints and a profile.
      *
      * @param stringWaypoints List of String waypoints for the route calculation
-     * @param profile profile to use for calculation (driving, driving-traffic, cycling, walking)
+     * @param profile         profile to use for calculation (driving, driving-traffic, cycling, walking)
      * @return calculated DirectionsRoute
      * @throws IOException cant connect to mapbox
      */
     public DirectionsRoute getListRoute(List<String> stringWaypoints, String profile) throws IOException {
 
-        List waypoints = new ArrayList();
-        Point pointToAdd;
-        for (int i=0; i< stringWaypoints.size(); i++) {
-            pointToAdd = transformer.transformPoint(stringWaypoints.get(i)).center();
-            waypoints.add(pointToAdd);
+        List<Point> waypoints = new ArrayList<>(stringWaypoints.size());
+        for (String waypoint : stringWaypoints) {
+            waypoints.add(transformer.transformPoint(waypoint).center());
         }
-        String finalProfile= transformer.transformProfile(profile);
+        String finalProfile = transformer.transformProfile(profile);
 
 
-        DirectionsRoute route=  anIMapbox.getListRoute(waypoints,finalProfile);
-        getMap(waypoints,route);
+        DirectionsRoute route = anIMapbox.getListRoute(waypoints, finalProfile);
+        getMap(waypoints, route);
         return route;
     }
 
@@ -71,10 +66,10 @@ public class RouteFinder {
      * the input route will be returned.
      *
      * @param inputRoute route to check if the point is part of it
-     * @param point point to check if it is on the route
+     * @param point      point to check if it is on the route
      * @return inputRoute if the point is on the route or a new route if not
      */
-    public DirectionsRoute goneAstray (DirectionsRoute inputRoute, String point) throws IOException {
+    public DirectionsRoute goneAstray(DirectionsRoute inputRoute, String point) throws IOException {
 
         List<Point> newWaypoints = new ArrayList<>();
         boolean onroute = offroute.stillOnRoute(inputRoute, point);
@@ -84,12 +79,12 @@ public class RouteFinder {
         if (!onroute) {
             int lastLegIndex = inputRoute
                     .legs()
-                    .size()-1;
+                    .size() - 1;
             int destinationIndex = inputRoute
                     .legs()
                     .get(lastLegIndex)
                     .steps()
-                    .size()-1;
+                    .size() - 1;
             // ad offside point as origin
             newWaypoints.add(origin);
             // add destination
@@ -117,22 +112,21 @@ public class RouteFinder {
      * @param route route to test if a point is part of it
      * @param point point to test whether its street name is part of the route
      * @return input route when the point is part of the route
-     *         new route from point to the destination of the input route
+     * new route from point to the destination of the input route
      * @throws IOException cant connect to mapbox
      */
-    public boolean stillOnRoute(DirectionsRoute route, String point) throws IOException
-    {
+    public boolean stillOnRoute(DirectionsRoute route, String point) throws IOException {
         return offroute.stillOnRoute(route, point);
     }
 
 
     /**
      * Open the ConnectionMapbox.IMapbox to save the map.
+     *
      * @param waypoints the List of Waypoints
-     * @param route the calculated route
+     * @param route     the calculated route
      */
-    private void getMap(List<Point> waypoints, DirectionsRoute route)
-    {
+    private void getMap(List<Point> waypoints, DirectionsRoute route) {
         anIMapbox.getMap(waypoints, route);
     }
 }

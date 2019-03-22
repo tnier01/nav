@@ -11,7 +11,7 @@ import java.util.List;
 class Offroute {
 
     private IMapbox geocoder = new IMapbox();
-    private transformInsertion eingabetrans = new transformInsertion();
+    private TransformInsertion insertionTransformer = new TransformInsertion();
 
     /**
      * checks if the streetname of a point is part of the given route
@@ -21,10 +21,10 @@ class Offroute {
      * @return true if the point is on the route, false if not
      * @throws IOException if
      */
-    protected boolean stillOnRoute(DirectionsRoute route, String point) throws IOException {
+    boolean stillOnRoute(DirectionsRoute route, String point) throws IOException {
         boolean onRoute = false;
 
-        CarmenFeature pointInfo = eingabetrans.transformPoint(point);
+        CarmenFeature pointInfo = insertionTransformer.transformPoint(point);
         // the streetname of the point
         String street = pointInfo.text();
 
