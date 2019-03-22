@@ -7126,7 +7126,7 @@ function deflate_huff(s, flush) {
       }
     }
 
-    /* Output a literal byte */
+    /* UserInterface a literal byte */
     s.match_length = 0;
     //Tracevv((stderr,"%c", s->window[s->strstart]));
     /*** _tr_tally_lit(s, s.window[s.strstart], bflush); ***/
@@ -7390,7 +7390,7 @@ function DeflateState() {
 
 
   this.bi_buf = 0;
-  /* Output buffer. bits are inserted starting at the bottom (least
+  /* UserInterface buffer. bits are inserted starting at the bottom (least
    * significant bits).
    */
   this.bi_valid = 0;
@@ -10546,7 +10546,7 @@ function d_code(dist) {
 
 
 /* ===========================================================================
- * Output a short LSB first on the stream.
+ * UserInterface a short LSB first on the stream.
  * IN assertion: there is enough room in pendingBuf.
  */
 function put_short(s, w) {

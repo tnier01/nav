@@ -1,4 +1,4 @@
-package UserInterace;
+package UserInterface;
 
 import Navigation.RouteFinder;
 

@@ -1,4 +1,4 @@
-package Output;
+package UserInterface;
 
 import Navigation.RouteFinder;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Class for implementation of the Output.Prototype, at least our user-interface.
+ * Class for implementation of the UserInterface.Prototype, at least our user-interface.
  */
 public class Prototype {
 

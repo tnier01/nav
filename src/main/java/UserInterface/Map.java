@@ -1,4 +1,4 @@
-package Output;
+package UserInterface;
 
 import javax.swing.*;
 
