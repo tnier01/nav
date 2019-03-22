@@ -13,7 +13,7 @@ import java.util.Scanner;
  * Class for implementation of the UserInterace.Prototype, at least our user-interface.
  */
 class Prototype {
-    static final int MAX_WAYPOINTS = 23;
+    private static final int MAX_WAYPOINTS = 23;
     /**
      * Main method which aks for different parameters for the route calculation and finally output the route description
      * with the map.
