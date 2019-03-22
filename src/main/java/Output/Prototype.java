@@ -42,7 +42,7 @@ class Prototype {
         Scanner sc = new Scanner(System.in);
         while (true) {
             try {
-                System.out.println("Höllennavigationsmaschine");
+                System.out.println("Höllennavigationsmaschine 1.0");
                 System.out.println("Origin and Destination as Coordinate: " +
                         "Either you use lat,lng e.g. 51.9606649, 7.6261347\n" +
                         "or a city/ street/ postcode e.g. Martin-Luther-King-Weg 20 Münster");
