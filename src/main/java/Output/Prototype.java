@@ -1,6 +1,7 @@
-package Output;
+package UserInterace;
 
 import Navigation.RouteFinder;
+
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 
 import java.io.IOException;
@@ -9,9 +10,10 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Class for implementation of the Output.Prototype, at least our user-interface.
+ * Class for implementation of the UserInterace.Prototype, at least our user-interface.
  */
 class Prototype {
+    static final int MAX_WAYPOINTS = 23;
     /**
      * Main method which aks for different parameters for the route calculation and finally output the route description
      * with the map.
@@ -28,25 +30,16 @@ class Prototype {
         RouteFinder navigation = new RouteFinder();
 
         DirectionsRoute naviList;
-        String inputOrigin,
-                inputDestination,
-                inputProfile,
-                inputLikeToRestart,
-                inputLikeToAddNewWaypoint,
-                inputWantToCheck,
-                inputActualPosition;
-        List<String> waypoints = new ArrayList<>();
-        boolean stillOnRoute;
-        boolean running = true;
-        boolean legalInputProfile =false;
 
+        String inputOrigin,
+                inputDestination;
+        List<String> waypoints = new ArrayList<>();
         /*
         input
         If there is no exception the route is returned.
          */
         // Create a new object for the input.
         Scanner sc = new Scanner(System.in);
-
         while (true) {
             try {
                 System.out.println("Höllennavigationsmaschine");
@@ -71,23 +64,24 @@ class Prototype {
                 System.out.println("Which profile are you using " +
                         "(selection: driving, driving-traffic, walking, cycling)?");
                 // Read the third input in the string "inputProfile"
-                inputProfile = sc.nextLine();
+                String inputProfile = sc.nextLine();
                 System.out.println("profile input: " + inputProfile);
 
-                while (!legalInputProfile) {
+                boolean validInput = false;
+                while (!validInput) {
+                    String inputLikeToAddNewWaypoint;
                 /*
                  If the input is driving, walking or cycling it is possible to enter 25 different waypoints and besides
                  one origin and one destination.
                   */
                     if (inputProfile.equals("driving") || inputProfile.equals("walking")
                             || inputProfile.equals("cycling")) {
-                        legalInputProfile =true;
+                        validInput = true;
 
-                        for (int i = 0; i < 23; i++) {
-
+                        for (int i = 0; i < MAX_WAYPOINTS; i++) {
                             // input decision if there will be an further waypoint
                             System.out.println("Would you like to add another point (yes/no)?");
-                            System.out.println("You are still able to add " +(23-i) +" waypoints!");
+                            System.out.println("You are still able to add " + (MAX_WAYPOINTS - i) + " waypoints");
                             inputLikeToAddNewWaypoint = sc.nextLine();
 
                             // if there is a wrong word which differs from yes or no, repeat the selection
@@ -113,7 +107,7 @@ class Prototype {
                  one origin and one destination.
                   */
                     else if (inputProfile.equals("driving-traffic")) {
-                        legalInputProfile =true;
+                        validInput = true;
 
                         // input decision if there will be an further waypoint
                         System.out.println("Would you like to add another point (yes/no)?");
@@ -126,11 +120,9 @@ class Prototype {
                         if (inputLikeToAddNewWaypoint.equals("yes")) {
                             inputWaypoint(sc, waypoints);
                         }
-                    }
-                    // User has to repeat the input if the input was no legal profile.
-                    else{
-                        System.out.println("No legal profile! Please select again!");
-                        inputProfile=sc.nextLine();
+                    } else {
+                        System.out.println("No legal profile! Please select again");
+                        inputProfile = sc.nextLine();
                     }
                 }
 
@@ -147,14 +139,13 @@ class Prototype {
                 // returns the message concerning the actual exception
                 System.err.println("The input is wrong cause: " + e.getMessage());
                 System.out.println("Do you like to restart the program (yes/no)?");
-                inputLikeToRestart = sc.nextLine();
+                String inputLikeToRestart = sc.nextLine();
                 System.out.println("answer: " + inputLikeToRestart);
                 // waypoints must be cleared, because otherwise there are doubled destination and origin in the result
                 waypoints.clear();
 
                 // if the user do not wont to restart the program ends
-                boolean inputNotYesOrNo = true;
-                while (inputNotYesOrNo) {
+                while (true) {
                     if (inputLikeToRestart.equals("no")) {
                         System.exit(0);
                     } else if (inputLikeToRestart.equals("yes")) {
@@ -169,7 +160,6 @@ class Prototype {
         // output with
         Output output = new Output();
         output.output(inputOrigin, inputDestination, naviList);
-
         // creating map
         Map map = new Map();
         map.showMap();
@@ -182,14 +172,14 @@ class Prototype {
         received before, when you are no longer on the route, you receive a new route to the destination from your
         actual location.
          */
-        while (running) {
+        while (true) {
             try {
                 // input by the user
                 System.out.println("Insert " + (char) 34 + "check" + (char) 34 +
                         " to proof if you are still on the route, insert " + (char) 34 + "exit" + (char) 34 +
                         " to leave the program and insert " + (char) 34 + "restart" + (char) 34 +
                         " to restart the program!");
-                inputWantToCheck = sc.nextLine();
+                String inputWantToCheck = sc.nextLine();
                 System.out.println("answer: " + inputWantToCheck);
 
                 // wrong input
@@ -211,6 +201,8 @@ class Prototype {
                     System.exit(0);
                 }
 
+                String inputActualPosition;
+
                 // check
                 if (inputWantToCheck.equals("check")) {
 
@@ -219,7 +211,7 @@ class Prototype {
                     inputActualPosition = sc.nextLine();
                     inputActualPosition = doYouLikeInput(inputActualPosition);
                     System.out.println("answer: " + inputActualPosition);
-                    stillOnRoute = navigation.stillOnRoute(naviList, inputActualPosition);
+                    boolean stillOnRoute = navigation.stillOnRoute(naviList, inputActualPosition);
 
                     if (stillOnRoute) {
                         System.out.println("You are still on route!");
@@ -255,12 +247,11 @@ class Prototype {
      * @throws IOException if connection to mapbox fails
      */
     private static String doYouLikeInput(String input) throws IOException {
+        Scanner sc = new Scanner(System.in);
         try {
             RouteFinder navigation = new RouteFinder();
             // Create a new object for the input
-            Scanner sc = new Scanner(System.in);
-
-            System.out.println(navigation.getAdress(input));
+            System.out.println(navigation.getAddress(input));
             System.out.println("Is this the right address (yes/no)?");
 
             String inputLikeTheAddress = sc.nextLine();
@@ -274,6 +265,7 @@ class Prototype {
                 System.out.println("Insert a more detailed address!");
                 String inputDetailedAddress = sc.nextLine();
                 System.out.println("input: " + inputDetailedAddress);
+
                 return doYouLikeInput(inputDetailedAddress);
             }
 
@@ -284,9 +276,8 @@ class Prototype {
         } catch (IllegalArgumentException e) {
             System.out.println("The input is wrong because: " + e.getMessage());
             System.out.println("Please insert an other description of the location or end the program with "
-                    + (char) 34 + "exit" + (char) 34 + "!");
+                    + (char) 34 + "exit" + (char) 34 + " !");
             // Create a new object for the input
-            Scanner sc = new Scanner(System.in);
             input = sc.nextLine();
 
             if (input.equals("exit")) {
@@ -310,6 +301,7 @@ class Prototype {
             inputNotYesOrNo = scanner.nextLine();
             System.out.println("input: " + inputNotYesOrNo);
         }
+
         return inputNotYesOrNo;
     }
 
