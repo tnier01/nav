@@ -6,3 +6,6 @@ Ermöglicht die Eingabe mehrerer Wegpunkte unter Verwendung eines gewünschten p
 Außerdem ist es möglich zu kontrollieren ob man noch auf der Route ist. Wenn nicht wird eine neue Route berechnet und ausgegeben.
 
 Berechnungen und Routenbeschreibungen beruhen auf der Mapbox API.
+
+javadoc for public Routefinder methods: 
+tnier01.github.io/nav/javadoc
