@@ -54,7 +54,7 @@ class Prototype {
                 System.out.println("origin input: " + inputOrigin);
                 waypoints.add(inputOrigin);
 
-                System.out.println("Where do you would like to end the route?");
+                System.out.println("Where would you like to end the route?");
                 // Read the second input in the string "inputDestination"
                 inputDestination = sc.nextLine();
                 inputDestination = doYouLikeInput(inputDestination);
