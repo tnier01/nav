@@ -11,7 +11,7 @@ import java.util.Scanner;
 /**
  * Class for implementation of the Output.Prototype, at least our user-interface.
  */
-public class Prototype {
+class Prototype {
     /**
      * Main method which aks for different parameters for the route calculation and finally output the route description
      * with the map.

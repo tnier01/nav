@@ -100,8 +100,6 @@ public class Prototype {
         String input1, input2, input3, input4, input5, input6, input7;
         List<String> waypoints = new ArrayList<>();
         boolean stillOnRoute;
-        boolean running = true;
-
         /*
         input
         If there is no exception the route is returned.
@@ -245,7 +243,7 @@ public class Prototype {
         received before, when you are no longer on the route, you receive a new route to the destination from your
         actual location.
          */
-        while (running) {
+        while (true) {
             try {
                 // input by the user
                 System.out.println("Insert " + (char) 34 + "check" + (char) 34 +

@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RouteFinder {
+class RouteFinder {
 
-    private transformInsertion transformer=new transformInsertion();
+    private TransformInsertion transformer=new TransformInsertion();
     private IMapbox anIMapbox = new IMapbox();
     private Offroute offroute = new Offroute();
 
@@ -23,12 +23,14 @@ public class RouteFinder {
      * @throws IOException
      */
     public String getAdress(String point) throws IOException {
+        // Throws an Error if there is no insertion.
         if(point.length()==0)
         {
             throw new IllegalArgumentException("No insertion for this Waypoint");
         }
 
         CarmenFeature feature= transformer.transformPoint(point);
+        //Throwas an Error if the Point was not found
         if(feature==null)
         {
             throw new IllegalArgumentException("The Point " +point +" was not found");
@@ -46,14 +48,13 @@ public class RouteFinder {
      */
     public DirectionsRoute getListRoute(List<String> stringWaypoints, String profile) throws IOException {
 
-        List waypoints = new ArrayList();
+        List<Point> waypoints = new ArrayList(stringWaypoints.size());
         Point pointToAdd;
-        for (int i=0; i< stringWaypoints.size(); i++) {
-            pointToAdd = transformer.transformPoint(stringWaypoints.get(i)).center();
-            waypoints.add(pointToAdd);
+        //Transform all Waypoints from Sting into Point
+        for (String waypoint: stringWaypoints) {
+            waypoints.add(transformer.transformPoint(waypoint).center());
         }
         String finalProfile= transformer.transformProfile(profile);
-
 
         DirectionsRoute route=  anIMapbox.getListRoute(waypoints,finalProfile);
         getMap(waypoints,route);

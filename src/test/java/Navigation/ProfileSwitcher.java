@@ -14,7 +14,7 @@ class ProfileSwitcher {
      * @return finalprofile
      */
     protected String switchProfile(String profile) {
-        String finalprofile=null;
+        String finalprofile;
         switch (profile) {
             case "driving":
                 finalprofile = DirectionsCriteria.PROFILE_DRIVING;
