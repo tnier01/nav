@@ -49,7 +49,7 @@ public class IMapbox {
                 .voiceUnits("metric")
                 .overview(DirectionsCriteria.OVERVIEW_SIMPLIFIED)
                 .profile(profile) // call of the method switchprofile with the inputted profile to set the profile
-                .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg");
+                .accessToken("..."); //TODO Mapbox accessToken
 
         for (int i = 1; i < waypointsSize - 1; i++) {
             client.addWaypoint(waypoints.get(i));
@@ -82,7 +82,7 @@ public class IMapbox {
      */
     public List<CarmenFeature> geocodeToAdress(Point input) throws IOException {
         MapboxGeocoding.Builder mapboxGeocoding = MapboxGeocoding.builder()
-                .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
+                .accessToken("...") //TODO Mapbox accessToken
                 .geocodingTypes(GeocodingCriteria.TYPE_ADDRESS)
                 .query(input);
         return provideSuccessfulResponse(mapboxGeocoding);
@@ -97,7 +97,7 @@ public class IMapbox {
      */
     public List<CarmenFeature> geocodeToObj(String input) throws IOException {
         MapboxGeocoding.Builder mapboxGeocoding = MapboxGeocoding.builder()
-                .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZWp1ZHQyMDlmZjNxcGlxaGMyd20wdyJ9.8wLTCZ-eXC9AxijlozQfhg")
+                .accessToken("...") //TODO Mapbox accessToken
                 .query(input);
 
         return provideSuccessfulResponse(mapboxGeocoding);
@@ -160,7 +160,7 @@ public class IMapbox {
 
         // create a Valid URL to get a UserInterace.Map with the route and Markes for Start and Origin
         MapboxStaticMap staticImage = MapboxStaticMap.builder()
-                .accessToken("pk.eyJ1IjoibmljazEyMTIiLCJhIjoiY2pvZTNoZ3czMnYxcTNrczE2OTZxbHdsMiJ9.aHG4oyq2cE57oNFq0irkbA")
+                .accessToken("...") //TODO Mapbox accessToken
                 .styleId(StaticMapCriteria.NAVIGATION_GUIDANCE_DAY)
                 .cameraAuto(true)
                 .staticMarkerAnnotations(marker)
